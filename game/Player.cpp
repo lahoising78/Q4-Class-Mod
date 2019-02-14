@@ -28,6 +28,9 @@
 #endif
 // RAVEN END
 
+
+
+
 idCVar net_predictionErrorDecay( "net_predictionErrorDecay", "112", CVAR_FLOAT | CVAR_GAME | CVAR_NOCHEAT, "time in milliseconds it takes to fade away prediction errors", 0.0f, 200.0f );
 idCVar net_showPredictionError( "net_showPredictionError", "-1", CVAR_INTEGER | CVAR_GAME | CVAR_NOCHEAT, "show prediction errors for the given client", -1, MAX_CLIENTS );
 
@@ -9066,7 +9069,7 @@ void idPlayer::Move( void ) {
 		loggedAccel_t	*acc = &loggedAccel[currentLoggedAccel&(NUM_LOGGED_ACCELS-1)];
 		currentLoggedAccel++;
 		acc->time = gameLocal.time;
-		acc->dir[2] = 200;
+		acc->dir[2] = 200; //original 200
 		acc->dir[0] = acc->dir[1] = 0;
 	}
 

@@ -1280,9 +1280,9 @@ bool idPhysics_Player::CheckJump( void ) {
 	}
 
 	// must wait for jump to be released
-	if ( current.movementFlags & PMF_JUMP_HELD ) {
-		return false;
-	}
+	//if ( current.movementFlags & PMF_JUMP_HELD ) {
+	//	return false;
+	//}
 
 	// don't jump if we can't stand up
 	if ( current.movementFlags & PMF_DUCKED ) {
