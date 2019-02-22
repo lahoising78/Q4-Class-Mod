@@ -411,6 +411,27 @@ protected:
 	void					DisableAnimState		( int channel );
 	void					EnableAnimState			( int channel );
 	idAnimState&			GetAnimState			( int channel );
+
+//===========================================================
+// variables for final fantasy
+public:
+
+	int						lv;
+	int						exp;
+	//int						hp;
+	//int						mp;
+	int						str;
+	int						agl;
+	int						intel;
+	int						vit;
+	int						lck;
+	int						atk;
+	//int						def;
+	int						hitPercentage;
+	int						evade;
+	int						magicDefense;
+// end of FF variables
+//===========================================================
 };
 
 ID_INLINE bool idActor::IsInVehicle( void ) const {
