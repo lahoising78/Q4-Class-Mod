@@ -183,6 +183,7 @@ public:
 	virtual	void			Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &dir, const char *damageDefName, const float damageScale, const int location );
 // RAVEN BEGIN
 // nmckenzie: a final hook in the middle of the damage function
+	// THIS PART WAS COMMENTED OUT BY LUIS CHIANG
 	virtual void			AdjustHealthByDamage ( int inDamage ){health -= inDamage;}
 // RAVEN END
 
@@ -415,21 +416,24 @@ protected:
 //===========================================================
 // variables for final fantasy
 public:
-
 	int						lv;
-	int						exp;
+	//int						exp;
+	//int						nextLvlExp;
 	//int						hp;
-	//int						mp;
+	int						mp;
 	int						str;
 	int						agl;
 	int						intel;
 	int						vit;
 	int						lck;
 	int						atk;
-	//int						def;
+	int						def;
 	int						hitPercentage;
 	int						evade;
 	int						magicDefense;
+	//ClassType				type;
+	//==========Functions==========
+	void AttackRPG(idActor* target);
 // end of FF variables
 //===========================================================
 };

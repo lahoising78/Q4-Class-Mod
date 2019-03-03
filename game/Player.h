@@ -190,6 +190,16 @@ typedef enum {
 	IBS_CANNOT_AFFORD = 3,
 } itemBuyStatus_t;
 
+// ========================================
+// Final Fantasy class types
+enum ClassType {
+	FIGHTER,
+	BL_MAGE,
+	WT_MAGE
+};
+//End of FF Class types
+//=========================================
+
 const int	ASYNC_PLAYER_TOURNEY_STATUS_BITS = idMath::BitsForInteger( PTS_NUM_STATES );
 
 class idInventory {
@@ -1154,6 +1164,10 @@ private:
 	stateResult_t			State_Legs_Land					( const stateParms_t& parms );
 	stateResult_t			State_Legs_Dead					( const stateParms_t& parms );
 	
+public:
+	int exp;
+	int nextLvlExp;
+	ClassType type;
  	CLASS_STATES_PROTOTYPE( idPlayer );
 };
 

@@ -653,8 +653,8 @@ void rvWeapon::Spawn ( void ) {
  	muzzleOffset		= weaponDef->dict.GetFloat ( "muzzleOffset", "14" );
 
 	// Ammo
-	clipSize			= spawnArgs.GetInt( "clipSize" );
-	ammoRequired		= spawnArgs.GetInt( "ammoRequired" );
+	clipSize			= 0;	//spawnArgs.GetInt("clipSize");
+	ammoRequired		= 0;	//spawnArgs.GetInt("ammoRequired");
 	lowAmmo				= spawnArgs.GetInt( "lowAmmo" );
 	ammoType			= GetAmmoIndexForName( spawnArgs.GetString( "ammoType" ) );
 	maxAmmo				= owner->inventory.MaxAmmoForAmmoClass ( owner, GetAmmoNameForIndex ( ammoType ) );
@@ -2505,6 +2505,8 @@ rvWeapon::Attack
 void rvWeapon::Attack( bool altAttack, int num_attacks, float spread, float fuseOffset, float power ) {
 	idVec3 muzzleOrigin;
 	idMat3 muzzleAxis;
+	//owner->str++;
+	//gameLocal.Printf("strength is %d\n", owner->str);
 	
 	if ( !viewModel ) {
 		common->Warning( "NULL viewmodel %s\n", __FUNCTION__ );
@@ -2594,9 +2596,9 @@ void rvWeapon::Attack( bool altAttack, int num_attacks, float spread, float fuse
 		idDict& dict = altAttack ? attackAltDict : attackDict;
 		power *= owner->PowerUpModifier( PMOD_PROJECTILE_DAMAGE );
 		if ( altAttack ? wfl.attackAltHitscan : wfl.attackHitscan ) {
-			Hitscan( dict, muzzleOrigin, muzzleAxis, num_attacks, spread, power );
+			Hitscan( dict, muzzleOrigin, muzzleAxis, num_attacks, spread, power ); //last arg was power
 		} else {
-			LaunchProjectiles( dict, muzzleOrigin, muzzleAxis, num_attacks, spread, fuseOffset, power );
+			LaunchProjectiles( dict, muzzleOrigin, muzzleAxis, num_attacks, spread, fuseOffset, power ); //last arg was power
 		}
 		//asalmon:  changed to keep stats even in single player 
 		statManager->WeaponFired( owner, weaponIndex, num_attacks );

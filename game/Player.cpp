@@ -1342,6 +1342,14 @@ idPlayer::idPlayer() {
 	teamAmmoRegenPending	= false;
 	teamDoubler			= NULL;		
 	teamDoublerPending		= false;
+
+	//======================
+	// FF variables
+	exp = 0;
+	nextLvlExp = 100;
+	type = FIGHTER;
+	// End FF
+	//=======================
 }
 
 /*

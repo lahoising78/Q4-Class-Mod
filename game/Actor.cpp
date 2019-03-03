@@ -468,6 +468,23 @@ idActor::idActor( void )
 
 	lightningEffects = 0;
 	lightningNextTime = 0;
+
+	//===========================================================
+	// variables for final fantasy
+	lv = 1;
+	mp = 5;
+	str = 6;
+	agl = 7;
+	intel = 8;
+	vit = 9;
+	lck = 10;
+	atk = 11;
+	def = 12;
+	hitPercentage = 13;
+	evade = 14;
+	magicDefense = 15;
+	// end of FF variables
+	//===========================================================
 }
 
 /*
@@ -2485,8 +2502,13 @@ void idActor::Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &dir
 // RAVEN END
 
 	if ( damage > 0 ) {
+		// =================== Luis Chiang comment===================
 		int oldHealth = health;
-		AdjustHealthByDamage ( damage );
+		if (attacker->IsType(idPlayer::GetClassType())) 
+			static_cast<idPlayer*>(attacker)->AttackRPG(this);
+		//else if (attacker->IsType(idActor::GetClassType()) && !attacker->IsType(idPlayer::GetClassType()) && this.IsType(idPlayer::GetClassType()))
+		//	static_cast<idActor*>(attacker)->AttackRPG(this);
+		//AdjustHealthByDamage ( damage );
 		if ( health <= 0 ) {
 
 			//allow for quick burning
@@ -3853,3 +3875,10 @@ void idActor::GuidedProjectileIncoming( idGuidedProjectile *projectile )
 	}
 }
 // RAVEN END
+
+void idActor::AttackRPG(idActor* target){
+	int dmg = str - target->def;
+	if (dmg < 1) dmg = 1;
+	gameLocal.Printf("The attacker is attacking. Dmg %d\n", dmg);
+	target->health -= dmg;
+}

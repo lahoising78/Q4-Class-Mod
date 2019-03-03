@@ -94,6 +94,8 @@ rvWeaponNailgun::rvWeaponNailgun
 ================
 */
 rvWeaponNailgun::rvWeaponNailgun ( void ) {
+	//clipSize = spawnArgs.GetInt( "clipSize" );
+	//ammoRequired = spawnArgs.GetInt("ammoRequired");
 }
 
 /*
