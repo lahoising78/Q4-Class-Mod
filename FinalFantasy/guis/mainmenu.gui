@@ -255,7 +255,7 @@ windowDef Desktop
 			resettime "anim_mpOut" "0" ;
 			set "desktop::dest" "0" ;
 			set "cmd" "play main_menu_selection" ;
-		} else if (("desktop::curr" == 4 || "desktop::curr" == 9 || "desktop::curr" == 10 || "desktop::curr" == 11 || "desktop::curr" == 12 || "desktop::curr" == 20 || "desktop::curr" == 21 || "desktop::curr" == 22 || "desktop::curr" == 36)&& "desktop::active" == 0) {
+		} else if (("desktop::curr" == 4 || "desktop::curr" == 9 || "desktop::curr" == 10 || "desktop::curr" == 11 || "desktop::curr" == 12 || "desktop::curr" == 20 || "desktop::curr" == 21 || "desktop::curr" == 22)&& "desktop::active" == 0) {
 			if ("desktop::vidwarn" == 0) {
 				set "desktop::active" "1" ;
 				resettime "anim_settingsOut" "0" ;
@@ -403,6 +403,15 @@ windowDef Desktop
 			set "desktop::dest" "22" ;
 			set "cmd" "play main_menu_selection" ;
 		}
+		
+		//==================mod===================
+		else if ("desktop::curr" == 36 && "desktop::active" == 0) {
+			set "desktop::active" "1" ;
+			resettime "anim_inventoryOut" "0" ;
+			set "desktop::dest" "0" ;
+			set "cmd" "play main_menu_selection" ;
+		}
+		//==================end===================
 
 	}
 
@@ -16166,6 +16175,86 @@ windowDef Desktop
 				}
 			}
 		}
+		windowDef p_inventory
+		{
+			rect	0,0,640,480
+			visible	0
+			
+			windowDef inv_b1
+			{
+				rect	21,172,208,52
+				visible	1
+				background	"gfx/guis/mainmenu/b2_dark"
+				matcolor	1,1,1,0.4
+			}
+			windowDef inv_b2
+			{
+				rect	20,202,208,51
+				visible	1
+				background	"gfx/guis/mainmenu/b2_dark"
+				matcolor	1,1,1,0.4
+			}
+			windowDef inv_b3
+			{
+				rect	20,232,208,51
+				visible	1
+				background	"gfx/guis/mainmenu/b2_dark"
+				matcolor	1,1,1,0.4
+			}
+			
+			windowDef inv_t_b1
+			{
+				rect	36,184,193,23
+				visible	1
+				forecolor	1,1,1,0.8
+				text	"#str_224000"
+				textscale	.31
+				font	"fonts/marine"
+			}
+			windowDef inv_t_b2
+			{
+				rect	36,214,193,23
+				visible	1
+				forecolor	1,1,1,0.8
+				text	"#str_224001"
+				textscale	.31
+				font	"fonts/marine"
+			}
+			windowDef inv_t_b3
+			{
+				rect	36,244,193,23
+				visible	1
+				forecolor	1,1,1,0.8
+				text	"#str_224002"
+				textscale	.31
+				font	"fonts/marine"
+			}
+			
+			windowDef inv_back
+			{
+				rect	532,441,109,30
+				visible	1
+				background	"gfx/guis/mainmenu/b4_light"
+				matcolor	0.545,0.588,0.294,0
+			}
+			windowDef inv_back_corner
+			{
+				rect	542,449,11,11
+				visible	1
+				background	"gfx/guis/mainmenu/corner"
+				matcolor	0.564,0.603,0.286,0
+			}
+			windowDef inv_t_back
+			{
+				rect	552,443,88,17
+				visible	1
+				forecolor	1,1,1,0
+				text	"#str_200018"
+				textscale	.28
+				font	"fonts/marine"
+			}
+			
+		}
 	}
 	windowDef fade
 	{
@@ -19291,6 +19380,8 @@ windowDef Desktop
 			}
 
 		}
+		
+		//=================mod===========================
 		windowDef anim_inventoryIn
 		{
 			rect	0,0,1,1
@@ -19298,6 +19389,9 @@ windowDef Desktop
 			notime	1
 
 			onTime 0 {
+				transition "p_inventory::rect" "$d_main_l::rect" "$d_main::rect" "0" ;
+				set "p_inventory::visible" "1" ;
+				namedevent "p_btns::showInventory";
 				
 				// back button
 				transition "set_back::matcolor_w" "0" "0.4" "150" ;
@@ -19331,6 +19425,43 @@ windowDef Desktop
 			}
 
 		}
+		
+		windowDef anim_inventoryOut 
+		{
+			
+			rect	0,0,1,1
+			visible	1
+			notime	1
+
+			onTime 0 {
+				//namedevent "p_btns::hideInventory" ;
+				
+				transition "p_main::rect" "$d_main_r::rect" "$d_main::rect" "0" ;
+				transition "p_inventory::rect" "$d_main::rect" "$d_main_l::rect" "300" ;
+				
+				//transition "topbar::rect"  "$d_topbar::rect"  "$topbar::rect" "500" "150" "150" ;
+				//transition "btmbar::rect"  "$d_btmbar::rect"  "$btmbar::rect" "500" "150" "150" ;
+				
+				
+				// transitions
+				//transition "t_new_title::forecolor_w" "0.5" "0" "0" ;
+				//transition "grad2::matcolor_w" "0.6" "0" "250" ;
+				
+				
+				// back button	
+				transition "new_back::matcolor_w" "0.8" "0" "100" ;
+				transition "new_t_back::forecolor_w"  "1" "0" "100" ; 
+				transition "new_back_corner::matcolor_w"  "1" "0" "100" ; 
+			}
+
+			onTime +500 {
+				set "p_inventory::visible" "0" ;
+				
+				resettime "anim_mainIn" "0" ;
+				namedevent "p_anims::mainReset0" ;
+			}
+		}
+		//===================end====================
 	}
 	windowDef p_btns
 	{
@@ -20313,6 +20444,30 @@ windowDef Desktop
 			set "pop_b_set_sndadv_3::visible" "0" ;
 			set "pop_b_set_sndadv_4::visible" "0" ;
 			set "pop_b_set_sndadv_close::visible" "0" ;
+		}
+
+		onNamedEvent showInventory {
+			set "inv_b1::matcolor_w" "0.4" ;
+			set "inv_t_b1::forecolor" "$desktop::white_8" ; 
+			set "inv_t_b1::textscale" "0.31" ;
+			set "inv_b2::matcolor_w" "0.4" ;
+			set "inv_t_b2::forecolor" "$desktop::white_8" ; 
+			set "inv_t_b2::textscale" "0.31" ;
+			set "inv_b3::matcolor_w" "0.4" ;
+			set "inv_t_b3::forecolor" "$desktop::white_8" ; 
+			set "inv_t_b3::textscale" "0.31" ;
+		}
+		
+		onNamedEvent hideInventory {
+			set "inv_b1::matcolor_w" "0.4" ;
+			set "inv_t_b1::forecolor" "$desktop::white_8" ; 
+			set "inv_t_b1::textscale" "0.31" ;
+			set "inv_b2::matcolor_w" "0.4" ;
+			set "inv_t_b2::forecolor" "$desktop::white_8" ; 
+			set "inv_t_b2::textscale" "0.31" ;
+			set "inv_b3::matcolor_w" "0.4" ;
+			set "inv_t_b3::forecolor" "$desktop::white_8" ; 
+			set "inv_t_b3::textscale" "0.31" ;
 		}
 
 		windowDef main_b_returnmp
