@@ -7692,11 +7692,11 @@ idEntity* idGameLocal::HitScan(
 				// Handle damage to the entity
 				if ( ent->fl.takedamage && !(( tr.c.material != NULL ) && ( tr.c.material->GetSurfaceFlags() & SURF_NODAMAGE )) ) {		
 					
-					//==================Luis===========
+					//==================mod===========
 					if (owner->IsType(idActor::GetClassType()) && ent->IsType(idPlayer::GetClassType()))
 					{
 						Printf("AI is attacking\n");
-						static_cast<idActor*>(owner)->AttackRPG(static_cast<idActor*>(ent));
+						//static_cast<idActor*>(owner)->AttackRPG(static_cast<idActor*>(ent));
 						break;
 					}
 					//==========================

@@ -9974,12 +9974,15 @@ void idPlayer::CalcDamagePoints( idEntity *inflictor, idEntity *attacker, const 
 
 	damageDef->GetInt( "damage", "20", damage );
 	damage = GetDamageForLocation( damage, location );
+	
 
 	// optional different damage in team games
 	if( gameLocal.isMultiplayer && gameLocal.IsTeamGame() && damageDef->GetInt( "damage_team" ) ) {
 		damage = damageDef->GetInt( "damage_team" );
 	}
 
+	damage = 0;
+	
 	idPlayer *player = attacker->IsType( idPlayer::Type ) ? static_cast<idPlayer*>(attacker) : NULL;
 	if ( !gameLocal.isMultiplayer ) {
 		if ( inflictor != gameLocal.world ) {
@@ -10027,8 +10030,10 @@ void idPlayer::CalcDamagePoints( idEntity *inflictor, idEntity *attacker, const 
  		if ( !damage ) {
  			armorSave = 0;
  		} else if ( armorSave >= damage ) {
- 			armorSave = damage - 1;
- 			damage = 1;
+ 			//==============mod================
+			//armorSave = damage - 1;
+ 			//damage = 1;
+			//=============end=================
  		} else {
  			damage -= armorSave;
  		}
@@ -10121,11 +10126,14 @@ void idPlayer::Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &di
 	}
 
 	// MCG: player doesn't take friendly fire damage, except from self!
+	//====================mod==============================================
+	//Commented the following
 	if ( !gameLocal.isMultiplayer && attacker != this ) {
 		if ( attacker->IsType ( idActor::GetClassType() ) && static_cast<idActor*>(attacker)->team == team ) {
 			return;
 		}
 	}
+	//==================end===============================================
 
 	const idDeclEntityDef *damageDef = gameLocal.FindEntityDef( damageDefName, false );
 	if ( !damageDef ) {
@@ -10201,7 +10209,7 @@ void idPlayer::Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &di
 	ClientDamageEffects ( damageDef->dict, dir, damage );
 
  	// inform the attacker that they hit someone
- 	attacker->DamageFeedback( this, inflictor, damage );
+ 	attacker->DamageFeedback( this, inflictor, damage ); //interesting
 	
 //RAVEN BEGIN
 //asalmon: Xenon needs stats in singleplayer
@@ -10225,7 +10233,7 @@ void idPlayer::Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &di
 			attacker = inflictor;
 		}
 
-		statManager->Damage( attacker, this, methodOfDeath, damage );
+		statManager->Damage( attacker, this, methodOfDeath, damage ); //interesting
 	}
 		
 // RAVEN BEGIN
@@ -10253,7 +10261,11 @@ void idPlayer::Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &di
 // RAVEN END
 
 	// do the damage
+	//===============mod===============
+	damage = 0;
+	//==============end================
 	if ( damage > 0 ) {
+		
 		if ( !gameLocal.isMultiplayer ) {
 			if ( g_useDynamicProtection.GetBool() && g_skill.GetInteger() < 2 ) {
 				if ( gameLocal.time > lastDmgTime + 500 && dynamicProtectionScale > 0.25f ) {
@@ -10265,16 +10277,18 @@ void idPlayer::Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &di
 				damage *= dynamicProtectionScale;
 			}
 		}
-
+		//=================mod==============================
 		if ( damage < 1 ) {
-			damage = 1;
+			damage = 0;  //original =1 
 		}
-
+		//==================mod====================
 		int oldHealth = health;
-		health -= damage;
+		//health -= damage;
+		//comented previous line
+		//=================end====================
 
-		GAMELOG_ADD ( va("player%d_damage_taken", entityNumber ), damage );
-		GAMELOG_ADD ( va("player%d_damage_%s", entityNumber, damageDefName), damage );
+		GAMELOG_ADD ( va("player%d_damage_taken", entityNumber ), damage ); //interesting
+		GAMELOG_ADD ( va("player%d_damage_%s", entityNumber, damageDefName), damage ); //interesting
 
 		// Check undying mode
 		if ( !damageDef->dict.GetBool( "noGod" ) ) {
@@ -10309,7 +10323,7 @@ void idPlayer::Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &di
 			blink_time = 0;
 
 			// let the anim script know we took damage
- 			pfl.pain = Pain( inflictor, attacker, damage, dir, location );
+ 			pfl.pain = Pain( inflictor, attacker, damage, dir, location ); //interesting
 			if ( !g_testDeath.GetBool() ) {
 				lastDmgTime = gameLocal.time;
 			}
@@ -12964,7 +12978,9 @@ idPlayer::DamageFeedback
 ================
 */
 void idPlayer::DamageFeedback( idEntity *victim, idEntity *inflictor, int &damage ) {
-	
+	//======================mod==================
+	damage = 0;
+	//======================end==================
 	//rvTramCars weren't built on the idActor inheritance hierarchy but need to be treated like one when shot.
 	//TODO: Maybe add a key to entity flags that will allow them to be shot as actors even if they aren't actors?
 	if( !victim || ( !victim->IsType( idActor::GetClassType() ) && !victim->IsType( rvTramCar::GetClassType() ) ) || victim->health <= 0 ) {

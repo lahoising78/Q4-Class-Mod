@@ -2466,6 +2466,7 @@ idAI::Attack
 =====================
 */
 bool idAI::Attack ( const char* attackName, jointHandle_t joint, idEntity* target, const idVec3& pushVelocity ) {
+	
 	// Get the attack dictionary
 	const idDict* attackDict;
 	attackDict = gameLocal.FindEntityDefDict ( spawnArgs.GetString ( va("def_attack_%s", attackName ) ), false );

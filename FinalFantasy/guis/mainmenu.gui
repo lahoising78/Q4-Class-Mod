@@ -16179,7 +16179,6 @@ windowDef Desktop
 		{
 			rect	0,0,640,480
 			visible	0
-			
 			windowDef inv_b1
 			{
 				rect	21,172,208,52
@@ -16201,7 +16200,6 @@ windowDef Desktop
 				background	"gfx/guis/mainmenu/b2_dark"
 				matcolor	1,1,1,0.4
 			}
-			
 			windowDef inv_t_b1
 			{
 				rect	36,184,193,23
@@ -16229,7 +16227,6 @@ windowDef Desktop
 				textscale	.31
 				font	"fonts/marine"
 			}
-			
 			windowDef inv_back
 			{
 				rect	532,441,109,30
@@ -16253,7 +16250,13 @@ windowDef Desktop
 				textscale	.28
 				font	"fonts/marine"
 			}
-			
+			windowDef inv_profile1
+			{
+				rect	330,10,140,220
+				visible	1
+				background	"gfx/guis/common/add_box1"
+				matcolor	0.564,0.603,0.286,0
+			}
 		}
 	}
 	windowDef fade
@@ -19380,8 +19383,6 @@ windowDef Desktop
 			}
 
 		}
-		
-		//=================mod===========================
 		windowDef anim_inventoryIn
 		{
 			rect	0,0,1,1
@@ -19394,9 +19395,9 @@ windowDef Desktop
 				namedevent "p_btns::showInventory";
 				
 				// back button
-				transition "set_back::matcolor_w" "0" "0.4" "150" ;
-				transition "set_t_back::forecolor_w"  "0" "0.8" "150" ; 
-				transition "set_back_corner::matcolor_w"  "0" "0.4" "150" ;
+				transition "inv_back::matcolor_w" "0" "0.4" "150" ;
+				transition "inv_t_back::forecolor_w"  "0" "0.8" "150" ; 
+				transition "inv_back_corner::matcolor_w"  "0" "0.4" "150" ;
 			}
 
 			onTime +100 {
@@ -19425,10 +19426,8 @@ windowDef Desktop
 			}
 
 		}
-		
-		windowDef anim_inventoryOut 
+		windowDef anim_inventoryOut
 		{
-			
 			rect	0,0,1,1
 			visible	1
 			notime	1
@@ -19439,13 +19438,13 @@ windowDef Desktop
 				transition "p_main::rect" "$d_main_r::rect" "$d_main::rect" "0" ;
 				transition "p_inventory::rect" "$d_main::rect" "$d_main_l::rect" "300" ;
 				
-				//transition "topbar::rect"  "$d_topbar::rect"  "$topbar::rect" "500" "150" "150" ;
-				//transition "btmbar::rect"  "$d_btmbar::rect"  "$btmbar::rect" "500" "150" "150" ;
+				transition "topbar::rect"  "$d_topbar::rect"  "$topbar::rect" "500" "150" "150" ;
+				transition "btmbar::rect"  "$d_btmbar::rect"  "$btmbar::rect" "500" "150" "150" ;
 				
 				
 				// transitions
 				//transition "t_new_title::forecolor_w" "0.5" "0" "0" ;
-				//transition "grad2::matcolor_w" "0.6" "0" "250" ;
+				transition "grad2::matcolor_w" "0.6" "0" "250" ;
 				
 				
 				// back button	
@@ -19460,8 +19459,8 @@ windowDef Desktop
 				resettime "anim_mainIn" "0" ;
 				namedevent "p_anims::mainReset0" ;
 			}
+
 		}
-		//===================end====================
 	}
 	windowDef p_btns
 	{
@@ -20456,8 +20455,10 @@ windowDef Desktop
 			set "inv_b3::matcolor_w" "0.4" ;
 			set "inv_t_b3::forecolor" "$desktop::white_8" ; 
 			set "inv_t_b3::textscale" "0.31" ;
+			//transition "inv_back_corner::matcolor_w"  "0" "0.4" "150" ;
+			set "inv_profile1::matcolor_w" "0.7";
 		}
-		
+
 		onNamedEvent hideInventory {
 			set "inv_b1::matcolor_w" "0.4" ;
 			set "inv_t_b1::forecolor" "$desktop::white_8" ; 

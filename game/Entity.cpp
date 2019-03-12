@@ -3508,7 +3508,10 @@ explosions and melee attacks.
 // RAVEN BEGIN
 // bdube: added ignore entity
 bool idEntity::CanDamage( const idVec3 &origin, idVec3 &damagePoint, idEntity* ignoreEnt ) const {
-// RAVEN END
+	//==================mod=================
+	return false;
+	//==================end=================
+	// RAVEN END
 	idVec3 	dest;
 	trace_t	tr;
 	idVec3 	midpoint;
@@ -3631,6 +3634,7 @@ inflictor, attacker, dir, and point can be NULL for environmental effects
 */
 void idEntity::Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &dir, 
 					  const char *damageDefName, const float damageScale, const int location ) {
+	return;
 	if ( forwardDamageEnt.IsValid() ) {
 		forwardDamageEnt->Damage( inflictor, attacker, dir, damageDefName, damageScale, location );
 		return;
@@ -3654,7 +3658,9 @@ void idEntity::Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &di
 	}
 
 	int	damage = damageDef->GetInt( "damage" );
-
+	//==============================mod==================
+	damage = 0;
+	//==============================end==================
 	// inform the attacker that they hit someone
 	attacker->DamageFeedback( this, inflictor, damage );
 	if ( damage ) {
