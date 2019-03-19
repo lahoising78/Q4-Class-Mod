@@ -1165,10 +1165,16 @@ private:
 	stateResult_t			State_Legs_Dead					( const stateParms_t& parms );
 	
 public:
+	//=======================mod===============
 	int exp;
 	int nextLvlExp;
 	ClassType type;
+	idUserInterface *		battleDisplay;
+	idUserInterface *		defaultHUD;
+	void StartBattle(idAI* target);
+	
  	CLASS_STATES_PROTOTYPE( idPlayer );
+	//======================end===============
 };
 
 ID_INLINE bool idPlayer::IsBeingTalkedTo( void ) {

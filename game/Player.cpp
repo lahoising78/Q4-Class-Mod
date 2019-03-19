@@ -1848,6 +1848,9 @@ void idPlayer::Spawn( void ) {
 		// load HUD
 		hud = NULL;
 		mphud = NULL;
+		//=================mod==============
+		battleDisplay = NULL;
+		//=================end==============
  		
 		overlayHud = NULL;
 		overlayHudTime = 0;
@@ -1867,6 +1870,10 @@ void idPlayer::Spawn( void ) {
 				gameLocal.Warning( "idPlayer::Spawn() - No MP hud overlay while in MP.");
 			}
 		}
+
+		//===========mod==============
+		battleDisplay = uiManager->FindGui("guis/turnbasedbattle.gui", true, false, true);
+		//===========end==============
 
 		if ( hud ) {
 			hud->Activate( true, gameLocal.time );
@@ -9493,7 +9500,8 @@ void idPlayer::Think( void ) {
 	// if we have an active gui, we will unrotate the view angles as
 	// we turn the mouse movements into gui events
 	idUserInterface *gui = ActiveGui();
-	if ( gui && gui != focusUI ) {
+	//|| gui->Name() == "turnbasedbattle"
+	if ( (gui && gui != focusUI) ) {
 		RouteGuiMouse( gui );
 	}
 
@@ -10263,6 +10271,9 @@ void idPlayer::Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &di
 	// do the damage
 	//===============mod===============
 	damage = 0;
+	if ( attacker->IsType(idActor::GetClassType()) ) {
+		SendBattleRequest(static_cast<idActor*>(attacker));
+	}
 	//==============end================
 	if ( damage > 0 ) {
 		
@@ -14102,3 +14113,29 @@ int idPlayer::CanSelectWeapon(const char* weaponName)
 }
 
 // RITUAL END
+
+//============================mod===================
+void idPlayer::StartBattle(idAI* target){
+	defaultHUD = hud;
+	hud = battleDisplay;
+	if ( hud ) {
+		gameLocal.Printf("activating battle display\n");
+		inBattle = true;
+		target->inBattle = true;
+		hud->Redraw(gameLocal.time);
+		hud->Activate(true, gameLocal.time);
+		focusType = FOCUS_GUI;
+		focusUI = battleDisplay;
+		//gameLocal.sessionCommand = "game_startmenu";
+	}
+	else {
+		gameLocal.Printf("The battle display was not found\n");
+	}
+
+	/*player->hud = buyMenu;
+	player->hud->Redraw(gameLocal.time);
+	player->hud->Activate(true, gameLocal.time);
+	player->focusType = FOCUS_GUI;
+	player->focusUI = player->hud;*/
+}
+//============================end====================

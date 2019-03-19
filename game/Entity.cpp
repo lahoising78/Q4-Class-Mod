@@ -3509,7 +3509,7 @@ explosions and melee attacks.
 // bdube: added ignore entity
 bool idEntity::CanDamage( const idVec3 &origin, idVec3 &damagePoint, idEntity* ignoreEnt ) const {
 	//==================mod=================
-	return false;
+	//return false;
 	//==================end=================
 	// RAVEN END
 	idVec3 	dest;
@@ -3660,6 +3660,8 @@ void idEntity::Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &di
 	int	damage = damageDef->GetInt( "damage" );
 	//==============================mod==================
 	damage = 0;
+	if (IsType(idActor::GetClassType()) && attacker->IsType(idActor::GetClassType())) 
+		static_cast<idActor*>(this)->SendBattleRequest(static_cast<idActor*>(attacker));
 	//==============================end==================
 	// inform the attacker that they hit someone
 	attacker->DamageFeedback( this, inflictor, damage );

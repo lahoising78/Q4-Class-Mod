@@ -3876,9 +3876,35 @@ void idActor::GuidedProjectileIncoming( idGuidedProjectile *projectile )
 }
 // RAVEN END
 
+//===================mod=========================
 void idActor::AttackRPG(idActor* target){
 	int dmg = str - target->def;
 	if (dmg < 1) dmg = 1;
 	gameLocal.Printf("The attacker is attacking. Dmg %d\n", dmg);
 	target->health -= dmg;
 }
+
+void idActor::SendBattleRequest(idActor* target) {
+	gameLocal.Printf("Sending Battle Request\n");
+	if (inBattle || target->inBattle) {
+		gameLocal.Printf("one of them is already in battle\n");
+		return;
+	}
+	if ( team == target->team )
+	{
+		gameLocal.Printf("same team\n");
+		return;
+	}
+	if ( IsType(idAI::GetClassType()) && target->IsType(idPlayer::GetClassType())) {
+		static_cast<idPlayer*>(target)->StartBattle(static_cast<idAI*>(this));
+		return;
+	}
+	if (IsType(idPlayer::GetClassType()) && target->IsType(idAI::GetClassType())) {
+		static_cast<idPlayer*>(this)->StartBattle(static_cast<idAI*>(target));
+		return;
+	}
+
+	gameLocal.Printf("AI attacking AI or Player Attacking Player\n");
+		
+}
+//===================end=========================

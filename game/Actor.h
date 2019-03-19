@@ -413,7 +413,7 @@ protected:
 	void					EnableAnimState			( int channel );
 	idAnimState&			GetAnimState			( int channel );
 
-//===========================================================
+//=============================mod===========================
 // variables for final fantasy
 public:
 	int						lv;
@@ -431,11 +431,13 @@ public:
 	int						hitPercentage;
 	int						evade;
 	int						magicDefense;
+	bool					inBattle = false;
 	//ClassType				type;
 	//==========Functions==========
 	void AttackRPG(idActor* target);
+	void SendBattleRequest(idActor* target);
 // end of FF variables
-//===========================================================
+//===========end=============================================
 };
 
 ID_INLINE bool idActor::IsInVehicle( void ) const {
