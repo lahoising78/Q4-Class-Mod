@@ -9500,7 +9500,15 @@ void idPlayer::Think( void ) {
 	// if we have an active gui, we will unrotate the view angles as
 	// we turn the mouse movements into gui events
 	idUserInterface *gui = ActiveGui();
-	//|| gui->Name() == "turnbasedbattle"
+	//============mod==============
+	if (hud->Name() == battleDisplayName){
+		//hud->SetCursor(usercmd.mx, usercmd.my);
+		RouteGuiMouse(hud);
+		focusType = FOCUS_GUI;
+		focusUI = battleDisplay;
+	}
+	//============end==============
+
 	if ( (gui && gui != focusUI) ) {
 		RouteGuiMouse( gui );
 	}
@@ -14118,8 +14126,9 @@ int idPlayer::CanSelectWeapon(const char* weaponName)
 void idPlayer::StartBattle(idAI* target){
 	defaultHUD = hud;
 	hud = battleDisplay;
+	battleDisplayName = hud->Name();
 	if ( hud ) {
-		gameLocal.Printf("activating battle display\n");
+		gameLocal.Printf("activating battle display: %s\n", hud->Name());
 		inBattle = true;
 		target->inBattle = true;
 		hud->Redraw(gameLocal.time);

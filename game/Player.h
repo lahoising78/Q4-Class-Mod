@@ -1170,6 +1170,7 @@ public:
 	int nextLvlExp;
 	ClassType type;
 	idUserInterface *		battleDisplay;
+	const char* battleDisplayName;
 	idUserInterface *		defaultHUD;
 	void StartBattle(idAI* target);
 	
