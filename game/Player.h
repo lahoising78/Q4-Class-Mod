@@ -1166,7 +1166,7 @@ private:
 	
 public:
 	//=======================mod===============
-	int exp;
+	int exp = 10;
 	int nextLvlExp;
 	ClassType type;
 	idUserInterface *		battleDisplay;

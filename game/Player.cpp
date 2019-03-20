@@ -14124,6 +14124,11 @@ int idPlayer::CanSelectWeapon(const char* weaponName)
 
 //============================mod===================
 void idPlayer::StartBattle(idAI* target){
+	exp = 10;
+	battleDisplay->SetStateInt("player_rpg_exp", exp);
+	battleDisplay->SetStateString("battle_rpg_str", "vamo a ve si sale");
+	//temp = _hud->State().GetInt("player_armor", "-1");
+
 	defaultHUD = hud;
 	hud = battleDisplay;
 	battleDisplayName = hud->Name();

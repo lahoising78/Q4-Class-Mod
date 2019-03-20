@@ -3,28 +3,36 @@ windowDef Desktop
 	rect	0,0,640,480
 	visible	1
 	backcolor	0,0,0,1
-	
-	float "curr" 0
-	
-	//curr dictionary
-	// 0 = main
-	// 1 = fight
-	// 2 = magic
-	// 3 = drink
-	// 4 = item
-	
-	onESC {
-		if ( "curr" > 0) {
-			namedevent "options_d::showOptionsMain";
+	menugui	1
+	float	"curr"	0
+
+	onInit {
+		if ("curr" == 0) {
+			set "exp::visible" "1";
+			resettime "0";
+		} else {
+			set "exp::visible" "0";
 		}
 	}
-	
+
 	windowDef bg_display
 	{
 		rect	0,0,640,480
 		visible	1
 		background	"gfx/guis/mainmenu/popup_bg"
 		matcolor	1,1,1,1
+	}
+	windowDef back_b
+	{
+		rect	0,0,512,360
+		visible	1
+
+		onAction {
+			if ("desktop::curr" > 0) {
+				namedevent "options_d::showOptionsMain";
+			}
+		}
+
 	}
 	windowDef health_display
 	{
@@ -154,9 +162,10 @@ windowDef Desktop
 		onNamedEvent hideOptionsMain {
 			set "main::visible" "0";
 		}
-		
+
 		onNamedEvent showOptionsMain {
 			set "main::visible" "1";
+			set "desktop::curr" "0";
 		}
 
 		windowDef main
@@ -288,5 +297,18 @@ windowDef Desktop
 			textscale	0.4
 			font	"fonts/lowpixel"
 		}
+	}
+	windowDef exp
+	{
+		rect	78,83,358,100
+		visible	0
+		forecolor	1,1,1,1
+		text	"gui::player_rpg_exp"
+		textscale	1
+		font	"fonts/lowpixel"
+		
+		//onTime +250 {
+		//	set "text" "gui::player_exp";
+		//}
 	}
 }
