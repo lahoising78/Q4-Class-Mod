@@ -1,0 +1,292 @@
+windowDef Desktop
+{
+	rect	0,0,640,480
+	visible	1
+	backcolor	0,0,0,1
+	
+	float "curr" 0
+	
+	//curr dictionary
+	// 0 = main
+	// 1 = fight
+	// 2 = magic
+	// 3 = drink
+	// 4 = item
+	
+	onESC {
+		if ( "curr" > 0) {
+			namedevent "options_d::showOptionsMain";
+		}
+	}
+	
+	windowDef bg_display
+	{
+		rect	0,0,640,480
+		visible	1
+		background	"gfx/guis/mainmenu/popup_bg"
+		matcolor	1,1,1,1
+	}
+	windowDef health_display
+	{
+		rect	512,0,128,360
+		visible	1
+		backcolor	0,0,0,1
+		windowDef health_char1
+		{
+			rect	0,0,128,120
+			visible	1
+			bordersize	5
+			bordercolor	1,1,1,1
+			windowDef name
+			{
+				rect	10,10,108,33
+				visible	1
+				forecolor	1,1,1,1
+				text	"FIGHTER"
+				textscale	0.3
+				font	"fonts/lowpixel"
+				textalign	1
+			}
+			windowDef hp_t
+			{
+				rect	10,43,108,32
+				visible	1
+				forecolor	1,1,1,1
+				text	"HP"
+				textscale	0.3
+				font	"fonts/lowpixel"
+				textalign	1
+			}
+			windowDef hp_n
+			{
+				rect	10,75,108,32
+				visible	1
+				forecolor	1,1,1,1
+				text	"100/100"
+				textscale	0.3
+				font	"fonts/lowpixel"
+				textalign	1
+			}
+		}
+		windowDef health_char2
+		{
+			rect	0,120,128,120
+			visible	1
+			bordersize	5
+			bordercolor	1,1,1,1
+			windowDef name
+			{
+				rect	10,10,108,33
+				visible	1
+				forecolor	1,1,1,1
+				text	"WT MAGE"
+				textscale	0.3
+				font	"fonts/lowpixel"
+				textalign	1
+			}
+			windowDef hp_t
+			{
+				rect	10,43,108,32
+				visible	1
+				forecolor	1,1,1,1
+				text	"HP"
+				textscale	0.3
+				font	"fonts/lowpixel"
+				textalign	1
+			}
+			windowDef hp_n
+			{
+				rect	10,75,108,32
+				visible	1
+				forecolor	1,1,1,1
+				text	"100/100"
+				textscale	0.3
+				font	"fonts/lowpixel"
+				textalign	1
+			}
+		}
+		windowDef health_char3
+		{
+			rect	0,240,128,120
+			visible	1
+			bordersize	5
+			bordercolor	1,1,1,1
+			windowDef name
+			{
+				rect	10,10,108,33
+				visible	1
+				forecolor	1,1,1,1
+				text	"BL MAGE"
+				textscale	0.3
+				font	"fonts/lowpixel"
+				textalign	1
+			}
+			windowDef hp_t
+			{
+				rect	10,43,108,32
+				visible	1
+				forecolor	1,1,1,1
+				text	"HP"
+				textscale	0.3
+				font	"fonts/lowpixel"
+				textalign	1
+			}
+			windowDef hp_n
+			{
+				rect	10,75,108,32
+				visible	1
+				forecolor	1,1,1,1
+				text	"100/100"
+				textscale	0.3
+				font	"fonts/lowpixel"
+				textalign	1
+			}
+		}
+	}
+	windowDef options_d
+	{
+		rect	256,360,384,120
+		visible	1
+		backcolor	0,0,0,1
+		bordersize	5
+		bordercolor	1,1,1,1
+
+		onNamedEvent hideOptionsMain {
+			set "main::visible" "0";
+		}
+		
+		onNamedEvent showOptionsMain {
+			set "main::visible" "1";
+		}
+
+		windowDef main
+		{
+			rect	0,0,384,120
+			visible	1
+			windowDef fight_b
+			{
+				rect	0,0,192,60
+				visible	1
+
+				onAction {
+					namedevent "options_d::hideOptionsMain";
+					set "desktop::curr" "1";
+				}
+
+				windowDef text
+				{
+					rect	10,10,172,40
+					visible	1
+					forecolor	1,1,1,1
+					text	"Fight"
+					textscale	0.4
+					font	"fonts/lowpixel"
+				}
+			}
+			windowDef magic_b
+			{
+				rect	0,60,192,60
+				visible	1
+
+				onAction {
+					namedevent "options_d::hideOptionsMain";
+					set "desktop::curr" "2";
+				}
+
+				windowDef text
+				{
+					rect	10,10,172,40
+					visible	1
+					forecolor	1,1,1,1
+					text	"Magic"
+					textscale	0.4
+					font	"fonts/lowpixel"
+				}
+			}
+			windowDef drink_b
+			{
+				rect	192,0,192,60
+				visible	1
+
+				onAction {
+					namedevent "options_d::hideOptionsMain";
+					set "desktop::curr" "3";
+				}
+
+				windowDef text
+				{
+					rect	10,10,172,40
+					visible	1
+					forecolor	1,1,1,1
+					text	"Drink"
+					textscale	0.4
+					font	"fonts/lowpixel"
+				}
+			}
+			windowDef item_b
+			{
+				rect	192,60,192,60
+				visible	1
+
+				onAction {
+					namedevent "options_d::hideOptionsMain";
+					set "desktop::curr" "4";
+				}
+
+				windowDef text
+				{
+					rect	10,10,172,40
+					visible	1
+					forecolor	1,1,1,1
+					text	"Item"
+					textscale	0.4
+					font	"fonts/lowpixel"
+				}
+			}
+		}
+	}
+	windowDef enemy_list_d
+	{
+		rect	0,360,256,120
+		visible	1
+		backcolor	0,0,0,1
+		bordersize	5
+		bordercolor	1,1,1,1
+		windowDef enemy1
+		{
+			rect	10,5,236,25
+			visible	1
+			forecolor	1,1,1,1
+			text	"Enemy 1"
+			textscale	0.4
+			font	"fonts/lowpixel"
+		}
+		windowDef enemy2
+		{
+			rect	10,30,236,25
+			visible	1
+			forecolor	1,1,1,1
+			text	"Enemy 1"
+			textscale	0.4
+			font	"fonts/lowpixel"
+		}
+		windowDef enemy3
+		{
+			rect	10,55,236,25
+			visible	1
+			forecolor	1,1,1,1
+			text	"Enemy 1"
+			textscale	0.4
+			font	"fonts/lowpixel"
+		}
+		windowDef enemy4
+		{
+			rect	10,80,236,25
+			visible	1
+			forecolor	1,1,1,1
+			text	"Enemy 1"
+			textscale	0.4
+			font	"fonts/lowpixel"
+		}
+	}
+}
