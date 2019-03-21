@@ -3022,6 +3022,14 @@ void Cmd_ShuffleTeams_f( const idCmdArgs& args ) {
 	gameLocal.mpGame.ShuffleTeams();
 }
 
+//=======================mod=====================
+void Cmd_changeHUD( const idCmdArgs &args )	{
+	idPlayer* player = gameLocal.GetLocalPlayer();
+	player->hud = player->defaultHUD;
+
+}
+//======================end======================
+
 #ifndef _FINAL
 void Cmd_ClientOverflowReliable_f( const idCmdArgs& args ) {
 	idBitMsg	outMsg;
@@ -3232,7 +3240,10 @@ void idGameLocal::InitConsoleCommands( void ) {
 	cmdSystem->AddCommand( "buyMenu",				Cmd_ToggleBuyMenu_f,		CMD_FL_GAME,				"Toggle buy menu (if in a buy zone and the game type supports it)" );
 	cmdSystem->AddCommand( "buy",					Cmd_BuyItem_f,				CMD_FL_GAME,				"Buy an item (if in a buy zone and the game type supports it)" );
 // RITUAL END
-
+	
+	//=============mod=============
+	cmdSystem->AddCommand( "changeHUD", Cmd_changeHUD, CMD_FL_GAME, "change the hud from battle display to hud");
+	//=============end=============
 }
 
 /*

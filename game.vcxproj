@@ -219,6 +219,7 @@
     <ClCompile Include="game\AFEntity.cpp" />
     <ClCompile Include="game\BrittleFracture.cpp" />
     <ClCompile Include="game\Camera.cpp" />
+    <ClCompile Include="game\CharacterFF.cpp" />
     <ClCompile Include="game\client\ClientAFEntity.cpp" />
     <ClCompile Include="game\Effect.cpp" />
     <ClCompile Include="game\Entity.cpp" />
@@ -380,6 +381,7 @@
     <ClInclude Include="game\AFEntity.h" />
     <ClInclude Include="game\BrittleFracture.h" />
     <ClInclude Include="game\Camera.h" />
+    <ClInclude Include="game\CharacterFF.h" />
     <ClInclude Include="game\client\ClientAFEntity.h" />
     <ClInclude Include="game\Effect.h" />
     <ClInclude Include="game\Entity.h" />

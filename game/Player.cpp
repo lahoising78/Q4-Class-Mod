@@ -18,6 +18,10 @@
 #include "Healing_Station.h"
 #include "ai/AI_Medic.h"
 
+//====================mod=============
+#include "CharacterFF.h"
+//===================end==============
+
 // RAVEN BEGIN
 // nrausch: support for turning the weapon change ui on and off
 #ifdef _XENON
@@ -14124,13 +14128,24 @@ int idPlayer::CanSelectWeapon(const char* weaponName)
 
 //============================mod===================
 void idPlayer::StartBattle(idAI* target){
-	exp = 10;
-	battleDisplay->SetStateInt("player_rpg_exp", exp);
-	battleDisplay->SetStateString("battle_rpg_str", "vamo a ve si sale");
+	//exp = 10;
+	//battleDisplay->SetStateInt("player_rpg_exp", exp);
+	//battleDisplay->SetStateString("battle_rpg_str", "vamo a ve si sale");
 	//temp = _hud->State().GetInt("player_armor", "-1");
+	CharacterFF c1 = CharacterFF("luis", 100);
+	CharacterFF c2 = CharacterFF("alfredo", 50);
+	CharacterFF c3 = CharacterFF("chiang", 75);
+
+	battleDisplay->SetStateInt("hero1_hp", c1.hp);
+	battleDisplay->SetStateString("hero1_name", c1.name);
+	battleDisplay->SetStateInt("hero2_hp", c2.hp);
+	battleDisplay->SetStateString("hero2_name", c2.name);
+	battleDisplay->SetStateInt("ent1_hp", c3.hp);
+	battleDisplay->SetStateString("ent1_name", c3.name);
 
 	defaultHUD = hud;
 	hud = battleDisplay;
+	gameLocal.Printf("raplacing %s with %s\nJust checking: %s\n", defaultHUD->Name(), hud->Name(), battleDisplay->Name());
 	battleDisplayName = hud->Name();
 	if ( hud ) {
 		gameLocal.Printf("activating battle display: %s\n", hud->Name());

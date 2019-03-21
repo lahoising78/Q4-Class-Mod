@@ -7,12 +7,10 @@ windowDef Desktop
 	float	"curr"	0
 
 	onInit {
-		if ("curr" == 0) {
-			set "exp::visible" "1";
-			resettime "0";
-		} else {
-			set "exp::visible" "0";
-		}
+		namedevent "hero1::check_health";
+		namedevent "hero2::check_health";
+		namedevent "hero3::check_health";
+		namedevent "ent1::check_health";
 	}
 
 	windowDef bg_display
@@ -30,6 +28,9 @@ windowDef Desktop
 		onAction {
 			if ("desktop::curr" > 0) {
 				namedevent "options_d::showOptionsMain";
+			} else {
+				set "cmd" "close";
+				consoleCMD "changeHUD a" ;
 			}
 		}
 
@@ -50,7 +51,7 @@ windowDef Desktop
 				rect	10,10,108,33
 				visible	1
 				forecolor	1,1,1,1
-				text	"FIGHTER"
+				text	"gui::hero1_name"
 				textscale	0.3
 				font	"fonts/lowpixel"
 				textalign	1
@@ -70,7 +71,7 @@ windowDef Desktop
 				rect	10,75,108,32
 				visible	1
 				forecolor	1,1,1,1
-				text	"100/100"
+				text	"gui::hero1_hp"
 				textscale	0.3
 				font	"fonts/lowpixel"
 				textalign	1
@@ -87,7 +88,7 @@ windowDef Desktop
 				rect	10,10,108,33
 				visible	1
 				forecolor	1,1,1,1
-				text	"WT MAGE"
+				text	"gui::hero2_name"
 				textscale	0.3
 				font	"fonts/lowpixel"
 				textalign	1
@@ -107,7 +108,7 @@ windowDef Desktop
 				rect	10,75,108,32
 				visible	1
 				forecolor	1,1,1,1
-				text	"100/100"
+				text	"gui::hero2_hp"
 				textscale	0.3
 				font	"fonts/lowpixel"
 				textalign	1
@@ -124,7 +125,7 @@ windowDef Desktop
 				rect	10,10,108,33
 				visible	1
 				forecolor	1,1,1,1
-				text	"BL MAGE"
+				text	"gui::hero3_name"
 				textscale	0.3
 				font	"fonts/lowpixel"
 				textalign	1
@@ -144,7 +145,7 @@ windowDef Desktop
 				rect	10,75,108,32
 				visible	1
 				forecolor	1,1,1,1
-				text	"100/100"
+				text	"gui::hero3_hp"
 				textscale	0.3
 				font	"fonts/lowpixel"
 				textalign	1
@@ -298,17 +299,123 @@ windowDef Desktop
 			font	"fonts/lowpixel"
 		}
 	}
-	windowDef exp
+	windowDef enemies_d
 	{
-		rect	78,83,358,100
-		visible	0
-		forecolor	1,1,1,1
-		text	"gui::player_rpg_exp"
-		textscale	1
-		font	"fonts/lowpixel"
-		
-		//onTime +250 {
-		//	set "text" "gui::player_exp";
-		//}
+		rect	10,10,236,340
+		visible	1
+		backcolor	0,0,0,0
+		windowDef ent1
+		{
+			rect	10,10,98,93
+			visible	0
+			backcolor	0.501,0.501,0.501,1
+			
+			onNamedEvent check_health {
+				if ( "gui::ent1_hp" > 0) {
+					set "visible" "1";
+				}
+			}
+		}
+		windowDef ent2
+		{
+			rect	10,123,98,93
+			visible	0
+			backcolor	0.501,0.501,0.501,1
+			
+			onNamedEvent check_health {
+				if ( "gui::ent2_hp" > 0) {
+					set "visible" "1";
+				}
+			}
+		}
+		windowDef ent3
+		{
+			rect	10,236,98,93
+			visible	0
+			backcolor	0.501,0.501,0.501,1
+			
+			onNamedEvent check_health {
+				if ( "gui::ent3_hp" > 0) {
+					set "visible" "1";
+				}
+			}
+		}
+		windowDef ent4
+		{
+			rect	128,10,98,93
+			visible	0
+			backcolor	0.501,0.501,0.501,1
+			
+			onNamedEvent check_health {
+				if ( "gui::ent4_hp" > 0) {
+					set "visible" "1";
+				}
+			}
+		}
+		windowDef ent5
+		{
+			rect	128,123,98,93
+			visible	0
+			backcolor	0.501,0.501,0.501,1
+			
+			onNamedEvent check_health {
+				if ( "gui::ent5_hp" > 0) {
+					set "visible" "1";
+				}
+			}
+		}
+		windowDef ent6
+		{
+			rect	128,236,98,93
+			visible	0
+			backcolor	0.501,0.501,0.501,1
+			
+			onNamedEvent check_health {
+				if ( "gui::ent6_hp" > 0) {
+					set "visible" "1";
+				}
+			}
+		}
+	}
+	windowDef heroes_d
+	{
+		rect	266,10,236,340
+		visible	1
+		windowDef hero1
+		{
+			rect	128,10,98,93
+			visible	1
+			backcolor	1,0,0,0.7
+			
+			onNamedEvent check_health {
+				if ( "gui::hero1_hp" <= 0) {
+					transition "backcolor_w" "0.7" "0.2" "250";
+				}
+			}
+		}
+		windowDef hero2
+		{
+			rect	128,123,98,93
+			visible	1
+			backcolor	1,1,1,0.7
+			
+			onNamedEvent check_health {
+				if ( "gui::hero2_hp" <= 0) {
+					transition "backcolor_w" "0.7" "0.2" "250";
+				}
+			}
+		}
+		windowDef hero3
+		{
+			rect	128,236,98,93
+			visible	1
+			backcolor	0,0,1,0.7
+			
+			onNamedEvent check_health {
+				if ( "gui::hero3_hp" <= 0) {
+					transition "backcolor_w" "0.7" "0.2" "250";
+				}
+			}
+		}
 	}
 }
