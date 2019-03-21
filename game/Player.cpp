@@ -14145,7 +14145,7 @@ void idPlayer::StartBattle(idAI* target){
 
 	defaultHUD = hud;
 	hud = battleDisplay;
-	gameLocal.Printf("raplacing %s with %s\nJust checking: %s\n", defaultHUD->Name(), hud->Name(), battleDisplay->Name());
+	//gameLocal.Printf("raplacing %s with %s\nJust checking: %s\n", defaultHUD->Name(), hud->Name(), battleDisplay->Name());
 	battleDisplayName = hud->Name();
 	if ( hud ) {
 		gameLocal.Printf("activating battle display: %s\n", hud->Name());
@@ -14167,4 +14167,15 @@ void idPlayer::StartBattle(idAI* target){
 	player->focusType = FOCUS_GUI;
 	player->focusUI = player->hud;*/
 }
+
+void idPlayer::changePlayerHUD(idUserInterface* hud, idAI* enemy){
+	gameLocal.Printf("activating battle display: %s\n", hud->Name());
+	inBattle = true;
+	enemy->inBattle = true;
+	hud->Redraw(gameLocal.time);
+	hud->Activate(true, gameLocal.time);
+	focusType = FOCUS_GUI;
+	focusUI = hud;//battleDisplay;
+}
+
 //============================end====================

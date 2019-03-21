@@ -519,6 +519,9 @@
     <ClCompile Include="game\CharacterFF.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="game\BattleManagerFF.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game\Actor.h">
@@ -835,6 +838,9 @@
     </ClInclude>
     <ClInclude Include="resource.h" />
     <ClInclude Include="game\CharacterFF.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="game\BattleManagerFF.h">
       <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>

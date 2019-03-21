@@ -1173,6 +1173,7 @@ public:
 	const char* battleDisplayName;
 	idUserInterface *		defaultHUD;
 	void StartBattle(idAI* target);
+	void changePlayerHUD(idUserInterface* hud, idAI* enemy);
 	
  	CLASS_STATES_PROTOTYPE( idPlayer );
 	//======================end===============

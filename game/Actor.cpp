@@ -2500,15 +2500,18 @@ void idActor::Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &dir
 		}
 	}
 // RAVEN END
-
+	damage = 1; //=============mod===========
 	if ( damage > 0 ) {
-		// =================== Luis Chiang comment===================
+		// ===================mod===================
+		damage = 0;
 		int oldHealth = health;
-		if (attacker->IsType(idPlayer::GetClassType())) 
-			static_cast<idPlayer*>(attacker)->AttackRPG(this);
+		if (attacker->IsType(idPlayer::GetClassType()) && this->IsType(idAI::GetClassType()))
+			gameLocal.battleManager.SendBattleRequest(static_cast<idPlayer*>(attacker), static_cast<idAI*>(this));
+			//static_cast<idPlayer*>(attacker)->AttackRPG(this);
 		//else if (attacker->IsType(idActor::GetClassType()) && !attacker->IsType(idPlayer::GetClassType()) && this.IsType(idPlayer::GetClassType()))
 		//	static_cast<idActor*>(attacker)->AttackRPG(this);
 		//AdjustHealthByDamage ( damage );
+		//====================end====================
 		if ( health <= 0 ) {
 
 			//allow for quick burning
@@ -3890,7 +3893,7 @@ void idActor::SendBattleRequest(idActor* target) {
 		gameLocal.Printf("one of them is already in battle\n");
 		return;
 	}
-	if ( team == target->team )
+	if ( team == target->team || this == target)
 	{
 		gameLocal.Printf("same team\n");
 		return;

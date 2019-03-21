@@ -124,6 +124,10 @@ void gameError( const char *fmt, ... );
 
 #include "FreeView.h"
 
+//=====================mod===============
+#include "BattleManagerFF.h"
+//=====================end==============
+
 //============================================================================
 
 const int MAX_GAME_MESSAGE_SIZE		= 8192;
@@ -1107,6 +1111,11 @@ private:
 	bool					banListLoaded;
 	bool					banListChanged;
 // RAVEN END
+
+//==========================mod=================
+public:
+	BattleManagerFF battleManager;
+//==========================end================
 };
 
 //============================================================================
