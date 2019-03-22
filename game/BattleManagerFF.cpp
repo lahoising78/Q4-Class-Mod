@@ -88,11 +88,12 @@ void BattleManagerFF::AddCommand(const char* target) {
 	//} while (player->heroes[currentHero].hp <= 0);
 
 	gameLocal.Printf("The command is: %d will use %s on %s\n", cmd.GetInt("attacker"), cmd.GetString("command"), cmd.GetString("target"));
-
-	if (currentHero >= 3) NextState();
+	NextState();
+	//if (currentHero >= 3) NextState();
 }
 
 void BattleManagerFF::NextState(){
+	gameLocal.Printf("Changing State\n");
 	switch (state) {
 		case P_SELECT:
 			state = P_ATTACK;
@@ -115,13 +116,29 @@ void BattleManagerFF::NextState(){
 
 void BattleManagerFF::PerformQueue(){
 	
+	gameLocal.Printf("Performing queue\n");
+
 	while (!commandsQueue.empty()) {
 		idDict cmd = commandsQueue.last();
 		commandsQueue.pop();
 		const char* command = cmd.GetString("command");
 		CharacterFF* h = &player->heroes[cmd.GetInt("attacker")];
 		CharacterFF* target = GetEnt(cmd.GetString("target"));
-		if ( command == "attack") {
+		if (!target) {
+			gameLocal.Printf("target not found\n");
+			continue;
+		}
+		if (!h) {
+			gameLocal.Printf("hero not found\n");
+			continue;
+		}
+		if (!command) {
+			gameLocal.Printf("command not found\n");
+			continue;
+		}
+
+		gameLocal.Printf("%s will use %s on %s\n", h->name, command, target->name);
+		if ( strcmp(command, "attack") == 0) {
 			h->Attack(target);
 		}
 	}
@@ -131,7 +148,22 @@ void BattleManagerFF::PerformQueue(){
 }
 
 CharacterFF* BattleManagerFF::GetEnt(const char* ent) {
-	if (ent == "hero1") return &player->heroes[0];
+	gameLocal.Printf("looking for character %s\n", ent);
+	gameLocal.Printf("lets see if c3 is null at this point: %s\n", c3.name);
+	
+	if (strcmp(ent, "hero1") == 0) return &player->heroes[0];
+	if (strcmp(ent, "hero2") == 0) return &player->heroes[1];
+	if (strcmp(ent, "hero3") == 0) return &player->heroes[2];
+
+	if (strcmp(ent, "ent1") == 0) { 
+		gameLocal.Printf("returning c3 address %d\n", &c3);
+		return &c3; 
+	}
+	//if (ent == "ent1") return &player->heroes[0];
+	//if (ent == "ent1") return &player->heroes[0];
+	//if (ent == "ent1") return &player->heroes[0];
+	//if (ent == "ent1") return &player->heroes[0];
+	//if (ent == "ent1") return &player->heroes[0];
 
 	return NULL;
 }
