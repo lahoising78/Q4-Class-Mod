@@ -12,6 +12,7 @@ windowDef Desktop
 		namedevent "hero3::check_health";
 		namedevent "ent1::check_health";
 		
+		namedevent "heroes_d::move_heroes";
 		namedevent "command_controls::showOptionsMain";
 	}
 
@@ -176,8 +177,13 @@ windowDef Desktop
 					//bordersize	5
 					//bordercolor	1,0.498,0,1
 					consoleCMD	"target ent1";
+					resettime "ent1" "0";
 					namedevent	"combat_controls::showOptionsMain";
 				}
+			}
+			
+			onTime +50 {
+				namedevent	"heroes_d::move_heroes"
 			}
 
 		}
@@ -251,6 +257,20 @@ windowDef Desktop
 	{
 		rect	266,10,236,340
 		visible	1
+		
+		onNamedEvent move_heroes {
+			set "hero1::rect_x" "128";
+			set "hero2::rect_x" "128";
+			set "hero3::rect_x" "128";
+			if ( "gui::current_hero" == 0 ){
+				transition	"hero1::rect_x" "128" "10" "250";
+			} else if ( "gui::current_hero" == 1 ) {
+				transition	"hero2::rect_x" "128" "10" "250";
+			} else if ( "gui::current_hero" == 2 ) {
+				transition	"hero3::rect_x" "128" "10" "250";
+			}
+		}
+		
 		windowDef hero1
 		{
 			rect	128,10,98,93
@@ -323,7 +343,7 @@ windowDef Desktop
 				rect	10,10,620,100
 				visible	1
 				forecolor	1,1,1,1
-				text	"This is a message"
+				text	"gui::message"
 				textscale	0.4
 				font	"fonts/lowpixel"
 			}

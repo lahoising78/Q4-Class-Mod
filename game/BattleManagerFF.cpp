@@ -37,9 +37,11 @@ void BattleManagerFF::StartBattle(idAI* enemy, idPlayer* player) {
 	//creating characters
 	player->heroes[0] = CharacterFF("luis", 100, FIGHTER);
 	player->heroes[1] = CharacterFF("alfredo", 50, WT_MAGE);
+	player->heroes[2] = CharacterFF("hoising", 90, FIGHTER);
 	CharacterFF& c1 = player->heroes[0];
 	CharacterFF& c2 = player->heroes[1];
 	c3 = CharacterFF("chiang", 75, BL_MAGE);
+	CharacterFF& c4 = player->heroes[2];
 
 	//heroes[0] = c1;
 	//heroes[1] = c2;
@@ -50,6 +52,8 @@ void BattleManagerFF::StartBattle(idAI* enemy, idPlayer* player) {
 	player->battleDisplay->SetStateString("hero1_name", c1.name);
 	player->battleDisplay->SetStateInt("hero2_hp", c2.hp);
 	player->battleDisplay->SetStateString("hero2_name", c2.name);
+	player->battleDisplay->SetStateInt("hero3_hp", c4.hp);
+	player->battleDisplay->SetStateString("hero3_name", c4.name);
 	player->battleDisplay->SetStateInt("ent1_hp", c3.hp);
 	player->battleDisplay->SetStateString("ent1_name", c3.name);
 	
@@ -65,6 +69,7 @@ void BattleManagerFF::StartBattle(idAI* enemy, idPlayer* player) {
 	if (player->hud) {
 		state = P_SELECT;
 		currentHero = 0;
+		player->hud->SetStateInt("current_hero", currentHero);
 		player->changePlayerHUD(player->hud, enemy);
 	}
 	else {
@@ -74,6 +79,7 @@ void BattleManagerFF::StartBattle(idAI* enemy, idPlayer* player) {
 
 void BattleManagerFF::PrepareCommand(const char* command){
 	preparingCommand.Set("command", command);
+	player->hud->SetStateString("message", "Choose your target");
 }
 
 void BattleManagerFF::AddCommand(const char* target) {
@@ -83,12 +89,20 @@ void BattleManagerFF::AddCommand(const char* target) {
 	commandsQueue.push(cmd);
 	preparingCommand.Clear();
 
-	//do {
-	//	if (currentHero < 2) currentHero++;
-	//} while (player->heroes[currentHero].hp <= 0);
+	//get the next character
+	//if the next character is not alive, skip it
+	currentHero++;
+	CharacterFF* nextHero = NULL;
+	if (currentHero < 3) nextHero = &player->heroes[currentHero];
 
+	while ( nextHero && nextHero->hp <= 0 && currentHero < 2 ) {
+		currentHero++;
+		nextHero = &player->heroes[currentHero];
+	}
+
+	player->hud->SetStateInt("current_hero", currentHero);
 	gameLocal.Printf("The command is: %d will use %s on %s\n", cmd.GetInt("attacker"), cmd.GetString("command"), cmd.GetString("target"));
-	NextState();
+	if ( !nextHero ) NextState();
 	//if (currentHero >= 3) NextState();
 }
 
@@ -119,7 +133,7 @@ void BattleManagerFF::PerformQueue(){
 	gameLocal.Printf("Performing queue\n");
 
 	while (!commandsQueue.empty()) {
-		idDict cmd = commandsQueue.last();
+		idDict cmd = commandsQueue.first();
 		commandsQueue.pop();
 		const char* command = cmd.GetString("command");
 		CharacterFF* h = &player->heroes[cmd.GetInt("attacker")];
@@ -149,14 +163,14 @@ void BattleManagerFF::PerformQueue(){
 
 CharacterFF* BattleManagerFF::GetEnt(const char* ent) {
 	gameLocal.Printf("looking for character %s\n", ent);
-	gameLocal.Printf("lets see if c3 is null at this point: %s\n", c3.name);
+	//gameLocal.Printf("lets see if c3 is null at this point: %s\n", c3.name);
 	
 	if (strcmp(ent, "hero1") == 0) return &player->heroes[0];
 	if (strcmp(ent, "hero2") == 0) return &player->heroes[1];
 	if (strcmp(ent, "hero3") == 0) return &player->heroes[2];
 
 	if (strcmp(ent, "ent1") == 0) { 
-		gameLocal.Printf("returning c3 address %d\n", &c3);
+		//gameLocal.Printf("returning c3 address %d\n", &c3);
 		return &c3; 
 	}
 	//if (ent == "ent1") return &player->heroes[0];
