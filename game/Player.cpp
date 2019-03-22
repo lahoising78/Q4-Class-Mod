@@ -1347,13 +1347,13 @@ idPlayer::idPlayer() {
 	teamDoubler			= NULL;		
 	teamDoublerPending		= false;
 
-	//======================
+	//===========mod===========
 	// FF variables
-	exp = 0;
-	nextLvlExp = 100;
-	type = FIGHTER;
+	//exp = 0;
+	//nextLvlExp = 100;
+	//type = FIGHTER;
 	// End FF
-	//=======================
+	//===========end============
 }
 
 /*
@@ -10283,8 +10283,9 @@ void idPlayer::Damage( idEntity *inflictor, idEntity *attacker, const idVec3 &di
 	// do the damage
 	//===============mod===============
 	damage = 0;
-	if ( attacker->IsType(idActor::GetClassType()) ) {
-		SendBattleRequest(static_cast<idActor*>(attacker));
+	if ( attacker->IsType(idAI::GetClassType()) ) {
+		//SendBattleRequest(static_cast<idActor*>(attacker));
+		gameLocal.battleManager.SendBattleRequest(static_cast<idAI*>(attacker), this);
 	}
 	//==============end================
 	if ( damage > 0 ) {
@@ -14132,9 +14133,9 @@ void idPlayer::StartBattle(idAI* target){
 	//battleDisplay->SetStateInt("player_rpg_exp", exp);
 	//battleDisplay->SetStateString("battle_rpg_str", "vamo a ve si sale");
 	//temp = _hud->State().GetInt("player_armor", "-1");
-	CharacterFF c1 = CharacterFF("luis", 100);
-	CharacterFF c2 = CharacterFF("alfredo", 50);
-	CharacterFF c3 = CharacterFF("chiang", 75);
+	CharacterFF c1 = CharacterFF("luis", 100, FIGHTER);
+	CharacterFF c2 = CharacterFF("alfredo", 50, BL_MAGE);
+	CharacterFF c3 = CharacterFF("chiang", 75, WT_MAGE);
 
 	battleDisplay->SetStateInt("hero1_hp", c1.hp);
 	battleDisplay->SetStateString("hero1_name", c1.name);
@@ -14175,7 +14176,7 @@ void idPlayer::changePlayerHUD(idUserInterface* hud, idAI* enemy){
 	hud->Redraw(gameLocal.time);
 	hud->Activate(true, gameLocal.time);
 	focusType = FOCUS_GUI;
-	focusUI = hud;//battleDisplay;
+	focusUI = hud;
 }
 
 //============================end====================

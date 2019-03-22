@@ -11,6 +11,8 @@ windowDef Desktop
 		namedevent "hero2::check_health";
 		namedevent "hero3::check_health";
 		namedevent "ent1::check_health";
+		
+		namedevent "command_controls::showOptionsMain";
 	}
 
 	windowDef bg_display
@@ -27,7 +29,7 @@ windowDef Desktop
 
 		onAction {
 			if ("desktop::curr" > 0) {
-				namedevent "options_d::showOptionsMain";
+				namedevent "combat_controls::showOptionsMain";
 			} else {
 				set "cmd" "close";
 				consoleCMD "changeHUD a" ;
@@ -152,153 +154,6 @@ windowDef Desktop
 			}
 		}
 	}
-	windowDef options_d
-	{
-		rect	256,360,384,120
-		visible	1
-		backcolor	0,0,0,1
-		bordersize	5
-		bordercolor	1,1,1,1
-
-		onNamedEvent hideOptionsMain {
-			set "main::visible" "0";
-		}
-
-		onNamedEvent showOptionsMain {
-			set "main::visible" "1";
-			set "desktop::curr" "0";
-		}
-
-		windowDef main
-		{
-			rect	0,0,384,120
-			visible	1
-			windowDef fight_b
-			{
-				rect	0,0,192,60
-				visible	1
-
-				onAction {
-					namedevent "options_d::hideOptionsMain";
-					set "desktop::curr" "1";
-				}
-
-				windowDef text
-				{
-					rect	10,10,172,40
-					visible	1
-					forecolor	1,1,1,1
-					text	"Fight"
-					textscale	0.4
-					font	"fonts/lowpixel"
-				}
-			}
-			windowDef magic_b
-			{
-				rect	0,60,192,60
-				visible	1
-
-				onAction {
-					namedevent "options_d::hideOptionsMain";
-					set "desktop::curr" "2";
-				}
-
-				windowDef text
-				{
-					rect	10,10,172,40
-					visible	1
-					forecolor	1,1,1,1
-					text	"Magic"
-					textscale	0.4
-					font	"fonts/lowpixel"
-				}
-			}
-			windowDef drink_b
-			{
-				rect	192,0,192,60
-				visible	1
-
-				onAction {
-					namedevent "options_d::hideOptionsMain";
-					set "desktop::curr" "3";
-				}
-
-				windowDef text
-				{
-					rect	10,10,172,40
-					visible	1
-					forecolor	1,1,1,1
-					text	"Drink"
-					textscale	0.4
-					font	"fonts/lowpixel"
-				}
-			}
-			windowDef item_b
-			{
-				rect	192,60,192,60
-				visible	1
-
-				onAction {
-					namedevent "options_d::hideOptionsMain";
-					set "desktop::curr" "4";
-				}
-
-				windowDef text
-				{
-					rect	10,10,172,40
-					visible	1
-					forecolor	1,1,1,1
-					text	"Item"
-					textscale	0.4
-					font	"fonts/lowpixel"
-				}
-			}
-		}
-	}
-	windowDef enemy_list_d
-	{
-		rect	0,360,256,120
-		visible	1
-		backcolor	0,0,0,1
-		bordersize	5
-		bordercolor	1,1,1,1
-		windowDef enemy1
-		{
-			rect	10,5,236,25
-			visible	1
-			forecolor	1,1,1,1
-			text	"Enemy 1"
-			textscale	0.4
-			font	"fonts/lowpixel"
-		}
-		windowDef enemy2
-		{
-			rect	10,30,236,25
-			visible	1
-			forecolor	1,1,1,1
-			text	"Enemy 1"
-			textscale	0.4
-			font	"fonts/lowpixel"
-		}
-		windowDef enemy3
-		{
-			rect	10,55,236,25
-			visible	1
-			forecolor	1,1,1,1
-			text	"Enemy 1"
-			textscale	0.4
-			font	"fonts/lowpixel"
-		}
-		windowDef enemy4
-		{
-			rect	10,80,236,25
-			visible	1
-			forecolor	1,1,1,1
-			text	"Enemy 1"
-			textscale	0.4
-			font	"fonts/lowpixel"
-		}
-	}
 	windowDef enemies_d
 	{
 		rect	10,10,236,340
@@ -309,72 +164,87 @@ windowDef Desktop
 			rect	10,10,98,93
 			visible	0
 			backcolor	0.501,0.501,0.501,1
-			
+
 			onNamedEvent check_health {
 				if ( "gui::ent1_hp" > 0) {
 					set "visible" "1";
 				}
 			}
+
+			onAction {
+				if ( "desktop::curr" == 1) {
+					//bordersize	5
+					//bordercolor	1,0.498,0,1
+					consoleCMD	"target ent1";
+					namedevent	"combat_controls::showOptionsMain";
+				}
+			}
+
 		}
 		windowDef ent2
 		{
 			rect	10,123,98,93
 			visible	0
 			backcolor	0.501,0.501,0.501,1
-			
+
 			onNamedEvent check_health {
 				if ( "gui::ent2_hp" > 0) {
 					set "visible" "1";
 				}
 			}
+
 		}
 		windowDef ent3
 		{
 			rect	10,236,98,93
 			visible	0
 			backcolor	0.501,0.501,0.501,1
-			
+
 			onNamedEvent check_health {
 				if ( "gui::ent3_hp" > 0) {
 					set "visible" "1";
 				}
 			}
+
 		}
 		windowDef ent4
 		{
 			rect	128,10,98,93
 			visible	0
 			backcolor	0.501,0.501,0.501,1
-			
+
 			onNamedEvent check_health {
 				if ( "gui::ent4_hp" > 0) {
 					set "visible" "1";
 				}
 			}
+
 		}
 		windowDef ent5
 		{
 			rect	128,123,98,93
 			visible	0
 			backcolor	0.501,0.501,0.501,1
-			
+
 			onNamedEvent check_health {
 				if ( "gui::ent5_hp" > 0) {
 					set "visible" "1";
 				}
 			}
+
 		}
 		windowDef ent6
 		{
 			rect	128,236,98,93
 			visible	0
 			backcolor	0.501,0.501,0.501,1
-			
+
 			onNamedEvent check_health {
 				if ( "gui::ent6_hp" > 0) {
 					set "visible" "1";
 				}
 			}
+
 		}
 	}
 	windowDef heroes_d
@@ -386,35 +256,220 @@ windowDef Desktop
 			rect	128,10,98,93
 			visible	1
 			backcolor	1,0,0,0.7
-			
+
 			onNamedEvent check_health {
 				if ( "gui::hero1_hp" <= 0) {
 					transition "backcolor_w" "0.7" "0.2" "250";
 				}
 			}
+
 		}
 		windowDef hero2
 		{
 			rect	128,123,98,93
 			visible	1
 			backcolor	1,1,1,0.7
-			
+
 			onNamedEvent check_health {
 				if ( "gui::hero2_hp" <= 0) {
 					transition "backcolor_w" "0.7" "0.2" "250";
 				}
 			}
+
 		}
 		windowDef hero3
 		{
 			rect	128,236,98,93
 			visible	1
 			backcolor	0,0,1,0.7
-			
+
 			onNamedEvent check_health {
 				if ( "gui::hero3_hp" <= 0) {
 					transition "backcolor_w" "0.7" "0.2" "250";
 				}
+			}
+
+		}
+	}
+	windowDef combat_controls
+	{
+		rect	0,360,640,120
+		visible	1
+
+		onNamedEvent showOptionsMain {
+			set "options_d::visible" "1";
+			set "enemy_list_d::visible" "1";
+			set "msg_d::visible" "0";
+			//namedevent "options_d::showMain"
+			set "main::visible" "1";
+			set "desktop::curr" "0";
+		}
+
+		onNamedEvent showMessage {
+			set "options_d::visible" "0";
+			set "enemy_list_d::visible" "0";
+			set "msg_d::visible" "1";
+		}
+
+		windowDef msg_d
+		{
+			rect	0,0,640,120
+			visible	1
+			backcolor	0,0,0,1
+			bordersize	5
+			bordercolor	1,1,1,1
+			windowDef msg_d_t
+			{
+				rect	10,10,620,100
+				visible	1
+				forecolor	1,1,1,1
+				text	"This is a message"
+				textscale	0.4
+				font	"fonts/lowpixel"
+			}
+		}
+		windowDef options_d
+		{
+			rect	256,0,384,120
+			visible	1
+			backcolor	0,0,0,1
+			bordersize	5
+			bordercolor	1,1,1,1
+
+			onNamedEvent hideMain {
+				set "main::visible" "0";
+			}
+
+			windowDef main
+			{
+				rect	0,0,384,120
+				visible	1
+				windowDef fight_b
+				{
+					rect	0,0,192,60
+					visible	1
+
+					onAction {
+						namedevent "combat_controls::showMessage";
+						//set "target_selector::visible" "1";
+						consoleCMD "attack";
+						set "desktop::curr" "1";
+					}
+
+					windowDef text
+					{
+						rect	10,10,172,40
+						visible	1
+						forecolor	1,1,1,1
+						text	"Fight"
+						textscale	0.4
+						font	"fonts/lowpixel"
+					}
+				}
+				windowDef magic_b
+				{
+					rect	0,60,192,60
+					visible	1
+
+					onAction {
+						namedevent "options_d::hideMain";
+						set "desktop::curr" "2";
+					}
+
+					windowDef text
+					{
+						rect	10,10,172,40
+						visible	1
+						forecolor	1,1,1,1
+						text	"Magic"
+						textscale	0.4
+						font	"fonts/lowpixel"
+					}
+				}
+				windowDef drink_b
+				{
+					rect	192,0,192,60
+					visible	1
+
+					onAction {
+						namedevent "options_d::hideMain";
+						set "desktop::curr" "3";
+					}
+
+					windowDef text
+					{
+						rect	10,10,172,40
+						visible	1
+						forecolor	1,1,1,1
+						text	"Drink"
+						textscale	0.4
+						font	"fonts/lowpixel"
+					}
+				}
+				windowDef item_b
+				{
+					rect	192,60,192,60
+					visible	1
+
+					onAction {
+						namedevent "options_d::hideMain";
+						set "desktop::curr" "4";
+					}
+
+					windowDef text
+					{
+						rect	10,10,172,40
+						visible	1
+						forecolor	1,1,1,1
+						text	"Item"
+						textscale	0.4
+						font	"fonts/lowpixel"
+					}
+				}
+			}
+		}
+		windowDef enemy_list_d
+		{
+			rect	0,0,256,120
+			visible	1
+			backcolor	0,0,0,1
+			bordersize	5
+			bordercolor	1,1,1,1
+			windowDef enemy1
+			{
+				rect	10,5,236,25
+				visible	1
+				forecolor	1,1,1,1
+				text	"Enemy 1"
+				textscale	0.4
+				font	"fonts/lowpixel"
+			}
+			windowDef enemy2
+			{
+				rect	10,30,236,25
+				visible	1
+				forecolor	1,1,1,1
+				text	"Enemy 1"
+				textscale	0.4
+				font	"fonts/lowpixel"
+			}
+			windowDef enemy3
+			{
+				rect	10,55,236,25
+				visible	1
+				forecolor	1,1,1,1
+				text	"Enemy 1"
+				textscale	0.4
+				font	"fonts/lowpixel"
+			}
+			windowDef enemy4
+			{
+				rect	10,80,236,25
+				visible	1
+				forecolor	1,1,1,1
+				text	"Enemy 1"
+				textscale	0.4
+				font	"fonts/lowpixel"
 			}
 		}
 	}

@@ -6,6 +6,8 @@
 #ifndef __GAME_PLAYER_H__
 #define __GAME_PLAYER_H__
 
+#include "CharacterFF.h"
+
 /*
 ===============================================================================
 
@@ -189,16 +191,6 @@ typedef enum {
 	IBS_ALREADY_HAVE = 2,
 	IBS_CANNOT_AFFORD = 3,
 } itemBuyStatus_t;
-
-// ========================================
-// Final Fantasy class types
-enum ClassType {
-	FIGHTER,
-	BL_MAGE,
-	WT_MAGE
-};
-//End of FF Class types
-//=========================================
 
 const int	ASYNC_PLAYER_TOURNEY_STATUS_BITS = idMath::BitsForInteger( PTS_NUM_STATES );
 
@@ -1166,14 +1158,15 @@ private:
 	
 public:
 	//=======================mod===============
-	int exp = 10;
-	int nextLvlExp;
-	ClassType type;
+	//int exp = 10;
+	//int nextLvlExp;
+	//ClassType type;
 	idUserInterface *		battleDisplay;
 	const char* battleDisplayName;
 	idUserInterface *		defaultHUD;
 	void StartBattle(idAI* target);
 	void changePlayerHUD(idUserInterface* hud, idAI* enemy);
+	CharacterFF heroes[3];
 	
  	CLASS_STATES_PROTOTYPE( idPlayer );
 	//======================end===============
@@ -1349,6 +1342,5 @@ ID_INLINE bool idPlayer::CanFire( void ) const {
 	return flagCanFire;
 }
 
-#endif /* !__GAME_PLAYER_H__ */
-
+#endif	/* !__GAME_PLAYER_H__ */
 // RAVEN END

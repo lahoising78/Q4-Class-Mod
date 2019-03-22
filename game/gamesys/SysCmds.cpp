@@ -3028,6 +3028,15 @@ void Cmd_changeHUD( const idCmdArgs &args )	{
 	player->hud = player->defaultHUD;
 
 }
+
+void Cmd_attack_ff(const idCmdArgs &args) {
+	gameLocal.battleManager.PrepareCommand("attack");
+}
+
+void Cmd_target_ff(const idCmdArgs &args) {
+	if (args.Argc() >= 2)
+		gameLocal.battleManager.AddCommand(args.Argv(1));
+}
 //======================end======================
 
 #ifndef _FINAL
@@ -3243,6 +3252,8 @@ void idGameLocal::InitConsoleCommands( void ) {
 	
 	//=============mod=============
 	cmdSystem->AddCommand( "changeHUD", Cmd_changeHUD, CMD_FL_GAME, "change the hud from battle display to hud");
+	cmdSystem->AddCommand( "attack", Cmd_attack_ff, CMD_FL_GAME, "Tell the battle manager that the player decided to attack");
+	cmdSystem->AddCommand("target", Cmd_target_ff, CMD_FL_GAME, "Tell the battle manager the intended target");
 	//=============end=============
 }
 
