@@ -70,6 +70,7 @@ void BattleManagerFF::StartBattle(idAI* enemy, idPlayer* player) {
 		state = P_SELECT;
 		currentHero = 0;
 		player->hud->SetStateInt("current_hero", currentHero);
+		player->hud->SetStateInt("next_state", 0);
 		player->changePlayerHUD(player->hud, enemy);
 	}
 	else {
@@ -102,7 +103,10 @@ void BattleManagerFF::AddCommand(const char* target) {
 
 	player->hud->SetStateInt("current_hero", currentHero);
 	gameLocal.Printf("The command is: %d will use %s on %s\n", cmd.GetInt("attacker"), cmd.GetString("command"), cmd.GetString("target"));
-	if ( !nextHero ) NextState();
+	if (!nextHero) {
+		player->hud->SetStateInt("current_hero", 10);
+		NextState();
+	}
 	//if (currentHero >= 3) NextState();
 }
 
@@ -153,12 +157,15 @@ void BattleManagerFF::PerformQueue(){
 
 		gameLocal.Printf("%s will use %s on %s\n", h->name, command, target->name);
 		if ( strcmp(command, "attack") == 0) {
-			h->Attack(target);
+			char* msg = h->Attack(target);
+			gameLocal.Printf("%s\n", msg);
+			messages.push(msg);
 		}
 	}
 
 	commandsQueue.clear();
-	NextState();
+	//NextState();
+	player->hud->SetStateInt("next_state", 2);
 }
 
 CharacterFF* BattleManagerFF::GetEnt(const char* ent) {

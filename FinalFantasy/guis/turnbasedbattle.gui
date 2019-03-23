@@ -178,12 +178,17 @@ windowDef Desktop
 					//bordercolor	1,0.498,0,1
 					consoleCMD	"target ent1";
 					resettime "ent1" "0";
-					namedevent	"combat_controls::showOptionsMain";
 				}
 			}
 			
 			onTime +50 {
-				namedevent	"heroes_d::move_heroes"
+				namedevent	"heroes_d::move_heroes";
+				if ( "gui::next_state" == 0 ){
+					namedevent	"combat_controls::showOptionsMain";
+				} else if ( "gui::next_state" == 2 ) {
+					namedevent	"combat_controls::showMessage";
+				}
+				
 			}
 
 		}

@@ -16,7 +16,7 @@ class CharacterFF {
 	public:
 		CharacterFF();
 		CharacterFF(const char* name, int maxhp, ClassType classType);
-		void Attack(CharacterFF* target);
+		char* Attack(CharacterFF* target);
 		int lv;
 		int exp;
 		int hp;

@@ -25,6 +25,7 @@ class BattleManagerFF {
 		idPlayer* player;
 		//CharacterFF h;
 		rvQueue<idDict, 6> commandsQueue;
+		rvQueue<char*, 9> messages;
 		idDict heroes;
 		idDict enemies;
 		idDict preparingCommand;
