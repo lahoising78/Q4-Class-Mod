@@ -3037,6 +3037,11 @@ void Cmd_target_ff(const idCmdArgs &args) {
 	if (args.Argc() >= 2)
 		gameLocal.battleManager.AddCommand(args.Argv(1));
 }
+
+void Cmd_load_msg_ff(const idCmdArgs &args) {
+	gameLocal.Printf("load next message function is being called\n");
+	gameLocal.battleManager.PerformQueue();
+}
 //======================end======================
 
 #ifndef _FINAL
@@ -3253,7 +3258,8 @@ void idGameLocal::InitConsoleCommands( void ) {
 	//=============mod=============
 	cmdSystem->AddCommand( "changeHUD", Cmd_changeHUD, CMD_FL_GAME, "change the hud from battle display to hud");
 	cmdSystem->AddCommand( "attack", Cmd_attack_ff, CMD_FL_GAME, "Tell the battle manager that the player decided to attack");
-	cmdSystem->AddCommand("target", Cmd_target_ff, CMD_FL_GAME, "Tell the battle manager the intended target");
+	cmdSystem->AddCommand( "target", Cmd_target_ff, CMD_FL_GAME, "Tell the battle manager the intended target");
+	cmdSystem->AddCommand( "load_message", Cmd_load_msg_ff, CMD_FL_GAME, "Load next message in battle manager" );
 	//=============end=============
 }
 

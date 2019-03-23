@@ -19,11 +19,12 @@ CharacterFF::CharacterFF(const char* name, int maxhp, ClassType classType){
 	atk = 3; //temporary default value
 }
 
-char* CharacterFF::Attack(CharacterFF* target) {
+const char* CharacterFF::Attack(CharacterFF* target) {
 	int dmg = atk;
 	target->hp -= dmg;
 	char* msg;
 	idStr builder;
 	builder.snPrintf(msg, 50, "%s dealt %d damage to %s", name, dmg, target->name);
-	return msg;
+	const char* ret = msg;
+	return ret;
 }

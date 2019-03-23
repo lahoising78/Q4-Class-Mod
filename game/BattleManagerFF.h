@@ -18,6 +18,7 @@ class BattleManagerFF {
 		void AddCommand(const char* target);
 		void NextState();
 		void PerformQueue();
+		void LoadNextMessage();
 		CharacterFF* GetEnt(const char* ent);
 		
 		BattleStates state;
@@ -25,7 +26,7 @@ class BattleManagerFF {
 		idPlayer* player;
 		//CharacterFF h;
 		rvQueue<idDict, 6> commandsQueue;
-		rvQueue<char*, 9> messages;
+		//rvQueue<const char*, 9> messages;
 		idDict heroes;
 		idDict enemies;
 		idDict preparingCommand;

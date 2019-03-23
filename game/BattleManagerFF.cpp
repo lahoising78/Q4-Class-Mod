@@ -136,35 +136,39 @@ void BattleManagerFF::PerformQueue(){
 	
 	gameLocal.Printf("Performing queue\n");
 
-	while (!commandsQueue.empty()) {
-		idDict cmd = commandsQueue.first();
-		commandsQueue.pop();
-		const char* command = cmd.GetString("command");
-		CharacterFF* h = &player->heroes[cmd.GetInt("attacker")];
-		CharacterFF* target = GetEnt(cmd.GetString("target"));
-		if (!target) {
-			gameLocal.Printf("target not found\n");
-			continue;
-		}
-		if (!h) {
-			gameLocal.Printf("hero not found\n");
-			continue;
-		}
-		if (!command) {
-			gameLocal.Printf("command not found\n");
-			continue;
-		}
-
-		gameLocal.Printf("%s will use %s on %s\n", h->name, command, target->name);
-		if ( strcmp(command, "attack") == 0) {
-			char* msg = h->Attack(target);
-			gameLocal.Printf("%s\n", msg);
-			messages.push(msg);
-		}
+	if (commandsQueue.empty()) {
+		commandsQueue.clear();
+		player->hud->SetStateInt("next_state", 6);
+		NextState();
+		return;
+	}
+	
+	idDict cmd = commandsQueue.first();
+	commandsQueue.pop();
+	const char* command = cmd.GetString("command");
+	CharacterFF* h = &player->heroes[cmd.GetInt("attacker")];
+	CharacterFF* target = GetEnt(cmd.GetString("target"));
+	if (!target) {
+		gameLocal.Printf("target not found\n");
+		return; //continue;
+	}
+	if (!h) {
+		gameLocal.Printf("hero not found\n");
+		return;	//continue;
+	}
+	if (!command) {
+		gameLocal.Printf("command not found\n");
+		return;	// continue;
 	}
 
-	commandsQueue.clear();
-	//NextState();
+	const char* msg;
+	gameLocal.Printf("%s will use %s on %s\n", h->name, command, target->name);
+	if ( strcmp(command, "attack") == 0) {
+		msg = h->Attack(target);
+		gameLocal.Printf("%s\n", msg);
+	}
+	
+	player->hud->SetStateString("message", msg);
 	player->hud->SetStateInt("next_state", 2);
 }
 
@@ -188,3 +192,15 @@ CharacterFF* BattleManagerFF::GetEnt(const char* ent) {
 
 	return NULL;
 }
+
+/* void BattleManagerFF::LoadNextMessage(){
+	gameLocal.Printf("Loading the next message\n");
+
+	if (messages.empty()) {
+		return;
+	}
+	const char* msg = messages.first();
+	
+	player->hud->SetStateString("message", msg);
+	messages.pop();
+} */
