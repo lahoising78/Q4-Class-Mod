@@ -68,16 +68,15 @@ void BattleManagerFF::StartBattle(idAI* enemy, idPlayer* player) {
 }
 
 void BattleManagerFF::PopulateEnemies(){
+	srand(time(0));
 	int num = rand() % 6 + 1;
-	for (int i = 0; i < num; i++) {
+	for (int i = 1; i <= num; i++) {
 		CharacterFF c = CharacterFF();
 		enemies.Append( c );
 		char* hp;
 		char* name;
 		idStr::snPrintf(hp, 8, "ent%d_hp", i);
-		gameLocal.Printf("%s\n", hp);
 		idStr::snPrintf(name, 10, "ent%d_name", i);
-		gameLocal.Printf("%s\n", name);
 		player->battleDisplay->SetStateInt(hp, c.hp);
 		player->battleDisplay->SetStateString(name, c.name);
 	}
@@ -124,6 +123,7 @@ void BattleManagerFF::NextState(){
 			break;
 		case P_ATTACK:
 			state = E_SELECT;
+			EnemiesSelect();
 			break;
 		case E_SELECT:
 			state = E_ATTACK;
@@ -151,7 +151,11 @@ void BattleManagerFF::PerformQueue(){
 	idDict cmd = commandsQueue.first();
 	commandsQueue.pop();
 	const char* command = cmd.GetString("command");
-	CharacterFF* h = &player->heroes[cmd.GetInt("attacker")];
+	CharacterFF* h;
+	if (state == P_ATTACK)
+		h = &player->heroes[cmd.GetInt("attacker")];
+	else
+		h = &enemies[cmd.GetInt("attacker")];
 	CharacterFF* target = GetEnt(cmd.GetString("target"));
 	if (!target) {
 		gameLocal.Printf("target not found\n");
@@ -198,14 +202,17 @@ CharacterFF* BattleManagerFF::GetEnt(const char* ent) {
 	return NULL;
 }
 
-/* void BattleManagerFF::LoadNextMessage(){
-	gameLocal.Printf("Loading the next message\n");
-
-	if (messages.empty()) {
-		return;
+void BattleManagerFF::EnemiesSelect(){
+	gameLocal.Printf("Enemies selecting\n");
+	for (int i = 0; i < enemies.Num(); i++) {
+		idDict cmd;
+		cmd.Set("command", "attack");
+		cmd.SetInt("attacker", i);
+		int t = rand() % 3 + 1;
+		char* target;
+		idStr::snPrintf(target, 7, "hero%d", t);
+		cmd.Set("target", target);
+		commandsQueue.push(cmd);
 	}
-	const char* msg = messages.first();
-	
-	player->hud->SetStateString("message", msg);
-	messages.pop();
-} */
+	NextState();
+}

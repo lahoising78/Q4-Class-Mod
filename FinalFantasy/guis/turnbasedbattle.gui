@@ -165,6 +165,16 @@ windowDef Desktop
 		rect	10,10,236,340
 		visible	1
 		backcolor	0,0,0,0
+		
+		onTime +50 {
+			namedevent	"heroes_d::move_heroes";
+			if ( "gui::next_state" == 0 ){
+				namedevent	"combat_controls::showOptionsMain";
+			} else if ( "gui::next_state" == 2 ) {
+				namedevent	"combat_controls::showMessage";
+			}		
+		}
+		
 		windowDef ent1
 		{
 			rect	10,10,98,93
@@ -179,23 +189,11 @@ windowDef Desktop
 
 			onAction {
 				if ( "desktop::curr" == 1) {
-					//bordersize	5
-					//bordercolor	1,0.498,0,1
 					consoleCMD	"target ent1";
-					resettime "ent1" "0";
+					resettime "enemies_d" "0";
 				}
 			}
 			
-			onTime +50 {
-				namedevent	"heroes_d::move_heroes";
-				if ( "gui::next_state" == 0 ){
-					namedevent	"combat_controls::showOptionsMain";
-				} else if ( "gui::next_state" == 2 ) {
-					namedevent	"combat_controls::showMessage";
-				}
-				
-			}
-
 		}
 		windowDef ent2
 		{
@@ -206,6 +204,13 @@ windowDef Desktop
 			onNamedEvent check_health {
 				if ( "gui::ent2_hp" > 0) {
 					set "visible" "1";
+				}
+			}
+			
+			onAction {
+				if ( "desktop::curr" == 1) {
+					consoleCMD	"target ent2";
+					resettime "enemies_d" "0";
 				}
 			}
 
@@ -221,6 +226,13 @@ windowDef Desktop
 					set "visible" "1";
 				}
 			}
+			
+			onAction {
+				if ( "desktop::curr" == 1) {
+					consoleCMD	"target ent3";
+					resettime "enemies_d" "0";
+				}
+			}
 
 		}
 		windowDef ent4
@@ -232,6 +244,13 @@ windowDef Desktop
 			onNamedEvent check_health {
 				if ( "gui::ent4_hp" > 0) {
 					set "visible" "1";
+				}
+			}
+			
+			onAction {
+				if ( "desktop::curr" == 1) {
+					consoleCMD	"target ent4";
+					resettime "enemies_d" "0";
 				}
 			}
 
@@ -247,6 +266,13 @@ windowDef Desktop
 					set "visible" "1";
 				}
 			}
+			
+			onAction {
+				if ( "desktop::curr" == 1) {
+					consoleCMD	"target ent5";
+					resettime "enemies_d" "0";
+				}
+			}
 
 		}
 		windowDef ent6
@@ -258,6 +284,13 @@ windowDef Desktop
 			onNamedEvent check_health {
 				if ( "gui::ent6_hp" > 0) {
 					set "visible" "1";
+				}
+			}
+			
+			onAction {
+				if ( "desktop::curr" == 1) {
+					consoleCMD	"target ent6";
+					resettime "enemies_d" "0";
 				}
 			}
 

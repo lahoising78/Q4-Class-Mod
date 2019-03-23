@@ -20,6 +20,7 @@ class BattleManagerFF {
 		void NextState();
 		void PerformQueue();
 		void LoadNextMessage();
+		void EnemiesSelect();
 		CharacterFF* GetEnt(const char* ent);
 		
 		BattleStates state;
