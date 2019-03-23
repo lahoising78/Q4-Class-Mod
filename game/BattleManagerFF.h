@@ -14,6 +14,7 @@ class BattleManagerFF {
 	public:
 		void SendBattleRequest(idActor* attacker, idActor* target);
 		void StartBattle(idAI* enemy, idPlayer* player);
+		void PopulateEnemies();
 		void PrepareCommand(const char* command);
 		void AddCommand(const char* target);
 		void NextState();
@@ -24,16 +25,13 @@ class BattleManagerFF {
 		BattleStates state;
 		idAI* enemy;
 		idPlayer* player;
-		//CharacterFF h;
 		rvQueue<idDict, 6> commandsQueue;
-		//rvQueue<const char*, 9> messages;
-		idDict heroes;
-		idDict enemies;
+		//idDict heroes;
+		//idDict enemies;
 		idDict preparingCommand;
 		int currentHero = 0;
 
-		//to be deleted
-		CharacterFF c3;
+		idList<CharacterFF> enemies;
 };
 
 #endif	/* Battle Manager */

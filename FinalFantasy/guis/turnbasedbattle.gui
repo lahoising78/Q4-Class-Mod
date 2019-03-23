@@ -11,6 +11,11 @@ windowDef Desktop
 		namedevent "hero2::check_health";
 		namedevent "hero3::check_health";
 		namedevent "ent1::check_health";
+		namedevent "ent2::check_health";
+		namedevent "ent3::check_health";
+		namedevent "ent4::check_health";
+		namedevent "ent5::check_health";
+		namedevent "ent6::check_health";
 		
 		namedevent "heroes_d::move_heroes";
 		namedevent "command_controls::showOptionsMain";
@@ -363,6 +368,8 @@ windowDef Desktop
 			onTime +50 {
 				if ( "gui::next_state" == 6) {
 					set "msg_d_t::visible" "0";
+				} else {
+					set "msg_d_t::visible" "1";
 				}
 			}
 		}

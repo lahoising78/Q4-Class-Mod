@@ -29,10 +29,6 @@ void BattleManagerFF::SendBattleRequest(idActor* attacker, idActor* target) {
 void BattleManagerFF::StartBattle(idAI* enemy, idPlayer* player) {
 	this->enemy = enemy;
 	this->player = player;
-	//gui declarations
-	//idUserInterface * hud = player->hud;
-	//idUserInterface * defaultHUD = player->defaultHUD;
-	//idUserInterface * battleDisplay = player->battleDisplay;
 	
 	//creating characters
 	player->heroes[0] = CharacterFF("luis", 100, FIGHTER);
@@ -40,12 +36,8 @@ void BattleManagerFF::StartBattle(idAI* enemy, idPlayer* player) {
 	player->heroes[2] = CharacterFF("hoising", 90, FIGHTER);
 	CharacterFF& c1 = player->heroes[0];
 	CharacterFF& c2 = player->heroes[1];
-	c3 = CharacterFF("chiang", 75, BL_MAGE);
 	CharacterFF& c4 = player->heroes[2];
-
-	//heroes[0] = c1;
-	//heroes[1] = c2;
-	//enemies[0] = c3;
+	//c3 = CharacterFF("chiang", 75, BL_MAGE);
 
 	//setting vars to talk to gui file
 	player->battleDisplay->SetStateInt("hero1_hp", c1.hp);
@@ -54,18 +46,15 @@ void BattleManagerFF::StartBattle(idAI* enemy, idPlayer* player) {
 	player->battleDisplay->SetStateString("hero2_name", c2.name);
 	player->battleDisplay->SetStateInt("hero3_hp", c4.hp);
 	player->battleDisplay->SetStateString("hero3_name", c4.name);
-	player->battleDisplay->SetStateInt("ent1_hp", c3.hp);
-	player->battleDisplay->SetStateString("ent1_name", c3.name);
+	//player->battleDisplay->SetStateInt("ent1_hp", c3.hp);
+	//player->battleDisplay->SetStateString("ent1_name", c3.name);
+	PopulateEnemies();
 	
 	//change hud to battle display and save default hud into a variable
 	player->defaultHUD = player->hud;
 	player->hud = player->battleDisplay;
 	player->battleDisplayName = player->hud->Name();
 	
-	//player->defaultHUD = player->hud;
-	//player->hud = player->battleDisplay;
-	//gameLocal.Printf("raplacing %s with %s\nJust checking: %s\n", defaultHUD->Name(), hud->Name(), battleDisplay->Name());
-	//battleDisplayName = player->hud->Name();
 	if (player->hud) {
 		state = P_SELECT;
 		currentHero = 0;
@@ -75,6 +64,22 @@ void BattleManagerFF::StartBattle(idAI* enemy, idPlayer* player) {
 	}
 	else {
 		gameLocal.Printf("The battle display was not found\n");
+	}
+}
+
+void BattleManagerFF::PopulateEnemies(){
+	int num = rand() % 6 + 1;
+	for (int i = 0; i < num; i++) {
+		CharacterFF c = CharacterFF();
+		enemies.Append( c );
+		char* hp;
+		char* name;
+		idStr::snPrintf(hp, 8, "ent%d_hp", i);
+		gameLocal.Printf("%s\n", hp);
+		idStr::snPrintf(name, 10, "ent%d_name", i);
+		gameLocal.Printf("%s\n", name);
+		player->battleDisplay->SetStateInt(hp, c.hp);
+		player->battleDisplay->SetStateString(name, c.name);
 	}
 }
 
@@ -182,13 +187,13 @@ CharacterFF* BattleManagerFF::GetEnt(const char* ent) {
 
 	if (strcmp(ent, "ent1") == 0) { 
 		//gameLocal.Printf("returning c3 address %d\n", &c3);
-		return &c3; 
+		return &enemies[0]; 
 	}
-	//if (ent == "ent1") return &player->heroes[0];
-	//if (ent == "ent1") return &player->heroes[0];
-	//if (ent == "ent1") return &player->heroes[0];
-	//if (ent == "ent1") return &player->heroes[0];
-	//if (ent == "ent1") return &player->heroes[0];
+	if (strcmp(ent, "ent2") == 0) return &enemies[1];
+	if (strcmp(ent, "ent3") == 0) return &enemies[2];
+	if (strcmp(ent, "ent4") == 0) return &enemies[3];
+	if (strcmp(ent, "ent5") == 0) return &enemies[4];
+	if (strcmp(ent, "ent6") == 0) return &enemies[5];
 
 	return NULL;
 }
