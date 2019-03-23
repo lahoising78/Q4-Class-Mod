@@ -352,6 +352,19 @@ windowDef Desktop
 				textscale	0.4
 				font	"fonts/lowpixel"
 			}
+			
+			onAction {
+				//if ( "gui::next_state" == 2 ){
+				consoleCMD "load_message a";
+				resettime "msg_d" "0";
+				//} else 
+			}
+			
+			onTime +50 {
+				if ( "gui::next_state" == 6) {
+					set "msg_d_t::visible" "0";
+				}
+			}
 		}
 		windowDef options_d
 		{
