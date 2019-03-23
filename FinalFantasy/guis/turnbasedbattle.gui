@@ -363,7 +363,6 @@ windowDef Desktop
 			set "options_d::visible" "1";
 			set "enemy_list_d::visible" "1";
 			set "msg_d::visible" "0";
-			//namedevent "options_d::showMain"
 			set "main::visible" "1";
 			set "desktop::curr" "0";
 		}
@@ -392,10 +391,8 @@ windowDef Desktop
 			}
 			
 			onAction {
-				//if ( "gui::next_state" == 2 ){
 				consoleCMD "load_message a";
 				resettime "msg_d" "0";
-				//} else 
 			}
 			
 			onTime +50 {
@@ -403,6 +400,9 @@ windowDef Desktop
 					set "msg_d_t::visible" "0";
 				} else {
 					set "msg_d_t::visible" "1";
+					if ( "gui::next_state" == 0 ) {
+						namedevent "combat_controls::showOptionsMain";
+					}
 				}
 			}
 		}

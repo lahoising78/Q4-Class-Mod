@@ -14,8 +14,7 @@ enum ClassType {
 
 class CharacterFF {
 	public:
-		CharacterFF();
-		CharacterFF(const char* name, int maxhp, ClassType classType);
+		CharacterFF(const char* name = "default name", int maxhp = 10, ClassType classType = FIGHTER);
 		const char* Attack(CharacterFF* target);
 		int lv;
 		int exp;
