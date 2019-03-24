@@ -140,10 +140,10 @@ void CharacterFF::LevelUpFighter(){
 	}
 
 	hitp += 3;
-	gameLocal.Printf("+1 HIT%!\n");
+	gameLocal.Printf("+3 HIT%!\n");
 
 	md += 3;
-	gameLocal.Printf("+1 MD!\n");
+	gameLocal.Printf("+3 MD!\n");
 }
 
 void CharacterFF::LevelUpWt(){
@@ -156,6 +156,47 @@ void CharacterFF::LevelUpWt(){
 		maxhp += 23;
 	}
 	gameLocal.Printf("+%d HP!\n", maxhp - oldmaxhp);
+
+	int randstr = rand() % 100;
+	if (((lv > 4) && (lv % 3 == 1)) || 
+		(lv <= 4) || (randstr < 25)){
+		str++;
+		gameLocal.Printf("+1 STR!\n");
+	}
+
+	int randagi = rand() % 100;
+	if (((lv > 5) && (lv % 3 == 2)) || (randagi < 25) ||
+		(lv == 2) || (lv == 3) || (lv == 5)){
+		agi++;
+		gameLocal.Printf("+1 AGI!\n");
+	}
+
+	int randintel = rand() % 100;
+	if ((lv < 31) || (randintel < 25)) {
+		intel++;
+		gameLocal.Printf("+1 INT!\n");
+	}
+
+	int randvit = rand() % 100;
+	if (((lv > 21) && (lv % 3 == 0)) ||
+		((lv <= 21) && (lv % 2 == 0)) || (randvit < 25)){
+		vit++;
+		gameLocal.Printf("+1 VIT!\n");
+	}
+
+	int randlck = rand() % 100;
+	if (((lv > 20) && (lv % 3 == 2)) ||
+		((lv <= 20) && (lv % 2 == 0)) ||
+		(randlck < 25)){
+		lck++;
+		gameLocal.Printf("+1 LCK!\n");
+	}
+
+	hitp += 1;
+	gameLocal.Printf("+1 HIT%!\n");
+
+	md += 2;
+	gameLocal.Printf("+2 MD!\n");
 }
 
 void CharacterFF::LevelUpBl(){
