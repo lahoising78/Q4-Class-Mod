@@ -88,13 +88,10 @@ void BattleManagerFF::PrepareCommand(const char* command){
 }
 
 void BattleManagerFF::AddCommand(const char* target) {
-	//if (state == P_WON) return;
-
 	preparingCommand.Set("target", target);
 	preparingCommand.SetInt("attacker", currentHero);
 	idDict cmd = preparingCommand;
 	commandsQueue.push(cmd);
-	//preparingCommand.Clear();
 
 	//get the next character
 	//if the next character is not alive, skip it
@@ -112,7 +109,6 @@ void BattleManagerFF::AddCommand(const char* target) {
 		player->hud->SetStateInt("current_hero", 10);
 		NextState();
 	}
-	//if (currentHero >= 3) NextState();
 }
 
 void BattleManagerFF::NextState(){
@@ -149,17 +145,22 @@ void BattleManagerFF::NextState(){
 			state = P_SELECT;
 			break;
 	}
-	//gameLocal.Printf("%d\n", state);
 }
 
 void BattleManagerFF::PerformQueue(){
 	
 	gameLocal.Printf("Performing queue\n");
 
-	if (state == P_WON) return;
+	if (state == P_WON) {
+		if (!messages.empty()) {
+			const char* msg = messages.first();
+			messages.pop();
+			player->hud->SetStateString("message", msg);
+		}
+		return;
+	}
 
 	if (commandsQueue.empty()) {
-		//commandsQueue.clear();
 		NextState();
 		return;
 	}
@@ -291,7 +292,7 @@ void BattleManagerFF::Victory(){
 	for (int i = 0; i < 3; i++){
 		CharacterFF &h = player->heroes[i];
 		if (h.hp > 0){
-			h.GainExperience(num);
+			h.GainExperience(num, messages);
 		}
 	}
 }

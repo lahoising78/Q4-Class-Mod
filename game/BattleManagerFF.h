@@ -30,12 +30,16 @@ class BattleManagerFF {
 		idAI* enemy;
 		idPlayer* player;
 		rvQueue<idDict, 6> commandsQueue;
+		//rvQueue<const char*, 20> messages;
+		rvQueue<idStr, 20> messages;
+
 		//idDict heroes;
 		//idDict enemies;
 		idDict preparingCommand;
 		int currentHero = 0;
 
 		idList<CharacterFF> enemies;
+		//int nEnemies;
 };
 
 #endif	/* Battle Manager */

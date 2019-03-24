@@ -73,31 +73,43 @@ const char* CharacterFF::Attack(CharacterFF* target) {
 	return msg;
 }
 
-void CharacterFF::GainExperience(int n) {
+//void CharacterFF::GainExperience(int n, rvQueue<const char*, 20> &messages) {
+void CharacterFF::GainExperience(int n, rvQueue<idStr, 20> &messages) {
+
 	int gainedExp = n * 35;
 	gameLocal.Printf("gaining %d experience\n", gainedExp);
 	exp += gainedExp;
 
 	if (exp > (40 << (lv - 1))){
+		//idStr msg = name;
 		lv++;
 		gameLocal.Printf("Leveled up to lvl %d!!\n", lv);
+		char msg[50];
+		idStr::snPrintf(msg, sizeof(msg), "%s leveled up to lvl %d", name, lv);
+		//msg += " leveld up to lvl ";
+		//msg += lv;
+		messages.push(msg);
 
 		switch (classType)
 		{
 			case FIGHTER:
-				LevelUpFighter();
+				LevelUpFighter(messages);
 				break;
 			case WT_MAGE:
-				LevelUpWt();
+				LevelUpWt(messages);
 				break;
 			case BL_MAGE:
-				LevelUpBl();
+				LevelUpBl(messages);
 				break;
 		}
 	}
 }
 
-void CharacterFF::LevelUpFighter(){
+//void CharacterFF::LevelUpFighter(rvQueue<const char*, 20> &messages){
+void CharacterFF::LevelUpFighter(rvQueue<idStr, 20> &messages){
+
+	char msg[50];
+	
 	int oldmaxhp = maxhp;
 	maxhp += vit / 4;
 	if (((lv > 23) && (lv % 3 == 2)) || 
@@ -106,9 +118,13 @@ void CharacterFF::LevelUpFighter(){
 		maxhp += 23;
 	}
 	gameLocal.Printf("+%d HP!\n", maxhp - oldmaxhp);
+	idStr::snPrintf(msg, sizeof(msg), "%s MAX HP: %d", name, maxhp );
+	messages.push(msg);
 
 	str++;
 	gameLocal.Printf("+1 STR!\n");
+	idStr::snPrintf(msg, sizeof(msg), "%s STR UP!", name);
+	messages.push(msg);
 
 	int randagi = rand() % 100;
 	if ( ((lv > 29) && (lv % 2 == 1)) || 
@@ -116,12 +132,16 @@ void CharacterFF::LevelUpFighter(){
 		 (lv <= 20) || (randagi < 25) ){
 		agi++;
 		gameLocal.Printf("+1 AGI!\n");
+		idStr::snPrintf(msg, sizeof(msg), "%s AGI UP!", name);
+		messages.push(msg);
 	}
 
 	int randintel = rand() % 100;
 	if (((lv < 44) && (lv % 3 == 1)) || (randintel < 25)) {
 		intel++;
 		gameLocal.Printf("+1 INT!\n");
+		idStr::snPrintf(msg, sizeof(msg), "%s INT UP!", name);
+		messages.push(msg);
 	}
 
 	int randvit = rand() % 100;
@@ -129,6 +149,8 @@ void CharacterFF::LevelUpFighter(){
 		((lv <= 30) && (lv % 3 != 1)) || (randvit < 25)){
 		vit++;
 		gameLocal.Printf("+1 VIT!\n");
+		idStr::snPrintf(msg, sizeof(msg), "%s VIT UP!", name);
+		messages.push(msg);
 	}
 
 	int randlck = rand() % 100;
@@ -137,16 +159,25 @@ void CharacterFF::LevelUpFighter(){
 		(randlck < 25)){
 		lck++;
 		gameLocal.Printf("+1 LCK!\n");
+		idStr::snPrintf(msg, sizeof(msg), "%s LCK UP!", name);
+		messages.push(msg);
 	}
 
 	hitp += 3;
 	gameLocal.Printf("+3 HIT%!\n");
+	idStr::snPrintf(msg, sizeof(msg), "%s HITP +3!", name);
+	messages.push(msg);
 
 	md += 3;
 	gameLocal.Printf("+3 MD!\n");
+	idStr::snPrintf(msg, sizeof(msg), "%s MD +3!", name);
+	messages.push(msg);
 }
 
-void CharacterFF::LevelUpWt(){
+//void CharacterFF::LevelUpWt(rvQueue<const char*, 20> &messages){
+void CharacterFF::LevelUpWt(rvQueue<idStr, 20> &messages){
+	char msg[50];
+
 	int oldmaxhp = maxhp;
 	maxhp += vit / 4;
 	if ( ( (lv > 32) && ( lv % 5 == 2) ) ||
@@ -156,12 +187,16 @@ void CharacterFF::LevelUpWt(){
 		maxhp += 23;
 	}
 	gameLocal.Printf("+%d HP!\n", maxhp - oldmaxhp);
+	idStr::snPrintf(msg, sizeof(msg), "%s MAX HP: %d", name, maxhp);
+	messages.push(msg);
 
 	int randstr = rand() % 100;
 	if (((lv > 4) && (lv % 3 == 1)) || 
 		(lv <= 4) || (randstr < 25)){
 		str++;
 		gameLocal.Printf("+1 STR!\n");
+		idStr::snPrintf(msg, sizeof(msg), "%s STR UP!", name);
+		messages.push(msg);
 	}
 
 	int randagi = rand() % 100;
@@ -169,12 +204,16 @@ void CharacterFF::LevelUpWt(){
 		(lv == 2) || (lv == 3) || (lv == 5)){
 		agi++;
 		gameLocal.Printf("+1 AGI!\n");
+		idStr::snPrintf(msg, sizeof(msg), "%s AGI UP!", name);
+		messages.push(msg);
 	}
 
 	int randintel = rand() % 100;
 	if ((lv < 31) || (randintel < 25)) {
 		intel++;
 		gameLocal.Printf("+1 INT!\n");
+		idStr::snPrintf(msg, sizeof(msg), "%s INT UP!", name);
+		messages.push(msg);
 	}
 
 	int randvit = rand() % 100;
@@ -182,6 +221,8 @@ void CharacterFF::LevelUpWt(){
 		((lv <= 21) && (lv % 2 == 0)) || (randvit < 25)){
 		vit++;
 		gameLocal.Printf("+1 VIT!\n");
+		idStr::snPrintf(msg, sizeof(msg), "%s VIT UP!", name);
+		messages.push(msg);
 	}
 
 	int randlck = rand() % 100;
@@ -190,16 +231,25 @@ void CharacterFF::LevelUpWt(){
 		(randlck < 25)){
 		lck++;
 		gameLocal.Printf("+1 LCK!\n");
+		idStr::snPrintf(msg, sizeof(msg), "%s LCK UP!", name);
+		messages.push(msg);
 	}
 
 	hitp += 1;
 	gameLocal.Printf("+1 HIT%!\n");
+	idStr::snPrintf(msg, sizeof(msg), "%s HITP +1!", name);
+	messages.push(msg);
 
 	md += 2;
 	gameLocal.Printf("+2 MD!\n");
+	idStr::snPrintf(msg, sizeof(msg), "%s MD +2!", name);
+	messages.push(msg);
 }
 
-void CharacterFF::LevelUpBl(){
+//void CharacterFF::LevelUpBl(rvQueue<const char*, 20> &messages){
+void CharacterFF::LevelUpBl(rvQueue<idStr, 20> &messages){
+	char msg[50];
+
 	int oldmaxhp = maxhp;
 	maxhp += vit / 4;
 	if ((lv == 41) || (lv == 35) || (lv == 30) || (lv == 14) || (lv == 11) ||
@@ -208,27 +258,37 @@ void CharacterFF::LevelUpBl(){
 		maxhp += 23;
 	}
 	gameLocal.Printf("+%d HP!\n", maxhp - oldmaxhp);
+	idStr::snPrintf(msg, sizeof(msg), "%s MAX HP: %d", name, maxhp);
+	messages.push(msg);
 
 	int randstr = rand() % 100;
 	if (((lv < 41) && (lv % 3 == 1)) || (randstr < 25)){
 		str++;
 		gameLocal.Printf("+1 STR!\n");
+		idStr::snPrintf(msg, sizeof(msg), "%s STR UP!", name);
+		messages.push(msg);
 	}
 
 	int randagi = rand() % 100;
 	if (((lv < 40) && (lv % 3 == 0)) || (randagi < 25)){
 		agi++;
 		gameLocal.Printf("+1 AGI!\n");
+		idStr::snPrintf(msg, sizeof(msg), "%s AGI UP!", name);
+		messages.push(msg);
 	}
 
 	intel++;
 	gameLocal.Printf("+1 INT!\n");
+	idStr::snPrintf(msg, sizeof(msg), "%s INT UP!", name);
+	messages.push(msg);
 
 	int randvit = rand() % 100;
 	if (((lv > 12) && (lv % 4 == 0)) ||
 		((lv <= 9) && (lv % 2 == 1)) || (randvit < 25)){
 		vit++;
 		gameLocal.Printf("+1 VIT!\n");
+		idStr::snPrintf(msg, sizeof(msg), "%s VIT UP!", name);
+		messages.push(msg);
 	}
 
 	int randlck = rand() % 100;
@@ -237,11 +297,17 @@ void CharacterFF::LevelUpBl(){
 		(randlck < 25)){
 		lck++;
 		gameLocal.Printf("+1 LCK!\n");
+		idStr::snPrintf(msg, sizeof(msg), "%s LCK UP!", name);
+		messages.push(msg);
 	}
 
 	hitp += 1;
 	gameLocal.Printf("+1 HIT%!\n");
+	idStr::snPrintf(msg, sizeof(msg), "%s HITP +1!", name);
+	messages.push(msg);
 
 	md += 2;
 	gameLocal.Printf("+2 MD!\n");
+	idStr::snPrintf(msg, sizeof(msg), "%s MD +2!", name);
+	messages.push(msg);
 }

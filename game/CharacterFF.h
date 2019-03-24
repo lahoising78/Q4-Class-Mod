@@ -16,13 +16,17 @@ class CharacterFF {
 	public:
 		CharacterFF(const char* name = "default name", int maxhp = 10, ClassType classType = FIGHTER);
 		void CreateFighter();
-		void LevelUpFighter();
+		//void LevelUpFighter(rvQueue<const char*, 20> &messages);
+		void LevelUpFighter(rvQueue<idStr, 20> &messages);
 		void CreateWtMage();
-		void LevelUpWt();
+		//void LevelUpWt(rvQueue<const char*, 20> &messages);
+		void LevelUpWt(rvQueue<idStr, 20> &messages);
 		void CreateBlMage();
-		void LevelUpBl();
+		//void LevelUpBl(rvQueue<const char*, 20> &messages);
+		void LevelUpBl(rvQueue<idStr, 20> &messages);
 		const char* Attack(CharacterFF* target);
-		void GainExperience(int n);
+		//void GainExperience(int n, rvQueue<const char*, 20> &messages);
+		void GainExperience(int n, rvQueue<idStr, 20> &messages);
 		int lv;
 		int exp;
 		int hp;
