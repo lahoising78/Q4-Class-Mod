@@ -101,7 +101,7 @@ void CharacterFF::LevelUpFighter(){
 	int oldmaxhp = maxhp;
 	maxhp += vit / 4;
 	if (((lv > 23) && (lv % 3 == 2)) || 
-		((lv > 11) && (lv % 3 != 0)) || 
+		((lv <= 23) && (lv > 11) && (lv % 3 != 0)) || 
 		( lv <= 11)) {
 		maxhp += 23;
 	}
@@ -112,7 +112,7 @@ void CharacterFF::LevelUpFighter(){
 
 	int randagi = rand() % 100;
 	if ( ((lv > 29) && (lv % 2 == 1)) || 
-		 ((lv > 20) && (lv % 3 != 0)) ||
+		 ((lv <= 29) && (lv > 20) && (lv % 3 != 0)) ||
 		 (lv <= 20) || (randagi < 25) ){
 		agi++;
 		gameLocal.Printf("+1 AGI!\n");
@@ -150,9 +150,9 @@ void CharacterFF::LevelUpWt(){
 	int oldmaxhp = maxhp;
 	maxhp += vit / 4;
 	if ( ( (lv > 32) && ( lv % 5 == 2) ) ||
-		 ( (lv > 20) && ( lv % 4 == 0) ) ||
-		 ( (lv > 14) && ( lv % 3 == 2) ) ||
-		 ( (lv <=14) && ( lv % 2 == 0) ) ){
+		 ( (lv <= 32) && (lv > 20) && ( lv % 4 == 0) ) ||
+		 ( (lv <= 20) && (lv > 14) && ( lv % 3 == 2) ) ||
+		 ( (lv <= 14) && ( lv % 2 == 0) ) ){
 		maxhp += 23;
 	}
 	gameLocal.Printf("+%d HP!\n", maxhp - oldmaxhp);
@@ -203,9 +203,45 @@ void CharacterFF::LevelUpBl(){
 	int oldmaxhp = maxhp;
 	maxhp += vit / 4;
 	if ((lv == 41) || (lv == 35) || (lv == 30) || (lv == 14) || (lv == 11) ||
-		((lv > 14) && (lv % 4 == 2)) ||
+		((lv <= 30) && (lv > 14) && (lv % 4 == 2)) ||
 		((lv <= 8) && (lv % 2 == 0)) ){
 		maxhp += 23;
 	}
 	gameLocal.Printf("+%d HP!\n", maxhp - oldmaxhp);
+
+	int randstr = rand() % 100;
+	if (((lv < 41) && (lv % 3 == 1)) || (randstr < 25)){
+		str++;
+		gameLocal.Printf("+1 STR!\n");
+	}
+
+	int randagi = rand() % 100;
+	if (((lv < 40) && (lv % 3 == 0)) || (randagi < 25)){
+		agi++;
+		gameLocal.Printf("+1 AGI!\n");
+	}
+
+	intel++;
+	gameLocal.Printf("+1 INT!\n");
+
+	int randvit = rand() % 100;
+	if (((lv > 12) && (lv % 4 == 0)) ||
+		((lv <= 9) && (lv % 2 == 1)) || (randvit < 25)){
+		vit++;
+		gameLocal.Printf("+1 VIT!\n");
+	}
+
+	int randlck = rand() % 100;
+	if (((lv > 10) && (lv % 4 == 2)) ||
+		((lv <= 10) && (lv > 3) && (lv % 2 == 0)) ||
+		(randlck < 25)){
+		lck++;
+		gameLocal.Printf("+1 LCK!\n");
+	}
+
+	hitp += 1;
+	gameLocal.Printf("+1 HIT%!\n");
+
+	md += 2;
+	gameLocal.Printf("+2 MD!\n");
 }
