@@ -68,12 +68,16 @@ void BattleManagerFF::PopulateEnemies(){
 	srand(time(0));
 	int num = rand() % 6 + 1;
 	for (int i = 1; i <= num; i++) {
-		const char* name = "ent1_name";
-		const char* hp = "ent1_hp";
-		CharacterFF c = CharacterFF(name);
+		CharacterFF c = CharacterFF("Enemy");
 		enemies.Append( c );
-		player->battleDisplay->SetStateInt(hp, c.hp);
-		player->battleDisplay->SetStateString(name, c.name);
+		idStr hp = "ent";
+		hp += i;
+		hp += "_hp";
+		player->battleDisplay->SetStateInt(hp.c_str(), c.hp);
+		idStr name = "ent";
+		name += i;
+		name += "_name";
+		player->battleDisplay->SetStateString(name.c_str(), c.name);
 	}
 }
 
@@ -163,7 +167,7 @@ void BattleManagerFF::PerformQueue(){
 	}
 	else {
 		h = &enemies[cmd.GetInt("attacker")];
-		target = &enemies[cmd.GetInt("target")];
+		target = &player->heroes[cmd.GetInt("target")];
 	}
 
 	if (!target) {
@@ -215,13 +219,15 @@ void BattleManagerFF::EnemiesSelect(){
 	gameLocal.Printf("Enemies selecting\n");	
 	
 	commandsQueue.clear();
-	idDict cmd;
-	cmd.Set("command", "attack");
-	cmd.SetInt("attacker", 0);
-	int t = 0;
-	cmd.SetInt("target", t);
-	commandsQueue.push(cmd);
-	//cmd.Clear();
+
+	for (int i = 0; i < enemies.Num(); i++) {
+		idDict cmd;
+		cmd.Set("command", "attack");
+		cmd.SetInt("attacker", i);
+		int t = rand() % 3;
+		cmd.SetInt("target", t);
+		commandsQueue.push(cmd);
+	}
 
 	NextState();
 }

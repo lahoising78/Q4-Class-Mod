@@ -4,7 +4,9 @@
 #include "CharacterFF.h"
 
 CharacterFF::CharacterFF(const char* name, int maxhp, ClassType classType){
+	gameLocal.Printf("the passed string is: %s\n", name);
 	this->name = name;
+	gameLocal.Printf("the new enemy is called %s\n", this->name);
 	this->maxhp = maxhp;
 	hp = maxhp;
 	this->classType = classType;
@@ -14,7 +16,11 @@ CharacterFF::CharacterFF(const char* name, int maxhp, ClassType classType){
 const char* CharacterFF::Attack(CharacterFF* target) {
 	int dmg = atk;
 	target->hp -= dmg;
-	const char* msg = "someone dealt damage to someone";
-	gameLocal.Printf("%s dealt %d damage to %s\n", name, dmg, target->name);
+	idStr msg = name;
+	msg += " dealt ";
+	msg += dmg;
+	msg += " damage to ";
+	msg += target->name;
+	//gameLocal.Printf("%s dealt %d damage to %s\n", name, dmg, target->name);
 	return msg;
 }
