@@ -105,7 +105,6 @@ void BattleManagerFF::AddCommand(const char* target) {
 	}
 
 	player->hud->SetStateInt("current_hero", currentHero);
-	//gameLocal.Printf("The command is: %d will use %s on %s\n", cmd.GetInt("attacker"), cmd.GetString("command"), cmd.GetString("target"));
 	if (!nextHero) {
 		player->hud->SetStateInt("current_hero", 10);
 		NextState();
@@ -136,6 +135,7 @@ void BattleManagerFF::NextState(){
 			gameLocal.Printf("P_SELECT %d\n", state);
 			player->hud->SetStateInt("next_state", 0);
 			currentHero = 0;
+			player->hud->SetStateInt("current_hero", currentHero);
 			break;
 		default:
 			gameLocal.Printf("Default route? %d\n", state);
@@ -195,6 +195,7 @@ void BattleManagerFF::PerformQueue(){
 	
 	player->hud->SetStateString("message", msg);
 	player->hud->SetStateInt("next_state", 2);
+	UpdateHealth();
 }
 
 CharacterFF* BattleManagerFF::GetEnt(const char* ent) {
@@ -221,6 +222,7 @@ void BattleManagerFF::EnemiesSelect(){
 	commandsQueue.clear();
 
 	for (int i = 0; i < enemies.Num(); i++) {
+		if (enemies[i].hp <= 0) continue;
 		idDict cmd;
 		cmd.Set("command", "attack");
 		cmd.SetInt("attacker", i);
@@ -230,4 +232,18 @@ void BattleManagerFF::EnemiesSelect(){
 	}
 
 	NextState();
+}
+
+void BattleManagerFF::UpdateHealth(){
+	player->hud->SetStateInt("hero1_hp", player->heroes[0].hp);
+	player->hud->SetStateInt("hero2_hp", player->heroes[1].hp);
+	player->hud->SetStateInt("hero3_hp", player->heroes[2].hp);
+
+	int num = enemies.Num();
+	player->hud->SetStateInt("ent1_hp", enemies[0].hp);
+	if (num >= 2) player->hud->SetStateInt("ent2_hp", enemies[1].hp);
+	if (num >= 3) player->hud->SetStateInt("ent3_hp", enemies[2].hp);
+	if (num >= 4) player->hud->SetStateInt("ent4_hp", enemies[3].hp);
+	if (num >= 5) player->hud->SetStateInt("ent5_hp", enemies[4].hp);
+	if (num >= 6) player->hud->SetStateInt("ent6_hp", enemies[5].hp);
 }

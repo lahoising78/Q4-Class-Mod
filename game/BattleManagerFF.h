@@ -21,6 +21,7 @@ class BattleManagerFF {
 		void PerformQueue();
 		void LoadNextMessage();
 		void EnemiesSelect();
+		void UpdateHealth();
 		CharacterFF* GetEnt(const char* ent);
 		
 		BattleStates state;

@@ -14,9 +14,18 @@ CharacterFF::CharacterFF(const char* name, int maxhp, ClassType classType){
 }
 
 const char* CharacterFF::Attack(CharacterFF* target) {
+	
+	
+	if (target->hp <= 0) {
+		idStr msg = name;
+		msg += " missed their target";
+		return msg;
+	}
+	
+	idStr msg = name;
 	int dmg = atk;
 	target->hp -= dmg;
-	idStr msg = name;
+	if (target->hp < 0) target->hp = 0;
 	msg += " dealt ";
 	msg += dmg;
 	msg += " damage to ";

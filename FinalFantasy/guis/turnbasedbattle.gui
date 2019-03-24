@@ -7,6 +7,13 @@ windowDef Desktop
 	float	"curr"	0
 
 	onInit {
+		namedevent "check_health_all";
+		
+		namedevent "heroes_d::move_heroes";
+		namedevent "command_controls::showOptionsMain";
+	}
+	
+	onNamedEvent check_health_all{
 		namedevent "hero1::check_health";
 		namedevent "hero2::check_health";
 		namedevent "hero3::check_health";
@@ -16,9 +23,6 @@ windowDef Desktop
 		namedevent "ent4::check_health";
 		namedevent "ent5::check_health";
 		namedevent "ent6::check_health";
-		
-		namedevent "heroes_d::move_heroes";
-		namedevent "command_controls::showOptionsMain";
 	}
 
 	windowDef bg_display
@@ -184,6 +188,8 @@ windowDef Desktop
 			onNamedEvent check_health {
 				if ( "gui::ent1_hp" > 0) {
 					set "visible" "1";
+				} else {
+					set "visible" "0";
 				}
 			}
 
@@ -204,6 +210,8 @@ windowDef Desktop
 			onNamedEvent check_health {
 				if ( "gui::ent2_hp" > 0) {
 					set "visible" "1";
+				} else {
+					set "visible" "0";
 				}
 			}
 			
@@ -224,6 +232,8 @@ windowDef Desktop
 			onNamedEvent check_health {
 				if ( "gui::ent3_hp" > 0) {
 					set "visible" "1";
+				} else {
+					set "visible" "0";
 				}
 			}
 			
@@ -244,6 +254,8 @@ windowDef Desktop
 			onNamedEvent check_health {
 				if ( "gui::ent4_hp" > 0) {
 					set "visible" "1";
+				} else {
+					set "visible" "0";
 				}
 			}
 			
@@ -264,6 +276,8 @@ windowDef Desktop
 			onNamedEvent check_health {
 				if ( "gui::ent5_hp" > 0) {
 					set "visible" "1";
+				} else {
+					set "visible" "0";
 				}
 			}
 			
@@ -284,6 +298,8 @@ windowDef Desktop
 			onNamedEvent check_health {
 				if ( "gui::ent6_hp" > 0) {
 					set "visible" "1";
+				} else {
+					set "visible" "0";
 				}
 			}
 			
@@ -393,6 +409,7 @@ windowDef Desktop
 			onAction {
 				consoleCMD "load_message a";
 				resettime "msg_d" "0";
+				namedevent "desktop::check_health_all";
 			}
 			
 			onTime +50 {
@@ -402,6 +419,7 @@ windowDef Desktop
 					set "msg_d_t::visible" "1";
 					if ( "gui::next_state" == 0 ) {
 						namedevent "combat_controls::showOptionsMain";
+						namedevent "heroes_d::move_heroes";
 					}
 				}
 			}
