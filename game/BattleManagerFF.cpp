@@ -33,7 +33,7 @@ void BattleManagerFF::StartBattle(idAI* enemy, idPlayer* player) {
 	//creating characters
 	player->heroes[0] = CharacterFF("luis", 100, FIGHTER);
 	player->heroes[1] = CharacterFF("alfredo", 50, WT_MAGE);
-	player->heroes[2] = CharacterFF("hoising", 90, FIGHTER);
+	player->heroes[2] = CharacterFF("hoising", 90, BL_MAGE);
 	CharacterFF& c1 = player->heroes[0];
 	CharacterFF& c2 = player->heroes[1];
 	CharacterFF& c4 = player->heroes[2];
@@ -67,7 +67,7 @@ void BattleManagerFF::StartBattle(idAI* enemy, idPlayer* player) {
 void BattleManagerFF::PopulateEnemies(){
 	srand(time(0));
 	//int num = rand() % 6 + 1;
-	int num = 1; //temporary for debug
+	int num = 2; //temporary for debug
 	for (int i = 1; i <= num; i++) {
 		CharacterFF c = CharacterFF("Enemy");
 		enemies.Append( c );
@@ -281,6 +281,9 @@ void BattleManagerFF::UpdateHealth(){
 }
 
 void BattleManagerFF::Victory(){
+	enemy->health = 0;
+	enemy->SetState("State_Killed");
+
 	int num = enemies.Num();
 	gameLocal.Printf("clearing enemy list\n");
 	enemies.Clear();
