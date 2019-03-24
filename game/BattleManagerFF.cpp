@@ -66,7 +66,8 @@ void BattleManagerFF::StartBattle(idAI* enemy, idPlayer* player) {
 
 void BattleManagerFF::PopulateEnemies(){
 	srand(time(0));
-	int num = rand() % 6 + 1;
+	//int num = rand() % 6 + 1;
+	int num = 1; //temporary for debug
 	for (int i = 1; i <= num; i++) {
 		CharacterFF c = CharacterFF("Enemy");
 		enemies.Append( c );
@@ -87,6 +88,8 @@ void BattleManagerFF::PrepareCommand(const char* command){
 }
 
 void BattleManagerFF::AddCommand(const char* target) {
+	//if (state == P_WON) return;
+
 	preparingCommand.Set("target", target);
 	preparingCommand.SetInt("attacker", currentHero);
 	idDict cmd = preparingCommand;
@@ -137,6 +140,10 @@ void BattleManagerFF::NextState(){
 			currentHero = 0;
 			player->hud->SetStateInt("current_hero", currentHero);
 			break;
+		case P_WON:
+			gameLocal.Printf("P_SELECT %d\n", state);
+			Victory();
+			break;
 		default:
 			gameLocal.Printf("Default route? %d\n", state);
 			state = P_SELECT;
@@ -148,6 +155,8 @@ void BattleManagerFF::NextState(){
 void BattleManagerFF::PerformQueue(){
 	
 	gameLocal.Printf("Performing queue\n");
+
+	if (state == P_WON) return;
 
 	if (commandsQueue.empty()) {
 		//commandsQueue.clear();
@@ -246,4 +255,40 @@ void BattleManagerFF::UpdateHealth(){
 	if (num >= 4) player->hud->SetStateInt("ent4_hp", enemies[3].hp);
 	if (num >= 5) player->hud->SetStateInt("ent5_hp", enemies[4].hp);
 	if (num >= 6) player->hud->SetStateInt("ent6_hp", enemies[5].hp);
+
+	bool down = true;
+	for (int i = 0; i < 3; i++) {
+		if (player->heroes[i].hp > 0) {
+			down = false;
+			break;
+		}
+		else down = true;
+	}
+
+	for (int i = 0; i < num; i++) {
+		if (enemies[i].hp > 0) {
+			down = false;
+			break;
+		}
+		else down = true;
+	}
+	if (down) {
+		gameLocal.Printf("You won!\n");
+		state = P_WON;
+		NextState();
+	}
+
+}
+
+void BattleManagerFF::Victory(){
+	int num = enemies.Num();
+	gameLocal.Printf("clearing enemy list\n");
+	enemies.Clear();
+
+	for (int i = 0; i < 3; i++){
+		CharacterFF &h = player->heroes[i];
+		if (h.hp > 0){
+			h.GainExperience(num);
+		}
+	}
 }

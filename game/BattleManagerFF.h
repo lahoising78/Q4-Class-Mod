@@ -7,7 +7,8 @@ enum BattleStates {
 	P_SELECT,
 	P_ATTACK,
 	E_SELECT,
-	E_ATTACK
+	E_ATTACK,
+	P_WON
 };
 
 class BattleManagerFF {
@@ -22,6 +23,7 @@ class BattleManagerFF {
 		void LoadNextMessage();
 		void EnemiesSelect();
 		void UpdateHealth();
+		void Victory();
 		CharacterFF* GetEnt(const char* ent);
 		
 		BattleStates state;

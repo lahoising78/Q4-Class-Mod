@@ -33,3 +33,9 @@ const char* CharacterFF::Attack(CharacterFF* target) {
 	//gameLocal.Printf("%s dealt %d damage to %s\n", name, dmg, target->name);
 	return msg;
 }
+
+void CharacterFF::GainExperience(int n) {
+	int gainedExp = n * 35;
+	gameLocal.Printf("gaining %d experience\n", gainedExp);
+	exp += gainedExp;
+}
