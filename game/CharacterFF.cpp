@@ -4,6 +4,7 @@
 #include "CharacterFF.h"
 
 CharacterFF::CharacterFF(const char* name, ClassType classType, int maxhp){
+	exp = 0;
 	gameLocal.Printf("the passed string is: %s\n", name);
 	this->name = name;
 	gameLocal.Printf("the new enemy is called %s\n", this->name);
@@ -19,6 +20,9 @@ CharacterFF::CharacterFF(const char* name, ClassType classType, int maxhp){
 			break;
 		case WT_MAGE:
 			CreateWtMage();
+			break;
+		case IMP:
+			CreateImp();
 			break;
 	}
 	
@@ -64,6 +68,13 @@ void CharacterFF::CreateBlMage() {
 	md = 20;
 }
 
+void CharacterFF::CreateImp() {
+	maxhp = hp = 8;
+	str = 5;
+	def = 4;
+	md = 16;
+}
+
 const char* CharacterFF::Attack(CharacterFF* target) {
 	if (target->hp <= 0) {
 		idStr msg = name;
@@ -86,11 +97,13 @@ const char* CharacterFF::Attack(CharacterFF* target) {
 //void CharacterFF::GainExperience(int n, rvQueue<const char*, 20> &messages) {
 void CharacterFF::GainExperience(int n, rvQueue<idStr, 20> &messages) {
 
-	int gainedExp = n * 35;
-	gameLocal.Printf("gaining %d experience\n", gainedExp);
-	exp += gainedExp;
-
-	if (exp > (40 << (lv - 1))){
+	//int gainedExp = n * 6;
+	gameLocal.Printf("gaining %d experience\n", n);
+	exp += n;
+	int forNext = 40 << (lv - 1);
+	gameLocal.Printf("exp: %d, for next lvl: %d\n", exp, forNext);
+	bool newLvl = exp > forNext;
+	if (newLvl){
 		//idStr msg = name;
 		lv++;
 		gameLocal.Printf("Leveled up to lvl %d!!\n", lv);
@@ -320,4 +333,16 @@ void CharacterFF::LevelUpBl(rvQueue<idStr, 20> &messages){
 	gameLocal.Printf("+2 MD!\n");
 	idStr::snPrintf(msg, sizeof(msg), "%s MD +2!", name);
 	messages.push(msg);
+}
+
+void CharacterFF::SetLevel(int lvl) {
+	gameLocal.Printf("set level func called\n");
+	if (lvl < 2) return;
+	gameLocal.Printf("Setting lvl to %d", lvl);
+	lv = lvl;
+	maxhp += 15 * lvl;
+	hp = maxhp;
+	str += lvl + 3;
+	def += lvl + 5;
+	md += 2 * lvl;
 }

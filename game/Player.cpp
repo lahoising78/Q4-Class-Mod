@@ -1347,9 +1347,9 @@ idPlayer::idPlayer() {
 	teamDoubler			= NULL;		
 	teamDoublerPending		= false;
 
-	heroes[0] = CharacterFF("luis", BL_MAGE, 1);
-	heroes[1] = CharacterFF("alfredo", BL_MAGE, 1);
-	heroes[2] = CharacterFF("hoising", BL_MAGE, 1);
+	heroes[0] = CharacterFF("luis", FIGHTER);
+	heroes[1] = CharacterFF("alfredo", WT_MAGE);
+	heroes[2] = CharacterFF("hoising", BL_MAGE);
 	//===========mod===========
 	// FF variables
 	//exp = 0;

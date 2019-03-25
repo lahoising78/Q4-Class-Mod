@@ -72,10 +72,19 @@ void BattleManagerFF::PopulateEnemies(){
 	gameLocal.Printf("Populating Enemies\n");
 	srand(time(0));
 	enemies.Clear();
-	//int num = rand() % 6 + 1;
-	int num = 2; //temporary for debug
+
+	int avglvl = 0;
+	for (int i = 0; i < 3; i++) {
+		avglvl += player->heroes[i].lv;
+	}
+	avglvl = avglvl/3;
+	gameLocal.Printf("%d\n", avglvl);
+
+	int num = rand() % 6 + 1;
+	//int num = 2; //temporary for debug
 	for (int i = 1; i <= num; i++) {
-		CharacterFF c = CharacterFF("Enemy", FIGHTER, 100);
+		CharacterFF c = CharacterFF("Enemy");
+		c.SetLevel(avglvl);
 		enemies.Append( c );
 		idStr hp = "ent";
 		hp += i;
@@ -315,13 +324,20 @@ void BattleManagerFF::Victory(){
 	enemy->SetState("State_Killed");
 
 	int num = enemies.Num();
+	int lvl = enemies[0].lv;
 	gameLocal.Printf("clearing enemy list\n");
 	enemies.Clear();
 
+	int membersAlive = 0;
+	for (int i = 0; i < 3; i++) {
+		if (player->heroes[i].hp > 0) membersAlive++;
+	}
+
+	int exp = num * lvl * 6 / membersAlive;
 	for (int i = 0; i < 3; i++){
 		CharacterFF &h = player->heroes[i];
 		if (h.hp > 0){
-			h.GainExperience(num, messages);
+			h.GainExperience(exp, messages);
 		}
 	}
 }

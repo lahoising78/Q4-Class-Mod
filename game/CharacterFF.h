@@ -7,23 +7,23 @@
 enum ClassType {
 	FIGHTER,
 	BL_MAGE,
-	WT_MAGE
+	WT_MAGE, 
+	IMP
 };
 //End of FF Class types
 //===================end======================
 
 class CharacterFF {
 	public:
-		CharacterFF(const char* name = "default name", ClassType classType = WT_MAGE, int maxhp = 10);
+		CharacterFF(const char* name = "default name", ClassType classType = IMP, int maxhp = 10);
 		void CreateFighter();
-		//void LevelUpFighter(rvQueue<const char*, 20> &messages);
 		void LevelUpFighter(rvQueue<idStr, 20> &messages);
 		void CreateWtMage();
-		//void LevelUpWt(rvQueue<const char*, 20> &messages);
 		void LevelUpWt(rvQueue<idStr, 20> &messages);
 		void CreateBlMage();
-		//void LevelUpBl(rvQueue<const char*, 20> &messages);
 		void LevelUpBl(rvQueue<idStr, 20> &messages);
+		void CreateImp();
+		void SetLevel(int lvl);
 		const char* Attack(CharacterFF* target);
 		//void GainExperience(int n, rvQueue<const char*, 20> &messages);
 		void GainExperience(int n, rvQueue<idStr, 20> &messages);
