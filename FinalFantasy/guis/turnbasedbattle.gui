@@ -12,8 +12,8 @@ windowDef Desktop
 		namedevent "heroes_d::move_heroes";
 		namedevent "command_controls::showOptionsMain";
 	}
-	
-	onNamedEvent check_health_all{
+
+	onNamedEvent check_health_all {
 		namedevent "hero1::check_health";
 		namedevent "hero2::check_health";
 		namedevent "hero3::check_health";
@@ -32,21 +32,7 @@ windowDef Desktop
 		background	"gfx/guis/mainmenu/popup_bg"
 		matcolor	1,1,1,1
 	}
-	windowDef back_b
-	{
-		rect	0,0,512,360
-		visible	1
-
-		onAction {
-			if ("desktop::curr" > 0) {
-				namedevent "combat_controls::showOptionsMain";
-			} else {
-				set "cmd" "close";
-				consoleCMD "changeHUD a" ;
-			}
-		}
-
-	}
+	
 	windowDef health_display
 	{
 		rect	512,0,128,360
@@ -169,16 +155,18 @@ windowDef Desktop
 		rect	10,10,236,340
 		visible	1
 		backcolor	0,0,0,0
-		
+
 		onTime +50 {
 			namedevent	"heroes_d::move_heroes";
 			if ( "gui::next_state" == 0 ){
 				namedevent	"combat_controls::showOptionsMain";
+				set "back_b::visible" "1";
 			} else if ( "gui::next_state" == 2 ) {
 				namedevent	"combat_controls::showMessage";
+				set "back_b::visible" "0";
 			}		
 		}
-		
+
 		windowDef ent1
 		{
 			rect	10,10,98,93
@@ -199,7 +187,7 @@ windowDef Desktop
 					resettime "enemies_d" "0";
 				}
 			}
-			
+
 		}
 		windowDef ent2
 		{
@@ -214,7 +202,7 @@ windowDef Desktop
 					set "visible" "0";
 				}
 			}
-			
+
 			onAction {
 				if ( "desktop::curr" == 1) {
 					consoleCMD	"target ent2";
@@ -236,7 +224,7 @@ windowDef Desktop
 					set "visible" "0";
 				}
 			}
-			
+
 			onAction {
 				if ( "desktop::curr" == 1) {
 					consoleCMD	"target ent3";
@@ -258,7 +246,7 @@ windowDef Desktop
 					set "visible" "0";
 				}
 			}
-			
+
 			onAction {
 				if ( "desktop::curr" == 1) {
 					consoleCMD	"target ent4";
@@ -280,7 +268,7 @@ windowDef Desktop
 					set "visible" "0";
 				}
 			}
-			
+
 			onAction {
 				if ( "desktop::curr" == 1) {
 					consoleCMD	"target ent5";
@@ -302,7 +290,7 @@ windowDef Desktop
 					set "visible" "0";
 				}
 			}
-			
+
 			onAction {
 				if ( "desktop::curr" == 1) {
 					consoleCMD	"target ent6";
@@ -316,7 +304,7 @@ windowDef Desktop
 	{
 		rect	266,10,236,340
 		visible	1
-		
+
 		onNamedEvent move_heroes {
 			set "hero1::rect_x" "128";
 			set "hero2::rect_x" "128";
@@ -329,7 +317,7 @@ windowDef Desktop
 				transition	"hero3::rect_x" "128" "10" "250";
 			}
 		}
-		
+
 		windowDef hero1
 		{
 			rect	128,10,98,93
@@ -381,6 +369,7 @@ windowDef Desktop
 			set "msg_d::visible" "0";
 			set "main::visible" "1";
 			set "desktop::curr" "0";
+			//set "back_b::visible" "0"
 		}
 
 		onNamedEvent showMessage {
@@ -396,22 +385,13 @@ windowDef Desktop
 			backcolor	0,0,0,1
 			bordersize	5
 			bordercolor	1,1,1,1
-			windowDef msg_d_t
-			{
-				rect	10,10,620,100
-				visible	1
-				forecolor	1,1,1,1
-				text	"gui::message"
-				textscale	0.4
-				font	"fonts/lowpixel"
-			}
-			
+
 			onAction {
 				consoleCMD "load_message a";
 				resettime "msg_d" "0";
 				namedevent "desktop::check_health_all";
 			}
-			
+
 			onTime +50 {
 				if ( "gui::next_state" == 6) {
 					set "msg_d_t::visible" "0";
@@ -422,6 +402,16 @@ windowDef Desktop
 						namedevent "heroes_d::move_heroes";
 					}
 				}
+			}
+
+			windowDef msg_d_t
+			{
+				rect	10,10,620,100
+				visible	1
+				forecolor	1,1,1,1
+				text	"gui::message"
+				textscale	0.4
+				font	"fonts/lowpixel"
 			}
 		}
 		windowDef options_d
@@ -531,6 +521,9 @@ windowDef Desktop
 			backcolor	0,0,0,1
 			bordersize	5
 			bordercolor	1,1,1,1
+			
+			
+			
 			windowDef enemy1
 			{
 				rect	10,5,236,25
@@ -566,6 +559,27 @@ windowDef Desktop
 				text	"Enemy 1"
 				textscale	0.4
 				font	"fonts/lowpixel"
+			}
+		}
+		windowDef back_b
+		{
+			rect	0,0,256,120
+			visible	1
+			onAction {
+				if ("desktop::curr" > 0) {
+					namedevent "combat_controls::showOptionsMain";
+				} 
+				else {
+					//set "cmd" "close";
+					consoleCMD "changeHUD a" ;
+					resettime "back_b" "0";
+				}
+			}
+			
+			
+			onTime +50 {
+				namedevent "combat_controls::showOptionsMain";
+				namedevent "heroes_d::move_heroes";
 			}
 		}
 	}

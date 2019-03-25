@@ -30,15 +30,18 @@ void BattleManagerFF::StartBattle(idAI* enemy, idPlayer* player) {
 	this->enemy = enemy;
 	this->player = player;
 	
+	gameLocal.Printf("Starting Battle\n");
 	//creating characters
-	player->heroes[0] = CharacterFF("luis", 100, FIGHTER);
-	player->heroes[1] = CharacterFF("alfredo", 50, WT_MAGE);
-	player->heroes[2] = CharacterFF("hoising", 90, BL_MAGE);
+	//player->heroes[0] = CharacterFF("luis", FIGHTER);
+	//player->heroes[1] = CharacterFF("alfredo", WT_MAGE);
+	//player->heroes[2] = CharacterFF("hoising", BL_MAGE);
 	CharacterFF& c1 = player->heroes[0];
 	CharacterFF& c2 = player->heroes[1];
 	CharacterFF& c4 = player->heroes[2];
 
 	//setting vars to talk to gui file
+	player->battleDisplay = uiManager->FindGui("guis/turnbasedbattle.gui", true, false, true);
+	player->battleDisplay->InitFromFile("guis/turnbasedbattle.gui");
 	player->battleDisplay->SetStateInt("hero1_hp", c1.hp);
 	player->battleDisplay->SetStateString("hero1_name", c1.name);
 	player->battleDisplay->SetStateInt("hero2_hp", c2.hp);
@@ -55,6 +58,7 @@ void BattleManagerFF::StartBattle(idAI* enemy, idPlayer* player) {
 	if (player->hud) {
 		state = P_SELECT;
 		currentHero = 0;
+		if (player->heroes[currentHero].hp <= 0) ChooseNextHero();
 		player->hud->SetStateInt("current_hero", currentHero);
 		player->hud->SetStateInt("next_state", 0);
 		player->changePlayerHUD(player->hud, enemy);
@@ -65,11 +69,13 @@ void BattleManagerFF::StartBattle(idAI* enemy, idPlayer* player) {
 }
 
 void BattleManagerFF::PopulateEnemies(){
+	gameLocal.Printf("Populating Enemies\n");
 	srand(time(0));
+	enemies.Clear();
 	//int num = rand() % 6 + 1;
 	int num = 2; //temporary for debug
 	for (int i = 1; i <= num; i++) {
-		CharacterFF c = CharacterFF("Enemy");
+		CharacterFF c = CharacterFF("Enemy", FIGHTER, 100);
 		enemies.Append( c );
 		idStr hp = "ent";
 		hp += i;
@@ -95,14 +101,15 @@ void BattleManagerFF::AddCommand(const char* target) {
 
 	//get the next character
 	//if the next character is not alive, skip it
-	currentHero++;
+	/*currentHero++;
 	CharacterFF* nextHero = NULL;
 	if (currentHero < 3) nextHero = &player->heroes[currentHero];
 
 	while ( nextHero && nextHero->hp <= 0 && currentHero < 2 ) {
 		currentHero++;
 		nextHero = &player->heroes[currentHero];
-	}
+	} */
+	CharacterFF* nextHero = ChooseNextHero();
 
 	player->hud->SetStateInt("current_hero", currentHero);
 	if (!nextHero) {
@@ -134,6 +141,7 @@ void BattleManagerFF::NextState(){
 			gameLocal.Printf("P_SELECT %d\n", state);
 			player->hud->SetStateInt("next_state", 0);
 			currentHero = 0;
+			if (player->heroes[currentHero].hp <= 0) ChooseNextHero();
 			player->hud->SetStateInt("current_hero", currentHero);
 			break;
 		case P_WON:
@@ -156,6 +164,11 @@ void BattleManagerFF::PerformQueue(){
 			const char* msg = messages.first();
 			messages.pop();
 			player->hud->SetStateString("message", msg);
+		}
+		else {
+			//player->hud->SetStateInt("next_state", 6);
+			player->hud->SetStateInt("next_state", 0);
+			EndBattle();
 		}
 		return;
 	}
@@ -237,6 +250,9 @@ void BattleManagerFF::EnemiesSelect(){
 		cmd.Set("command", "attack");
 		cmd.SetInt("attacker", i);
 		int t = rand() % 3;
+		while (player->heroes[t].hp <= 0){
+			t = rand() % 3;
+		}
 		cmd.SetInt("target", t);
 		commandsQueue.push(cmd);
 	}
@@ -265,6 +281,12 @@ void BattleManagerFF::UpdateHealth(){
 		}
 		else down = true;
 	}
+	if (down) {
+		gameLocal.Printf("Losing!!!");
+		EndBattle();
+		player->health = 0;
+		return;
+	}
 
 	for (int i = 0; i < num; i++) {
 		if (enemies[i].hp > 0) {
@@ -281,6 +303,13 @@ void BattleManagerFF::UpdateHealth(){
 
 }
 
+void BattleManagerFF::Rewind(){
+	if (currentHero > 0) currentHero--;
+	player->hud->SetStateInt("current_hero", currentHero);
+	preparingCommand.Clear();
+	commandsQueue.pop();
+}
+
 void BattleManagerFF::Victory(){
 	enemy->health = 0;
 	enemy->SetState("State_Killed");
@@ -295,4 +324,32 @@ void BattleManagerFF::Victory(){
 			h.GainExperience(num, messages);
 		}
 	}
+}
+
+void BattleManagerFF::EndBattle(){
+	enemy->inBattle = false;
+	enemies.Clear();
+	messages.clear();
+	commandsQueue.clear();
+	preparingCommand.Clear();
+	currentHero = 0;
+
+	player->hud = player->defaultHUD;
+	player->hud->ClearState();
+	player->ClearFocus();
+	//player->battleDisplay->ClearState();
+	player->battleDisplay = NULL;
+	player->inBattle = false;
+}
+
+CharacterFF* BattleManagerFF::ChooseNextHero(){
+	currentHero++;
+	CharacterFF* nextHero = NULL;
+	if (currentHero < 3 && player->heroes[currentHero].hp > 0) nextHero = &player->heroes[currentHero];
+
+	while (nextHero && nextHero->hp <= 0 && currentHero < 2) {
+		currentHero++;
+		nextHero = &player->heroes[currentHero];
+	} 
+	return nextHero;
 }

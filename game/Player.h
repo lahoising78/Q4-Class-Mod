@@ -1061,7 +1061,7 @@ private:
 
 	void					LoadDeferredModel			( void );
 
-	void					ClearFocus					( void );
+	//void					ClearFocus					( void );
 	void					UpdateFocusCharacter		( idEntity* newEnt );
 	void					SetFocus					( playerFocus_t type, int focusTime, idEntity* ent, idUserInterface* ui );
 
@@ -1164,9 +1164,11 @@ public:
 	idUserInterface *		battleDisplay;
 	const char* battleDisplayName;
 	idUserInterface *		defaultHUD;
-	void StartBattle(idAI* target);
+	//void StartBattle(idAI* target);
 	void changePlayerHUD(idUserInterface* hud, idAI* enemy);
 	CharacterFF heroes[3];
+	void					ClearFocus(void);
+
 	
  	CLASS_STATES_PROTOTYPE( idPlayer );
 	//======================end===============

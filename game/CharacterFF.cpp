@@ -3,12 +3,11 @@
 
 #include "CharacterFF.h"
 
-CharacterFF::CharacterFF(const char* name, int maxhp, ClassType classType){
+CharacterFF::CharacterFF(const char* name, ClassType classType, int maxhp){
 	gameLocal.Printf("the passed string is: %s\n", name);
 	this->name = name;
 	gameLocal.Printf("the new enemy is called %s\n", this->name);
-	this->maxhp = maxhp;
-	hp = maxhp;
+	
 	lv = 1;
 	this->classType = classType;
 	switch (classType) {
@@ -22,9 +21,16 @@ CharacterFF::CharacterFF(const char* name, int maxhp, ClassType classType){
 			CreateWtMage();
 			break;
 	}
+	
+	if (maxhp != 10) {
+		this->maxhp = maxhp;
+		hp = maxhp;
+	}
 }
 
 void CharacterFF::CreateFighter(){
+	maxhp = 35;
+	hp = maxhp;
 	str = 20;
 	agi = 5;
 	intel = 1;
@@ -35,6 +41,8 @@ void CharacterFF::CreateFighter(){
 }
 
 void CharacterFF::CreateWtMage(){
+	maxhp = 28;
+	hp = maxhp;
 	str = 5;
 	agi = 5;
 	intel = 15;
@@ -45,6 +53,8 @@ void CharacterFF::CreateWtMage(){
 }
 
 void CharacterFF::CreateBlMage() {
+	maxhp = 25;
+	hp = maxhp;
 	str = 1;
 	agi = 10;
 	intel = 20;

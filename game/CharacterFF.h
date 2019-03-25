@@ -14,7 +14,7 @@ enum ClassType {
 
 class CharacterFF {
 	public:
-		CharacterFF(const char* name = "default name", int maxhp = 10, ClassType classType = FIGHTER);
+		CharacterFF(const char* name = "default name", ClassType classType = WT_MAGE, int maxhp = 10);
 		void CreateFighter();
 		//void LevelUpFighter(rvQueue<const char*, 20> &messages);
 		void LevelUpFighter(rvQueue<idStr, 20> &messages);

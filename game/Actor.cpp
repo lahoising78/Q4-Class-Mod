@@ -3898,14 +3898,14 @@ void idActor::SendBattleRequest(idActor* target) {
 		gameLocal.Printf("same team\n");
 		return;
 	}
-	if ( IsType(idAI::GetClassType()) && target->IsType(idPlayer::GetClassType())) {
+	/*if ( IsType(idAI::GetClassType()) && target->IsType(idPlayer::GetClassType())) {
 		static_cast<idPlayer*>(target)->StartBattle(static_cast<idAI*>(this));
 		return;
 	}
 	if (IsType(idPlayer::GetClassType()) && target->IsType(idAI::GetClassType())) {
 		static_cast<idPlayer*>(this)->StartBattle(static_cast<idAI*>(target));
 		return;
-	}
+	}*/
 
 	gameLocal.Printf("AI attacking AI or Player Attacking Player\n");
 		

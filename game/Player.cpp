@@ -1347,6 +1347,9 @@ idPlayer::idPlayer() {
 	teamDoubler			= NULL;		
 	teamDoublerPending		= false;
 
+	heroes[0] = CharacterFF("luis", BL_MAGE, 1);
+	heroes[1] = CharacterFF("alfredo", BL_MAGE, 1);
+	heroes[2] = CharacterFF("hoising", BL_MAGE, 1);
 	//===========mod===========
 	// FF variables
 	//exp = 0;
@@ -1876,7 +1879,7 @@ void idPlayer::Spawn( void ) {
 		}
 
 		//===========mod==============
-		battleDisplay = uiManager->FindGui("guis/turnbasedbattle.gui", true, false, true);
+		//battleDisplay = uiManager->FindGui("guis/turnbasedbattle.gui", true, false, true);
 		//===========end==============
 
 		if ( hud ) {
@@ -9508,8 +9511,8 @@ void idPlayer::Think( void ) {
 	if (hud->Name() == battleDisplayName){
 		//hud->SetCursor(usercmd.mx, usercmd.my);
 		RouteGuiMouse(hud);
-		focusType = FOCUS_GUI;
-		focusUI = battleDisplay;
+		//focusType = FOCUS_GUI;
+		//focusUI = battleDisplay;
 	}
 	//============end==============
 
@@ -14128,7 +14131,7 @@ int idPlayer::CanSelectWeapon(const char* weaponName)
 // RITUAL END
 
 //============================mod===================
-void idPlayer::StartBattle(idAI* target){
+/*void idPlayer::StartBattle(idAI* target){
 	//exp = 10;
 	//battleDisplay->SetStateInt("player_rpg_exp", exp);
 	//battleDisplay->SetStateString("battle_rpg_str", "vamo a ve si sale");
@@ -14162,12 +14165,12 @@ void idPlayer::StartBattle(idAI* target){
 		gameLocal.Printf("The battle display was not found\n");
 	}
 
-	/*player->hud = buyMenu;
+	player->hud = buyMenu;
 	player->hud->Redraw(gameLocal.time);
 	player->hud->Activate(true, gameLocal.time);
 	player->focusType = FOCUS_GUI;
-	player->focusUI = player->hud;*/
-}
+	player->focusUI = player->hud;
+} */
 
 void idPlayer::changePlayerHUD(idUserInterface* hud, idAI* enemy){
 	gameLocal.Printf("activating battle display: %s\n", hud->Name());

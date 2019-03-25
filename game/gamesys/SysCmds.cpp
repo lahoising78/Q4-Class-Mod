@@ -3024,9 +3024,9 @@ void Cmd_ShuffleTeams_f( const idCmdArgs& args ) {
 
 //=======================mod=====================
 void Cmd_changeHUD( const idCmdArgs &args )	{
-	idPlayer* player = gameLocal.GetLocalPlayer();
-	player->hud = player->defaultHUD;
-
+	//idPlayer* player = gameLocal.GetLocalPlayer();
+	//player->hud = player->defaultHUD;
+	gameLocal.battleManager.Rewind();
 }
 
 void Cmd_attack_ff(const idCmdArgs &args) {
