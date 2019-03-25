@@ -345,11 +345,19 @@ void BattleManagerFF::EndBattle(){
 CharacterFF* BattleManagerFF::ChooseNextHero(){
 	currentHero++;
 	CharacterFF* nextHero = NULL;
-	if (currentHero < 3 && player->heroes[currentHero].hp > 0) nextHero = &player->heroes[currentHero];
+	if (currentHero < 3) nextHero = &player->heroes[currentHero];
 
 	while (nextHero && nextHero->hp <= 0 && currentHero < 2) {
 		currentHero++;
 		nextHero = &player->heroes[currentHero];
 	} 
+
+	/*CharacterFF* nextHero = NULL;
+	do {
+		currentHero++;
+		nextHero = &player->heroes[currentHero];
+	} while (nextHero && nextHero->hp <= 0 && currentHero < 2);*/
+	if (nextHero && nextHero->hp <= 0) nextHero = NULL;
+
 	return nextHero;
 }
