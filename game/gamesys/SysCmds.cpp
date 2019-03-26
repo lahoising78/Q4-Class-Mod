@@ -3042,6 +3042,11 @@ void Cmd_load_msg_ff(const idCmdArgs &args) {
 	gameLocal.Printf("load next message function is being called\n");
 	gameLocal.battleManager.PerformQueue();
 }
+
+void Cmd_magic_ff(const idCmdArgs &args){
+	gameLocal.Printf("Calling FF magic function\n");
+	gameLocal.battleManager.PrepareCommand("magic1");
+}
 //======================end======================
 
 #ifndef _FINAL
@@ -3260,6 +3265,7 @@ void idGameLocal::InitConsoleCommands( void ) {
 	cmdSystem->AddCommand( "attack", Cmd_attack_ff, CMD_FL_GAME, "Tell the battle manager that the player decided to attack");
 	cmdSystem->AddCommand( "target", Cmd_target_ff, CMD_FL_GAME, "Tell the battle manager the intended target");
 	cmdSystem->AddCommand( "load_message", Cmd_load_msg_ff, CMD_FL_GAME, "Load next message in battle manager" );
+	cmdSystem->AddCommand( "magic", Cmd_magic_ff, CMD_FL_GAME, "Calls magic function");
 	//=============end=============
 }
 

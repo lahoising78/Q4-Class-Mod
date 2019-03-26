@@ -522,6 +522,9 @@
     <ClCompile Include="game\BattleManagerFF.cpp">
       <Filter>Game</Filter>
     </ClCompile>
+    <ClCompile Include="game\AbilityFF.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game\Actor.h">
@@ -841,6 +844,9 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="game\BattleManagerFF.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="game\AbilityFF.h">
       <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>

@@ -54,6 +54,7 @@ void CharacterFF::CreateWtMage(){
 	lck = 5;
 	hitp = 5;
 	md = 20;
+	abilities.Append("CURE");
 }
 
 void CharacterFF::CreateBlMage() {

@@ -210,6 +210,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="game\AbilityFF.cpp" />
     <ClCompile Include="game\Actor.cpp" />
     <ClCompile Include="game\AF.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='DebugInline|Win32'">Create</PrecompiledHeader>
@@ -377,6 +378,7 @@
     <ClCompile Include="game\mp\stats\StatWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="game\AbilityFF.h" />
     <ClInclude Include="game\Actor.h" />
     <ClInclude Include="game\AF.h" />
     <ClInclude Include="game\AFEntity.h" />

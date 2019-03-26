@@ -2,6 +2,7 @@
 #define	BATTLE_MANAGER_H
 
 #include "CharacterFF.h"
+#include "AbilityFF.h"
 
 enum BattleStates {
 	P_SELECT,
@@ -28,21 +29,19 @@ class BattleManagerFF {
 		void Victory();
 		void EndBattle();
 		CharacterFF* GetEnt(const char* ent);
+		AbilityFF* GetMagic(const char* ab);
 		
 		BattleStates state;
 		idAI* enemy;
 		idPlayer* player;
 		rvQueue<idDict, 6> commandsQueue;
-		//rvQueue<const char*, 20> messages;
 		rvQueue<idStr, 20> messages;
 
-		//idDict heroes;
-		//idDict enemies;
 		idDict preparingCommand;
 		int currentHero = 0;
 
 		idList<CharacterFF> enemies;
-		//int nEnemies;
+		//AbilityFF cure = Cure();
 };
 
 #endif	/* Battle Manager */

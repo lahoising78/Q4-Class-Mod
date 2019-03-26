@@ -221,6 +221,11 @@ void BattleManagerFF::PerformQueue(){
 		msg = h->Attack(target);
 		gameLocal.Printf("%s\n", msg);
 	}
+	else if (strcmp(command, "magic1") == 0) {
+		gameLocal.Printf("should use magic\n");
+		AbilityFF* ab = GetMagic(h->abilities[0]);
+		if (ab) ab->Perform(h, target);
+	}
 	else {
 		msg = "not an attack";
 	}
@@ -245,6 +250,14 @@ CharacterFF* BattleManagerFF::GetEnt(const char* ent) {
 	if (strcmp(ent, "ent5") == 0) return &enemies[4];
 	if (strcmp(ent, "ent6") == 0) return &enemies[5];
 
+	return NULL;
+}
+
+AbilityFF* BattleManagerFF::GetMagic(const char* ab) {
+	gameLocal.Printf("looking for %s\n", ab);
+	if (strcmp(ab, "CURE") == 0) {;
+		return NULL;
+	}
 	return NULL;
 }
 
@@ -368,12 +381,24 @@ CharacterFF* BattleManagerFF::ChooseNextHero(){
 		nextHero = &player->heroes[currentHero];
 	} 
 
-	/*CharacterFF* nextHero = NULL;
-	do {
-		currentHero++;
-		nextHero = &player->heroes[currentHero];
-	} while (nextHero && nextHero->hp <= 0 && currentHero < 2);*/
 	if (nextHero && nextHero->hp <= 0) nextHero = NULL;
+
+	idUserInterface * hud = player->hud;
+	hud->DeleteState("ab1");
+	hud->DeleteState("ab2");
+	hud->DeleteState("ab3");
+	hud->DeleteState("ab4");
+	hud->DeleteState("ab5");
+	hud->DeleteState("ab6");
+
+	if (nextHero) {
+		for (int i = 0; i < nextHero->abilities.Num(); i++) {
+			char label[4];
+			idStr::snPrintf(label, sizeof(label), "ab%d", i+1);
+			gameLocal.Printf(label);
+			hud->SetStateString(label, nextHero->abilities[i]);
+		}
+	}
 
 	return nextHero;
 }

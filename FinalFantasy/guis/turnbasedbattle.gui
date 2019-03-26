@@ -32,7 +32,6 @@ windowDef Desktop
 		background	"gfx/guis/mainmenu/popup_bg"
 		matcolor	1,1,1,1
 	}
-	
 	windowDef health_display
 	{
 		rect	512,0,128,360
@@ -365,11 +364,22 @@ windowDef Desktop
 
 		onNamedEvent showOptionsMain {
 			set "options_d::visible" "1";
+			namedevent "options_d::hideAll"
 			set "enemy_list_d::visible" "1";
 			set "msg_d::visible" "0";
 			set "main::visible" "1";
 			set "desktop::curr" "0";
 			//set "back_b::visible" "0"
+		}
+
+		onNamedEvent showMagic {
+			set "options_d::visible" "1";
+			namedevent "options_d::hideAll"
+			set "enemy_list_d::visible" "1";
+			set "msg_d::visible" "0";
+			set "main::visible" "0";
+			set "magic_d::visible" "1";
+			set "desktop::curr" "3";
 		}
 
 		onNamedEvent showMessage {
@@ -426,6 +436,11 @@ windowDef Desktop
 				set "main::visible" "0";
 			}
 
+			onNamedEvent hideAll {
+				set "main::visible" "0";
+				set "magic_d::visible" "0";
+			}
+
 			windowDef main
 			{
 				rect	0,0,384,120
@@ -458,8 +473,8 @@ windowDef Desktop
 					visible	1
 
 					onAction {
-						namedevent "options_d::hideMain";
-						set "desktop::curr" "2";
+						namedevent "combat_controls::showMagic";
+						set "desktop::curr" "3";
 					}
 
 					windowDef text
@@ -513,6 +528,84 @@ windowDef Desktop
 					}
 				}
 			}
+			windowDef magic_d
+			{
+				rect	0,0,384,120
+				visible	0
+				windowDef ability_b1
+				{
+					rect	0,0,128,60
+					visible	1
+					forecolor	1,1,1,1
+					text	"gui::ab1"
+					textscale	0.4
+					textalignx	10
+					textaligny	10
+					font	"fonts/lowpixel"
+					
+					onAction {
+						namedevent "combat_controls::showMessage";
+						//set "target_selector::visible" "1";
+						consoleCMD "magic 1";
+						set "desktop::curr" "1";
+					}
+				}
+				windowDef ability_b2
+				{
+					rect	128,0,128,60
+					visible	1
+					forecolor	1,1,1,1
+					text	"gui::ab2"
+					textscale	0.4
+					textalignx	10
+					textaligny	10
+					font	"fonts/lowpixel"
+				}
+				windowDef ability_b3
+				{
+					rect	256,0,128,60
+					visible	1
+					forecolor	1,1,1,1
+					text	"gui::ab3"
+					textscale	0.4
+					textalignx	10
+					textaligny	10
+					font	"fonts/lowpixel"
+				}
+				windowDef ability_b4
+				{
+					rect	0,60,128,60
+					visible	1
+					forecolor	1,1,1,1
+					text	"gui::ab4"
+					textscale	0.4
+					textalignx	10
+					textaligny	10
+					font	"fonts/lowpixel"
+				}
+				windowDef ability_b5
+				{
+					rect	128,60,128,60
+					visible	1
+					forecolor	1,1,1,1
+					text	"gui::ab5"
+					textscale	0.4
+					textalignx	10
+					textaligny	10
+					font	"fonts/lowpixel"
+				}
+				windowDef ability_b6
+				{
+					rect	256,60,128,60
+					visible	1
+					forecolor	1,1,1,1
+					text	"gui::ab6"
+					textscale	0.4
+					textalignx	10
+					textaligny	10
+					font	"fonts/lowpixel"
+				}
+			}
 		}
 		windowDef enemy_list_d
 		{
@@ -521,9 +614,6 @@ windowDef Desktop
 			backcolor	0,0,0,1
 			bordersize	5
 			bordercolor	1,1,1,1
-			
-			
-			
 			windowDef enemy1
 			{
 				rect	10,5,236,25
@@ -565,6 +655,7 @@ windowDef Desktop
 		{
 			rect	0,0,256,120
 			visible	1
+
 			onAction {
 				if ("desktop::curr" > 0) {
 					namedevent "combat_controls::showOptionsMain";
@@ -575,12 +666,12 @@ windowDef Desktop
 					resettime "back_b" "0";
 				}
 			}
-			
-			
+
 			onTime +50 {
 				namedevent "combat_controls::showOptionsMain";
 				namedevent "heroes_d::move_heroes";
 			}
+
 		}
 	}
 }

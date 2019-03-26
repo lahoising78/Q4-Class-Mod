@@ -7695,7 +7695,7 @@ idEntity* idGameLocal::HitScan(
 					//==================mod===========
 					if (owner->IsType(idActor::GetClassType()) && ent->IsType(idPlayer::GetClassType()))
 					{
-						Printf("AI is attacking\n");
+						//Printf("AI is attacking\n");
 						//static_cast<idActor*>(owner)->AttackRPG(static_cast<idActor*>(ent));
 						break;
 					}

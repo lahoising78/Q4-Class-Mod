@@ -2,6 +2,8 @@
 #ifndef CHARACTER_FF
 #define CHARACTER_FF
 
+//#include "AbilityFF.h"
+
 // ==================mod======================
 // Final Fantasy class types
 enum ClassType {
@@ -12,6 +14,7 @@ enum ClassType {
 };
 //End of FF Class types
 //===================end======================
+
 
 class CharacterFF {
 	public:
@@ -27,6 +30,7 @@ class CharacterFF {
 		const char* Attack(CharacterFF* target);
 		//void GainExperience(int n, rvQueue<const char*, 20> &messages);
 		void GainExperience(int n, rvQueue<idStr, 20> &messages);
+
 		int lv;
 		int exp;
 		int hp;
@@ -42,6 +46,7 @@ class CharacterFF {
 		int hitp;
 		int evap;
 		int md;
+		idList<const char*> abilities;
 		
 		const char* name;
 		ClassType classType;
