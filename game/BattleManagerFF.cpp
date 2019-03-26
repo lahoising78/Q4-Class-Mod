@@ -224,7 +224,7 @@ void BattleManagerFF::PerformQueue(){
 	else if (strcmp(command, "magic1") == 0) {
 		gameLocal.Printf("should use magic\n");
 		AbilityFF* ab = GetMagic(h->abilities[0]);
-		if (ab) ab->Perform(h, target);
+		if (ab) msg = ab->Perform(h, target);
 	}
 	else {
 		msg = "not an attack";
@@ -258,6 +258,8 @@ AbilityFF* BattleManagerFF::GetMagic(const char* ab) {
 	if (strcmp(ab, "CURE") == 0) {;
 		return &cure;
 	}
+	if (strcmp(ab, "FIRE") == 0) return &fire;
+
 	return NULL;
 }
 

@@ -42,6 +42,7 @@ class BattleManagerFF {
 
 		idList<CharacterFF> enemies;
 		AbilityFF cure = AbilityFF(CURE);
+		AbilityFF fire = AbilityFF(FIRE);
 };
 
 #endif	/* Battle Manager */

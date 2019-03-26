@@ -4,21 +4,23 @@
 #include "CharacterFF.h"
 
 enum Ability {
-	CURE
+	CURE,
+	FIRE
 };
 
 class AbilityFF{
 
 	public:
-		AbilityFF(Ability type);
+		AbilityFF(Ability type, int effectivity = 10, int cost = 1);
 		int effectivity;
 		int sa;
 		int bc;
 		int cost;
 		idStr name;
 		Ability type;
-		void Perform(CharacterFF* caster, CharacterFF* target);
-		void CurePerform(CharacterFF* caster, CharacterFF* target);
+		const char* Perform(CharacterFF* caster, CharacterFF* target);
+		const char* CurePerform(CharacterFF* caster, CharacterFF* target);
+		const char* FirePerform(CharacterFF* caster, CharacterFF* target);
 };
 
 /* class Cure : public AbilityFF {

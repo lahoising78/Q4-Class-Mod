@@ -47,6 +47,7 @@ void CharacterFF::CreateFighter(){
 void CharacterFF::CreateWtMage(){
 	maxhp = 28;
 	hp = maxhp;
+	mp = 3;
 	str = 5;
 	agi = 5;
 	intel = 15;
@@ -60,6 +61,7 @@ void CharacterFF::CreateWtMage(){
 void CharacterFF::CreateBlMage() {
 	maxhp = 25;
 	hp = maxhp;
+	mp = 5;
 	str = 1;
 	agi = 10;
 	intel = 20;
@@ -67,6 +69,7 @@ void CharacterFF::CreateBlMage() {
 	lck = 10;
 	hitp = 5;
 	md = 20;
+	abilities.Append("FIRE");
 }
 
 void CharacterFF::CreateImp() {
