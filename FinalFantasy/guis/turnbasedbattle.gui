@@ -316,6 +316,17 @@ windowDef Desktop
 				transition	"hero3::rect_x" "128" "10" "250";
 			}
 		}
+		
+		onTime +50 {
+			namedevent	"heroes_d::move_heroes";
+			if ( "gui::next_state" == 0 ){
+				namedevent	"combat_controls::showOptionsMain";
+				set "back_b::visible" "1";
+			} else if ( "gui::next_state" == 2 ) {
+				namedevent	"combat_controls::showMessage";
+				set "back_b::visible" "0";
+			}		
+		}
 
 		windowDef hero1
 		{
@@ -326,6 +337,13 @@ windowDef Desktop
 			onNamedEvent check_health {
 				if ( "gui::hero1_hp" <= 0) {
 					transition "backcolor_w" "0.7" "0.2" "250";
+				}
+			}
+			
+			onAction {
+				if ( "desktop::curr" == 1) {
+					consoleCMD	"target hero1";
+					resettime "enemies_d" "0";
 				}
 			}
 
@@ -341,6 +359,13 @@ windowDef Desktop
 					transition "backcolor_w" "0.7" "0.2" "250";
 				}
 			}
+			
+			onAction {
+				if ( "desktop::curr" == 1) {
+					consoleCMD	"target hero2";
+					resettime "enemies_d" "0";
+				}
+			}
 
 		}
 		windowDef hero3
@@ -352,6 +377,13 @@ windowDef Desktop
 			onNamedEvent check_health {
 				if ( "gui::hero3_hp" <= 0) {
 					transition "backcolor_w" "0.7" "0.2" "250";
+				}
+			}
+			
+			onAction {
+				if ( "desktop::curr" == 1) {
+					consoleCMD	"target hero3";
+					resettime "heroes_d" "0";
 				}
 			}
 
