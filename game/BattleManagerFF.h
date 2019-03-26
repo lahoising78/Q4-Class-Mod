@@ -41,7 +41,7 @@ class BattleManagerFF {
 		int currentHero = 0;
 
 		idList<CharacterFF> enemies;
-		//AbilityFF cure = Cure();
+		AbilityFF cure = AbilityFF(CURE);
 };
 
 #endif	/* Battle Manager */

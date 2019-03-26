@@ -379,6 +379,7 @@ windowDef Desktop
 			set "msg_d::visible" "0";
 			set "main::visible" "0";
 			set "magic_d::visible" "1";
+			namedevent "magic_d::showAvailable"
 			set "desktop::curr" "3";
 		}
 
@@ -452,7 +453,6 @@ windowDef Desktop
 
 					onAction {
 						namedevent "combat_controls::showMessage";
-						//set "target_selector::visible" "1";
 						consoleCMD "attack";
 						set "desktop::curr" "1";
 					}
@@ -532,6 +532,16 @@ windowDef Desktop
 			{
 				rect	0,0,384,120
 				visible	0
+				
+				onNamedEvent showAvailable {
+					namedevent "ability_b1::check";
+					namedevent "ability_b2::check";
+					namedevent "ability_b3::check";
+					namedevent "ability_b4::check";
+					namedevent "ability_b5::check";
+					namedevent "ability_b6::check";
+				}
+				
 				windowDef ability_b1
 				{
 					rect	0,0,128,60
@@ -545,9 +555,16 @@ windowDef Desktop
 					
 					onAction {
 						namedevent "combat_controls::showMessage";
-						//set "target_selector::visible" "1";
 						consoleCMD "magic 1";
 						set "desktop::curr" "1";
+					}
+					
+					onNamedEvent check {
+						if ("gui::num_abs" > 0) {
+							set "visible" "1";
+						} else {
+							set "visible" "0";
+						}
 					}
 				}
 				windowDef ability_b2
@@ -560,6 +577,20 @@ windowDef Desktop
 					textalignx	10
 					textaligny	10
 					font	"fonts/lowpixel"
+					
+					onAction {
+						namedevent "combat_controls::showMessage";
+						consoleCMD "magic 2";
+						set "desktop::curr" "1";
+					}
+					
+					onNamedEvent check {
+						if ("gui::num_abs" > 1) {
+							set "visible" "1";
+						} else {
+							set "visible" "0";
+						}
+					}
 				}
 				windowDef ability_b3
 				{
@@ -571,6 +602,20 @@ windowDef Desktop
 					textalignx	10
 					textaligny	10
 					font	"fonts/lowpixel"
+					
+					onAction {
+						namedevent "combat_controls::showMessage";
+						consoleCMD "magic 1";
+						set "desktop::curr" "1";
+					}
+					
+					onNamedEvent check {
+						if ("gui::num_abs" > 2) {
+							set "visible" "1";
+						} else {
+							set "visible" "0";
+						}
+					}
 				}
 				windowDef ability_b4
 				{
@@ -582,6 +627,20 @@ windowDef Desktop
 					textalignx	10
 					textaligny	10
 					font	"fonts/lowpixel"
+					
+					onAction {
+						namedevent "combat_controls::showMessage";
+						consoleCMD "magic 1";
+						set "desktop::curr" "1";
+					}
+					
+					onNamedEvent check {
+						if ("gui::num_abs" > 3) {
+							set "visible" "1";
+						} else {
+							set "visible" "0";
+						}
+					}
 				}
 				windowDef ability_b5
 				{
@@ -593,6 +652,20 @@ windowDef Desktop
 					textalignx	10
 					textaligny	10
 					font	"fonts/lowpixel"
+					
+					onAction {
+						namedevent "combat_controls::showMessage";
+						consoleCMD "magic 1";
+						set "desktop::curr" "1";
+					}
+					
+					onNamedEvent check {
+						if ("gui::num_abs" > 4) {
+							set "visible" "1";
+						} else {
+							set "visible" "0";
+						}
+					}
 				}
 				windowDef ability_b6
 				{
@@ -604,6 +677,20 @@ windowDef Desktop
 					textalignx	10
 					textaligny	10
 					font	"fonts/lowpixel"
+					
+					onAction {
+						namedevent "combat_controls::showMessage";
+						consoleCMD "magic 1";
+						set "desktop::curr" "1";
+					}
+					
+					onNamedEvent check {
+						if ("gui::num_abs" > 5) {
+							set "visible" "1";
+						} else {
+							set "visible" "0";
+						}
+					}
 				}
 			}
 		}

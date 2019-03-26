@@ -256,7 +256,7 @@ CharacterFF* BattleManagerFF::GetEnt(const char* ent) {
 AbilityFF* BattleManagerFF::GetMagic(const char* ab) {
 	gameLocal.Printf("looking for %s\n", ab);
 	if (strcmp(ab, "CURE") == 0) {;
-		return NULL;
+		return &cure;
 	}
 	return NULL;
 }
@@ -398,6 +398,7 @@ CharacterFF* BattleManagerFF::ChooseNextHero(){
 			gameLocal.Printf(label);
 			hud->SetStateString(label, nextHero->abilities[i]);
 		}
+		hud->SetStateInt("num_abs", nextHero->abilities.Num());
 	}
 
 	return nextHero;
