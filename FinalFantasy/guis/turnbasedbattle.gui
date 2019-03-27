@@ -557,7 +557,7 @@ windowDef Desktop
 				windowDef item_b
 				{
 					rect	192,60,192,60
-					visible	1
+					visible	0
 
 					onAction {
 						namedevent "options_d::hideMain";
