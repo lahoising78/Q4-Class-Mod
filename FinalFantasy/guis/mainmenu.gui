@@ -16256,6 +16256,14 @@ windowDef Desktop
 				visible	1
 				background	"gfx/guis/common/add_box1"
 				matcolor	0.564,0.603,0.286,0
+				
+				windowDef hero1_name {
+					rect	5,5,140,110
+					visible 1
+					text	"gui::hero1_n"
+					//text	"hola"
+					font	"fonts/marine"
+				}
 			}
 		}
 	}
