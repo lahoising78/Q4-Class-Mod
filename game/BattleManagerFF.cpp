@@ -4,14 +4,14 @@
 #include "BattleManagerFF.h"
 
 void BattleManagerFF::SendBattleRequest(idActor* attacker, idActor* target) {
-	gameLocal.Printf("Sending Battle Request\n");
+	//gameLocal.Printf("Sending Battle Request\n");
 	if (attacker->inBattle || target->inBattle) {
-		gameLocal.Printf("one of them is already in battle\n");
+		//gameLocal.Printf("one of them is already in battle\n");
 		return;
 	}
 	if ( attacker->team == target->team || attacker == target)
 	{
-		gameLocal.Printf("same team\n");
+		//gameLocal.Printf("same team\n");
 		return;
 	}
 	if ( attacker->IsType(idAI::GetClassType()) && target->IsType(idPlayer::GetClassType())) {
@@ -58,7 +58,8 @@ void BattleManagerFF::StartBattle(idAI* enemy, idPlayer* player) {
 	if (player->hud) {
 		state = P_SELECT;
 		currentHero = 0;
-		if (player->heroes[currentHero].hp <= 0) ChooseNextHero();
+		//if (player->heroes[currentHero].hp <= 0) 
+		CheckMagic();
 		player->hud->SetStateInt("current_hero", currentHero);
 		player->hud->SetStateInt("next_state", 0);
 		player->changePlayerHUD(player->hud, enemy);
@@ -107,17 +108,11 @@ void BattleManagerFF::AddCommand(const char* target) {
 	preparingCommand.SetInt("attacker", currentHero);
 	idDict cmd = preparingCommand;
 	commandsQueue.push(cmd);
+	preparingCommand.Clear();
 
 	//get the next character
 	//if the next character is not alive, skip it
-	/*currentHero++;
-	CharacterFF* nextHero = NULL;
-	if (currentHero < 3) nextHero = &player->heroes[currentHero];
-
-	while ( nextHero && nextHero->hp <= 0 && currentHero < 2 ) {
-		currentHero++;
-		nextHero = &player->heroes[currentHero];
-	} */
+	
 	CharacterFF* nextHero = ChooseNextHero();
 
 	player->hud->SetStateInt("current_hero", currentHero);
@@ -328,10 +323,24 @@ void BattleManagerFF::UpdateHealth(){
 }
 
 void BattleManagerFF::Rewind(){
+	//for (int i = 0; i < 2; i++)
 	if (currentHero > 0) currentHero--;
+	//ChooseNextHero();
+	CheckMagic();
 	player->hud->SetStateInt("current_hero", currentHero);
+	if (strcmp(preparingCommand.GetString("command"), "") == 0) {
+		rvQueue<idDict, 6> newq;
+		for (int i = 0; i < commandsQueue.size() - 1; i++){
+			newq.push(commandsQueue.first());
+			commandsQueue.pop();
+		}
+		if (!commandsQueue.empty()) commandsQueue.pop();
+		for (int i = 0; i < newq.size(); i++) {
+			commandsQueue.push(newq.first());
+			newq.pop();
+		}
+	}
 	preparingCommand.Clear();
-	commandsQueue.pop();
 }
 
 void BattleManagerFF::Victory(){
@@ -371,9 +380,16 @@ void BattleManagerFF::EndBattle(){
 	//player->battleDisplay->ClearState();
 	player->battleDisplay = NULL;
 	player->inBattle = false;
+
+	//idUserInterface* maingui = gameLocal.mpGame.GetMainGUI();
+	//maingui->SetStateString("hero1_n", player->heroes[0].name);
+	//maingui->SetStateString("hero2_n", player->heroes[1].name);
+	//maingui->SetStateString("hero3_n", player->heroes[2].name);
+
 }
 
 CharacterFF* BattleManagerFF::ChooseNextHero(){
+	gameLocal.Printf("choosing hero\n");
 	currentHero++;
 	CharacterFF* nextHero = NULL;
 	if (currentHero < 3) nextHero = &player->heroes[currentHero];
@@ -385,6 +401,13 @@ CharacterFF* BattleManagerFF::ChooseNextHero(){
 
 	if (nextHero && nextHero->hp <= 0) nextHero = NULL;
 
+	CheckMagic();
+
+	return nextHero;
+}
+
+void BattleManagerFF::CheckMagic(){
+	gameLocal.Printf("checking magic\n");
 	idUserInterface * hud = player->hud;
 	hud->DeleteState("ab1");
 	hud->DeleteState("ab2");
@@ -393,15 +416,21 @@ CharacterFF* BattleManagerFF::ChooseNextHero(){
 	hud->DeleteState("ab5");
 	hud->DeleteState("ab6");
 
+	CharacterFF* nextHero = NULL;
+	if (currentHero < 3) nextHero = &player->heroes[currentHero];
+
 	if (nextHero) {
 		for (int i = 0; i < nextHero->abilities.Num(); i++) {
 			char label[4];
-			idStr::snPrintf(label, sizeof(label), "ab%d", i+1);
+			idStr::snPrintf(label, sizeof(label), "ab%d", i + 1);
 			gameLocal.Printf(label);
 			hud->SetStateString(label, nextHero->abilities[i]);
+			
 		}
 		hud->SetStateInt("num_abs", nextHero->abilities.Num());
+		hud->SetStateString("curr_name", nextHero->name);
+		hud->SetStateInt("curr_str", nextHero->str);
+		hud->SetStateInt("curr_int", nextHero->intel);
+		hud->SetStateInt("curr_mhp", nextHero->maxhp);
 	}
-
-	return nextHero;
 }

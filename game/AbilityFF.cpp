@@ -25,7 +25,7 @@ const char* AbilityFF::Perform(CharacterFF* caster, CharacterFF* target) {
 const char* AbilityFF::CurePerform(CharacterFF* caster, CharacterFF* target) {
 	gameLocal.Printf("Cure perform\n");
 	idStr msg;
-	int mp = caster->mp / 5;
+	int mp = caster->intel / 5;
 
 	int extra;
 	if (target->maxhp < target->hp + effectivity + mp) {
@@ -57,12 +57,12 @@ const char* AbilityFF::FirePerform(CharacterFF* caster, CharacterFF* target) {
 	}
 	
 	//idStr msg;
-	int mp = caster->mp / 5;
+	int mp = caster->intel / 5;
 	
 	//target->hp -= dmg;
 	caster->mp -= cost;
 
-	idStr msg = name;
+	idStr msg = caster->name;
 	int dmg = effectivity + mp;
 	target->hp -= dmg;
 	if (target->hp < 0) target->hp = 0;

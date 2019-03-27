@@ -28,6 +28,7 @@ class BattleManagerFF {
 		void UpdateHealth();
 		void Victory();
 		void EndBattle();
+		void CheckMagic();
 		CharacterFF* GetEnt(const char* ent);
 		AbilityFF* GetMagic(const char* ab);
 		
