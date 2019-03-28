@@ -4,37 +4,26 @@ windowDef Desktop
 	visible	1
 	nocursor	1
 	menugui	0
-	
-//-----------------------		
-// floats and defines
-//-----------------------		
-	
-	definevec4	"ws_on"			1,0.5,0,1
-	definevec4	"ws_off"		0.658,0.639,0.376,0.6
-	definevec4 	"ws_glowon" 		0.7,0.8,0.5,1
-	definevec4 	"ws_glowoff" 		0.7,0.8,0.5,0
-	definevec4	"ws_grey"		0.190,0.284,0.168,0.6	
-	definevec4 	"typecolor" 		0.866,0.921,0.764,1
-	definevec4 	"typecolor_strogg" 	0.988,1,0.784,1
-	definevec4	"healthicon"		0.658,0.639,0.376,0.6
-	definevec4	"armoricon"		0.658,0.639,0.376,0.6
-	definevec4	"healthicon_mp"		0.980,0.168,0.0196,0.8
-	definevec4	"armoricon_mp"		0.968,0.752,0.0156,0.8
-	definevec4 	"white" 		1,1,1,1
-		
-	float	"objdone"		0
+	definevec4	"ws_on"	1,0.5,0,1
+	definevec4	"ws_off"	0.658,0.639,0.376,0.6
+	definevec4	"ws_glowon"	0.7,0.8,0.5,1
+	definevec4	"ws_glowoff"	0.7,0.8,0.5,0
+	definevec4	"ws_grey"	0.190,0.284,0.168,0.6
+	definevec4	"typecolor"	0.866,0.921,0.764,1
+	definevec4	"typecolor_strogg"	0.988,1,0.784,1
+	definevec4	"healthicon"	0.658,0.639,0.376,0.6
+	definevec4	"armoricon"	0.658,0.639,0.376,0.6
+	definevec4	"healthicon_mp"	0.980,0.168,0.0196,0.8
+	definevec4	"armoricon_mp"	0.968,0.752,0.0156,0.8
+	definevec4	"white"	1,1,1,1
+	float	"objdone"	0
 	float	"weapswitch"	0
-	float	"teamstrogg" 	0
+	float	"teamstrogg"	0
 	float	"hidden"	0
 	float	"deathCount"	0
-	
 	definefloat	"showGunInfo"	1
-	definefloat	"switchLeft"	(640 - (("gui::weaponcount" * 30) - 2)) / 2
-	
-//-----------------------		
-// init and namedevents
-//-----------------------		
-	
+	definefloat	"switchLeft"	(640-((gui::weaponcount*30)-2))/2
+
 	onInit {
 		namedEvent "updateHealth";
 		namedEvent "updateArmor";
@@ -45,7 +34,7 @@ windowDef Desktop
 		namedEvent "weaponChange";
 		namedEvent "radioChatterDown";
 	}
-	
+
 	onNamedEvent hideHud {
 		set "desktop::hidden" "1" ;
 		set "p_ammo::visible" "0" ;
@@ -54,7 +43,7 @@ windowDef Desktop
 		set "p_weapswitch::visible" "0" ;
 		set "powerups::visible" "0" ;		
 	}
-	
+
 	onNamedEvent showHud {
 		set "desktop::hidden" "0" ;
 		set "p_ammo::visible" "1" ;
@@ -63,7 +52,7 @@ windowDef Desktop
 		set "p_weapswitch::visible" "1" ;
 		set "powerups::visible" "1" ;	
 	}
-	
+
 	onNamedEvent removeDeathLine {
 		if ( "gui::gametype" != 2 ) {
 			set "deathhistory1::text" "$deathhistory2::text";
@@ -89,7 +78,7 @@ windowDef Desktop
 		} else {
 			set "deathhistory1_tourney::text" "$deathhistory2_tourney::text";
 			set "deathhistory1_fade_tourney::text" "$deathhistory2_tourney::text";
-
+			
 			if ( "desktop::deathCount" == 2 ) {
 				set "desktop::deathCount" "1";
 				set "deathhistory2_tourney::visible" "0";
@@ -144,7 +133,7 @@ windowDef Desktop
 			}
 		}		
 	}
-	
+
 	onNamedEvent updateHealth {
 		if ( "gui::mp" == 0 )
 		{
@@ -168,35 +157,26 @@ windowDef Desktop
 				set "health_backbar_add_mp::visible" "0" ;
 			}	
 		}
-	
+		
 		if ( "gui::player_healthdelta" < 0 )
 		{
 			resettime "health_amount" "0" ;
 		}
 	}
-	
+
 	onNamedEvent updateArmor {
 		if ( "gui::player_armordelta" < 0 )
 		{
 			resettime "armor_amount" "0" ;
 		}
 	}
-	
-// Not used currently
-//	
-//	onNamedEvent updateAmmo {
-//		if ( "gui::player_ammodelta" < 0 )
-//		{
-//			resettime "ammo_amount" "0" ;
-//		}
-//	}	
-	
+
 	onNamedEvent weaponChange {
 		namedEvent "clipCheck";
 		
-//-----------------------
-// per weapon ammo bar colors for mp		
-//-----------------------
+		//-----------------------
+		// per weapon ammo bar colors for mp		
+		//-----------------------
 		if ( "gui::mp" == 1 ) {
 			if ( "gui::player_weapon" == 0 ) {
 				set "ammo_valbar_mp::matcolor" "0,0.85,1,0.2" ;
@@ -234,12 +214,12 @@ windowDef Desktop
 			}
 		}
 		
-//-----------------------		
-// If we had a valid weapon as out last weapon then show the weapon 
-// switch icons.  This check prevents the indicators from coming up
-// when you first start the game.
-//-----------------------	
-
+		//-----------------------		
+		// If we had a valid weapon as out last weapon then show the weapon 
+		// switch icons.  This check prevents the indicators from coming up
+		// when you first start the game.
+		//-----------------------	
+		
 		set "p_weapswitch::visible" "0";
 		if ( "gui::player_lastweapon" >= 0 && "desktop::hidden" == 0)
 		{
@@ -249,11 +229,11 @@ windowDef Desktop
 			resettime "p_weapswitch" "0";
 		}					
 	}
-	
+
 	onNamedEvent weaponFire {
 		set "p_weapswitch::visible" "0";
-	}	
-	
+	}
+
 	onNamedEvent clipCheck {
 		if ( "gui::player_totalammo" == -1 ) {
 			set "ammo_amount::visible" "0";	
@@ -271,13 +251,13 @@ windowDef Desktop
 			set "total_ammo::visible" "1";	
 			set "ammo_amount_nc::visible" "0";
 		}
-	}	
-	
+	}
+
 	onNamedEvent itemPickup {
 		set "p_itempickup::visible" "1" ;
 		resettime "p_itempickup" "0" ;
-	}		
-	
+	}
+
 	onNamedEvent radioChatterUp {
 		set "p_radio::visible" "1" ;
 		
@@ -288,7 +268,7 @@ windowDef Desktop
 	onNamedEvent radioChatterDown {
 		set "p_radio::visible" "0" ;
 	}
-	
+
 	onNamedEvent showBrackets {
 		set "brackets::alpha" "1";
 		set "brackets::visible" "1";
@@ -296,7 +276,7 @@ windowDef Desktop
 		resetTime "brackets" "0";
 		set "brackets::notime" "1";
 	}
-	
+
 	onNamedEvent fadeBrackets {
 		resetTime "brackets" "0";
 	}
@@ -307,11 +287,11 @@ windowDef Desktop
 		set "brackets::notime" "1";
 		set "brackets::visible" "0";
 	}
-	
+
 	onNamedEvent playerHit {
 		resetTime "hit_indicator" "0";	
 	}
-	
+
 	onNamedEvent clearPowerups {
 		set "gui::powerup0_visible" "0";
 		set "gui::powerup1_visible" "0";
@@ -319,25 +299,25 @@ windowDef Desktop
 		set "gui::powerup3_visible" "0";
 		set "gui::powerup4_visible" "0";
 		set "gui::powerup_flag_visible" "0";
-	}	
-	
+	}
+
 	onNamedEvent fadeout {
 		resettime "anim_fade" "0" ;
-	}	
-	
+	}
+
 	onNamedEvent resetfade {
 		set "fade::backcolor" "0,0,0,0" ;
 		set "failedtext::forecolor" "0,0,0,0" ;
-	}	
-	
+	}
+
 	onNamedEvent showBossBar {
 		set "BossBar::visible" "1";
 	}
 
 	onNamedEvent hideBossBar {
 		set "BossBar::visible" "0";
-	}	
-	
+	}
+
 	onNamedEvent showBossShieldBar {
 		set "p_boss_shield_bar_left::visible" "1";
 		set "p_boss_shield_bar_right::visible" "1";
@@ -346,7 +326,7 @@ windowDef Desktop
 	onNamedEvent hideBossShieldBar {
 		set "p_boss_shield_bar_left::visible" "0";
 		set "p_boss_shield_bar_right::visible" "0";
-	}	
+	}
 
 	onNamedEvent showBossShieldWarn {
 		set "p_boss_shield_bar_leftwarn::visible" "1";
@@ -360,8 +340,8 @@ windowDef Desktop
 		set "p_boss_shield_bar_rightwarn::visible" "0";
 		set "p_boss_shield_bar_left::visible" "1";
 		set "p_boss_shield_bar_right::visible" "1";
-	}	
-	
+	}
+
 	onNamedEvent showExit {
 		set "p_exit_level::visible" "1";
 		resettime "anim_levelExitAlert" "0";
@@ -369,8 +349,8 @@ windowDef Desktop
 
 	onNamedEvent hideExit {
 		set "p_exit_level::visible" "0";
-	}	
-	
+	}
+
 	onNamedEvent setTeam_marine {	
 		set "health_valbar_mp::matcolor" "0.698,0.811,0.427,0.2" ;
 		set "health_val_mp::matcolor" "0.698,0.811,0.427,0.5" ;
@@ -381,8 +361,8 @@ windowDef Desktop
 		set "powerup_flag_icon::matcolor" "1,0.482,0.0156,0.8";
 		
 		set "desktop::teamstrogg" "0" ;
-	}	
-	
+	}
+
 	onNamedEvent setTeam_strogg {	
 		set "health_valbar_mp::matcolor" "1,0.5,0,0.2" ;
 		set "health_val_mp::matcolor" "1,0.5,0,0.5" ;
@@ -393,30 +373,28 @@ windowDef Desktop
 		set "powerup_flag_icon::matcolor" "0.415,0.643,0.168,0.8";
 		
 		set "desktop::teamstrogg" "1" ;
-	}	
-	
-	onNamedEvent enterFlatbed
-	{
+	}
+
+	onNamedEvent enterFlatbed {
 		set "p_flatbed::visible" "1";
 		set "p_ammo::visible" "0";
 		set "p_health::visible" "0";
 		set "p_armor::visible" "0";
 	}
-		
-	onNamedEvent leaveFlatbed
-	{
+
+	onNamedEvent leaveFlatbed {
 		set "p_flatbed::visible" "0";
 		set "p_ammo::visible" "1";
 		set "p_health::visible" "1";
 		set "p_armor::visible" "1";
-	}	
-		
+	}
+
 	onNamedEvent saveMessage {
 		set "quicksave_msg::forecolor_w" "1" ;
 		set "quicksave_msg::visible" "1" ;
 		resettime "quicksave_msg" "0" ;
 	}
-	
+
 	onNamedEvent missileThreatUp {
 		set "missile_indicator::visible" "1";
 		resetTime "missile_indicator" "0";	
@@ -434,7 +412,7 @@ windowDef Desktop
 		stoptransitions "missile_text";	
 		set "missile_text::forecolor" "1,.1,.1,.7" ;
 	}
-	
+
 	onNamedEvent showSpeed {
 		set	"speed::visible" "1" ;
 	}
@@ -443,9 +421,13 @@ windowDef Desktop
 		set "speed::visible" "0" ;
 	}
 
-//-----------------------		
-// MP speed meter
-//-----------------------
+	onNamedEvent showViewComments {
+		set "ViewComments::visible" "1";
+	}
+
+	onNamedEvent hideViewComments {
+		set "ViewComments::visible" "0";
+	}
 
 	windowDef speed
 	{
@@ -456,49 +438,30 @@ windowDef Desktop
 		textscale	0.25
 		textstyle	1
 		forecolor	1,1,1,0.6
-	}		
-	
-		
-//-----------------------
-//  Comment controller - dev only
-//-----------------------
-	onNamedEvent showViewComments {
-		set "ViewComments::visible" "1";
 	}
-	
-	onNamedEvent hideViewComments {
-		set "ViewComments::visible" "0";
-	}
-
-	windowDef ViewComments {
-		rect 2, 5, 638, 200
-		backcolor 0, 0, 0, 0
-		forecolor 0.9, 0.9, 0.0, 0.9
-		visible 0
-		textscale 0.25
+	windowDef ViewComments
+	{
+		rect	2, 5, 638, 200
+		backcolor	0, 0, 0, 0
+		forecolor	0.9, 0.9, 0.0, 0.9
+		visible	0
+		textscale	0.25
 		text	"gui::viewcomments"
 	}
-	
-//-----------------------
-// Sound Meter - Dev Only 
-//-----------------------
-	windowDef BgSOUND {
+	windowDef BgSOUND
+	{
 		rect	0 ,0 ,128 ,64
 		background	"gfx/guis/soundmeter/audiobg"
-		matcolor	1 ,1 ,1 ,1 
+		matcolor	1 ,1 ,1 ,1
 		visible	("gui::s_debug" == 1)
 	}
-	windowDef OverlaySOUND {
+	windowDef OverlaySOUND
+	{
 		rect	0 ,0 ,128 ,64
 		background	"gfx/guis/soundmeter/audioverlay"
 		matcolor	1 ,1 ,1 ,1
 		visible	0
 	}
-		
-//-----------------------		
-// flatbed truck health
-//-----------------------
-		
 	windowDef p_flatbed
 	{
 		rect	0,0,640,480
@@ -554,7 +517,6 @@ windowDef Desktop
 		{
 			rect	147,430,110,43
 			visible	0
-			//visible	("gui::tram_overheat" == 0)
 			background	"gfx/guis/hud/veh_backbar2a"
 			matcolor	0.976,0.756,0.0156,0.298
 			shear	0,-.22
@@ -563,7 +525,6 @@ windowDef Desktop
 		{
 			rect	151,430,"gui::tram_heatpct" * 86,43
 			visible	0
-			//visible	("gui::tram_overheat" == 0)
 			shear	0,-.22
 			windowDef tramheat_valbar
 			{
@@ -578,7 +539,6 @@ windowDef Desktop
 		{
 			rect	147,430,110,43
 			visible	0
-			//visible	("gui::tram_overheat" == 1)
 			background	"gfx/guis/hud/veh_backbar2a"
 			matcolor	1,0.5,0,0.3*guitable_10_5[time*0.002]
 			shear	0,-.22
@@ -587,7 +547,6 @@ windowDef Desktop
 		{
 			rect	151,430,"gui::tram_heatpct" * 86,43
 			visible	0
-			//visible	("gui::tram_overheat" == 1)
 			shear	0,-.22
 			windowDef tramheat_valbar_oh
 			{
@@ -607,189 +566,7 @@ windowDef Desktop
 			textscale	0.12
 			font	"fonts/lowpixel"
 		}
-	}	
-	
-//-----------------------		
-// ammo
-//-----------------------		
-
-	windowDef p_ammo
-	{
-		rect	0,0,640,480
-		visible	("gui::mp" == 0 )
-		windowDef ammo_backbar
-		{
-			rect	13,420,125,59
-			visible	1
-			background	"gfx/guis/hud/backbar"
-			matcolor	0,0,0,0.5
-			shear	0,-.22
-		}
-		windowDef ammo_valbar
-		{
-			rect	13,420,125,59
-			visible	1
-			background	"gfx/guis/hud/valbar"
-			matcolor	0.701,0.815,0.431,0.2
-			shear	0,-.22
-		}
-		
-		windowDef p_ammo_val
-		{
-			rect	133 - ( "gui::player_ammopct" * 115 ),420,115,59
-			visible	1
-			shear	0,-.22
-			windowDef ammo_val
-			{
-				rect	-120 + ( "gui::player_ammopct" * 115 ),0,125,59
-				visible	1
-				background	"gfx/guis/hud/valbar"
-				matcolor	0.701,0.815,0.431,0.35
-				shear	0,-.22
-			}
-		}
-		windowDef current_gun
-		{
-			rect	11,435,106,26
-			visible	"desktop::showGunInfo" != 0
-			background	"gui::weapicon"
-			matcolor	0.780,0.741,0.470,0.4
-		}		
-		windowDef ammo_amount
-		{
-			rect	44,429,49,26
-			visible	1
-			forecolor	0.866,0.921,0.764,1
-			text	"gui::player_ammo"
-			textscale	0.5
-			font	"fonts/chain"
-			shear	0,-.22
-			textalign	2
-		}
-		windowDef total_ammo
-		{
-			rect	91,432,40,18
-			visible	1
-			forecolor	0.866,0.921,0.764,1
-			text	"gui::player_totalammo"
-			textscale	0.32
-			font	"fonts/chain"
-			shear	0,-.22
-			textalign	2
-		}
-		windowDef ammo_amount_nc
-		{
-			rect	82,429,49,26
-			visible	0
-			forecolor	0.866,0.921,0.764,1
-			text	"gui::player_totalammo"
-			textscale	0.5
-			font	"fonts/chain"
-			shear	0,-.22
-			textalign	2
-		}	
-		windowDef icon_ammoweapon
-		{
-			rect	113,458,16,16
-			visible	1
-			background	"gui::ammoicon"
-			matcolor	0.658,0.639,0.376,0.6
-		}
 	}
-	
-//-----------------------		
-// health
-//-----------------------		
-	
-	windowDef p_health
-	{
-		rect	0,0,640,480
-		visible	("gui::mp" == 0 )
-		windowDef health_backbar
-		{
-			rect	190,420,125,59
-			visible	1
-			background	"gfx/guis/hud/backbar"
-			matcolor	0,0,0,0.5
-			shear	0,-.22
-		}
-		windowDef health_valbar
-		{
-			rect	190,420,125,59
-			visible	1
-			background	"gfx/guis/hud/valbar"
-			matcolor	0.701,0.815,0.431,0.2
-			shear	0,-.22
-		}
-		windowDef health_ekg
-		{
-			rect	190,420,125,59
-			visible	1
-			background	"gfx/guis/hud/ekg"
-			matcolor	0.0862,0.105,0.0549,1
-			shear	0,-.22
-		}
-		windowDef p_health_val
-		{
-			rect	310 - ( "gui::player_healthpct" * 115 ),420,115,59
-			visible	1
-			shear	0,-.22
-			windowDef health_val
-			{
-				rect	-120 + ( "gui::player_healthpct" * 115 ),0,125,59
-				visible	1
-				background	"gfx/guis/hud/valbar"
-				matcolor	0.701,0.815,0.431,0.35
-				shear	0,-.22
-			}
-		}
-		windowDef d_health_amount
-		{
-			rect	254,427,58,31
-			visible	0
-		}		
-		windowDef health_amount
-		{
-			rect	256,429,52,26
-			visible	1
-			forecolor	0.866,0.921,0.764,1
-			text	"gui::player_health"
-			textscale	0.5
-			font	"fonts/chain"
-			shear	0,-.22
-			textalign	2
-			notime	1
-			
-			onTime 0
-			{
-				transition "forecolor" "$desktop::white" "$desktop::typecolor" "250" ;
-				transition "rect" "$d_health_amount::rect" "$health_amount::rect" "250" ;
-				transition "textscale" "0.6" "0.5" "250" ;
-				
-				transition "icon_health::matcolor" "$desktop::white" "$desktop::healthicon" "250" ;
-			}
-		}
-		windowDef icon_health
-		{
-			rect	288,458,16,16
-			visible	1
-			background	"gfx/guis/hud/icons/item_health"
-			matcolor	0.658,0.639,0.376,0.6
-		}
-		windowDef health_backbar_add
-		{
-			rect	190,420,125,59
-			visible	0
-			background	"gfx/guis/hud/backbar_add"
-			matcolor	1*guitable_10_5[time*0.002],0,0,1
-			shear	0,-.22
-		}
-	}
-	
-//-----------------------		
-// armor
-//-----------------------		
-	
 	windowDef p_armor
 	{
 		rect	0,0,640,480
@@ -840,18 +617,16 @@ windowDef Desktop
 			shear	0,-.22
 			textalign	2
 			notime	1
-			
-			onTime 0
-			{
+
+			onTime 0 {
 				transition "forecolor" "$desktop::white" "$desktop::typecolor" "250" ;
 				transition "rect" "$d_armor_amount::rect" "$armor_amount::rect" "250" ;
 				transition "textscale" "0.6" "0.5" "250" ;
 				
 				transition "icon_armorvest::matcolor" "$desktop::white" "$desktop::armoricon" "250" ;
 			}
+
 		}
-		
-		
 		windowDef icon_armorvest
 		{
 			rect	424,458,16,16
@@ -860,11 +635,6 @@ windowDef Desktop
 			matcolor	0.658,0.639,0.376,0.6
 		}
 	}
-
-//-----------------------		
-// MP ammo
-//-----------------------		
-
 	windowDef p_ammo_mp
 	{
 		rect	0,0,640,480
@@ -885,7 +655,6 @@ windowDef Desktop
 			matcolor	0.5,0.5,0.5,0.2
 			shear	0,-.22
 		}
-		
 		windowDef p_ammo_val_mp
 		{
 			rect	133 - ( "gui::player_ammopct" * 115 ),420,115,59
@@ -900,7 +669,6 @@ windowDef Desktop
 				shear	0,-.22
 			}
 		}
-	
 		windowDef ammo_amount_mp
 		{
 			rect	81,429,50,26
@@ -912,7 +680,7 @@ windowDef Desktop
 			shear	0,-.22
 			textalign	2
 			textstyle	1
-		}	
+		}
 		windowDef icon_ammoweapon_mp
 		{
 			rect	113,458,16,16
@@ -921,10 +689,6 @@ windowDef Desktop
 			matcolor	1,1,1,1
 		}
 	}
-//-----------------------		
-// MP health
-//-----------------------		
-	
 	windowDef p_health_mp
 	{
 		rect	0,0,640,480
@@ -1014,11 +778,6 @@ windowDef Desktop
 			shear	0,-.22
 		}
 	}
-	
-//-----------------------		
-// MP armor
-//-----------------------		
-	
 	windowDef p_armor_mp
 	{
 		rect	0,0,640,480
@@ -1083,7 +842,7 @@ windowDef Desktop
 				transition "icon_armorvest::matcolor" "$desktop::white" "$desktop::armoricon_mp" "250" ;
 			}
 
-		}		
+		}
 		windowDef icon_armorvest_mp
 		{
 			rect	424,458,16,16
@@ -1092,17 +851,12 @@ windowDef Desktop
 			matcolor	0.980,0.168,0.0196,0.8
 		}
 	}
-	
-//-----------------------		
-// weapon switching
-//-----------------------	
-
 	windowDef p_weapswitch
 	{
 		rect	0,350,640,80
 		visible	0
 		notime	1
-		
+
 		onNamedEvent UpdateWeapons {
 			if ( "gui::weapon0" ) {
 				set "ws_weapon0::visible" "1";
@@ -1303,7 +1057,7 @@ windowDef Desktop
 			} else {
 				set "ws_weapon9::visible" "0";
 			}					
-
+			
 			if ( "gui::weapon10" ) {
 				set "ws_weapon10::visible" "1";
 				if ( "gui::weapon10_ammo" != 0 ) {
@@ -1341,7 +1095,6 @@ windowDef Desktop
 			textstyle	1
 			text	"gui::weaponname"
 		}
-		
 		windowDef ws_weapon0
 		{
 			rect	("desktop::switchLeft" + "gui::weapon0_index" * 30),20,26,26
@@ -1358,7 +1111,7 @@ windowDef Desktop
 				background	"gfx/guis/hud/wsbarglow"
 				matcolor	0.690,0.784,0.568,0
 				shear	0,-.22
-			}			
+			}
 			windowDef ws_weapon0_icon
 			{
 				rect	4,4,18,18
@@ -1388,7 +1141,7 @@ windowDef Desktop
 				background	"gfx/guis/hud/wsbarglow"
 				matcolor	0.690,0.784,0.568,0
 				shear	0,-.22
-			}			
+			}
 			windowDef ws_weapon1_icon
 			{
 				rect	4,4,18,18
@@ -1401,7 +1154,6 @@ windowDef Desktop
 				matcolor	1,1,1,1
 				visible	0
 			}
-
 		}
 		windowDef ws_weapon2
 		{
@@ -1412,14 +1164,14 @@ windowDef Desktop
 				background	"gfx/guis/hud/wsbar"
 				matcolor	0,0,0,0.5
 				shear	0,-.22
-			}	
+			}
 			windowDef ws_weapon2_glow
 			{
 				rect	0,0,26,26
 				background	"gfx/guis/hud/wsbarglow"
 				matcolor	0.690,0.784,0.568,0
 				shear	0,-.22
-			}			
+			}
 			windowDef ws_weapon2_icon
 			{
 				rect	4,4,18,18
@@ -1433,7 +1185,6 @@ windowDef Desktop
 				visible	0
 			}
 		}
-
 		windowDef ws_weapon3
 		{
 			rect	("desktop::switchLeft" + "gui::weapon3_index" * 30),20,26,26
@@ -1443,14 +1194,14 @@ windowDef Desktop
 				background	"gfx/guis/hud/wsbar"
 				matcolor	0,0,0,0.5
 				shear	0,-.22
-			}	
+			}
 			windowDef ws_weapon3_glow
 			{
 				rect	0,0,26,26
 				background	"gfx/guis/hud/wsbarglow"
 				matcolor	0.690,0.784,0.568,0
 				shear	0,-.22
-			}			
+			}
 			windowDef ws_weapon3_icon
 			{
 				rect	4,4,18,18
@@ -1473,14 +1224,14 @@ windowDef Desktop
 				background	"gfx/guis/hud/wsbar"
 				matcolor	0,0,0,0.5
 				shear	0,-.22
-			}	
+			}
 			windowDef ws_weapon4_glow
 			{
 				rect	0,0,26,26
 				background	"gfx/guis/hud/wsbarglow"
 				matcolor	0.690,0.784,0.568,0
 				shear	0,-.22
-			}			
+			}
 			windowDef ws_weapon4_icon
 			{
 				rect	4,4,18,18
@@ -1503,14 +1254,14 @@ windowDef Desktop
 				background	"gfx/guis/hud/wsbar"
 				matcolor	0,0,0,0.5
 				shear	0,-.22
-			}	
+			}
 			windowDef ws_weapon5_glow
 			{
 				rect	0,0,26,26
 				background	"gfx/guis/hud/wsbarglow"
 				matcolor	0.690,0.784,0.568,0
 				shear	0,-.22
-			}			
+			}
 			windowDef ws_weapon5_icon
 			{
 				rect	4,4,18,18
@@ -1533,14 +1284,14 @@ windowDef Desktop
 				background	"gfx/guis/hud/wsbar"
 				matcolor	0,0,0,0.5
 				shear	0,-.22
-			}	
+			}
 			windowDef ws_weapon6_glow
 			{
 				rect	0,0,26,26
 				background	"gfx/guis/hud/wsbarglow"
 				matcolor	0.690,0.784,0.568,0
 				shear	0,-.22
-			}	
+			}
 			windowDef ws_weapon6_icon
 			{
 				rect	4,4,18,18
@@ -1563,14 +1314,14 @@ windowDef Desktop
 				background	"gfx/guis/hud/wsbar"
 				matcolor	0,0,0,0.5
 				shear	0,-.22
-			}	
+			}
 			windowDef ws_weapon7_glow
 			{
 				rect	0,0,26,26
 				background	"gfx/guis/hud/wsbarglow"
 				matcolor	0.690,0.784,0.568,0
 				shear	0,-.22
-			}			
+			}
 			windowDef ws_weapon7_icon
 			{
 				rect	4,4,18,18
@@ -1593,14 +1344,14 @@ windowDef Desktop
 				background	"gfx/guis/hud/wsbar"
 				matcolor	0,0,0,0.5
 				shear	0,-.22
-			}	
+			}
 			windowDef ws_weapon8_glow
 			{
 				rect	0,0,26,26
 				background	"gfx/guis/hud/wsbarglow"
 				matcolor	0.690,0.784,0.568,0
 				shear	0,-.22
-			}			
+			}
 			windowDef ws_weapon8_icon
 			{
 				rect	4,4,18,18
@@ -1623,14 +1374,14 @@ windowDef Desktop
 				background	"gfx/guis/hud/wsbar"
 				matcolor	0,0,0,0.5
 				shear	0,-.22
-			}	
+			}
 			windowDef ws_weapon9_glow
 			{
 				rect	0,0,26,26
 				background	"gfx/guis/hud/wsbarglow"
 				matcolor	0.690,0.784,0.568,0
 				shear	0,-.22
-			}			
+			}
 			windowDef ws_weapon9_icon
 			{
 				rect	4,4,18,18
@@ -1653,14 +1404,14 @@ windowDef Desktop
 				background	"gfx/guis/hud/wsbar"
 				matcolor	0,0,0,0.5
 				shear	0,-.22
-			}	
+			}
 			windowDef ws_weapon10_glow
 			{
 				rect	0,0,26,26
 				background	"gfx/guis/hud/wsbarglow"
 				matcolor	0.690,0.784,0.568,0
 				shear	0,-.22
-			}			
+			}
 			windowDef ws_weapon10_icon
 			{
 				rect	4,4,18,18
@@ -1675,11 +1426,6 @@ windowDef Desktop
 			}
 		}
 	}
-	
-//-----------------------		
-// radio messages
-//-----------------------		
-	
 	windowDef p_radio
 	{
 		rect	0,0,640,480
@@ -1753,21 +1499,16 @@ windowDef Desktop
 			shear	0,-.22
 		}
 	}
-
-//-----------------------		
-// item/ammo pickups
-//-----------------------		
-	
 	windowDef p_itempickup
 	{
 		rect	0,0,640,480
 		visible	0
 		notime	1
-		
+
 		onTime 3000 {
 			set "visible" "0";
 		}
-		
+
 		windowDef pickup_backbar
 		{
 			rect	21,401,230,24
@@ -1794,11 +1535,6 @@ windowDef Desktop
 			matcolor	0.666,0.674,0.435,0.8
 		}
 	}
-
-//-----------------------		
-// powerups
-//-----------------------		
-		
 	windowDef powerups
 	{
 		rect	520,0,120,480
@@ -1875,7 +1611,7 @@ windowDef Desktop
 				textscale	0.4
 				font	"fonts/chain"
 				shear	0,-.22
-			}			
+			}
 		}
 		windowDef powerup0
 		{
@@ -2002,11 +1738,6 @@ windowDef Desktop
 			}
 		}
 	}
-	
-//-----------------------		
-// death messages for mp
-//-----------------------
-		
 	windowDef deathanim_remove
 	{
 		visible	0
@@ -2127,12 +1858,7 @@ windowDef Desktop
 			textalign	2
 			nowrap	1
 		}
-	}		
-	
-//-----------------------		
-// interactive gui brackets
-//-----------------------		
-	
+	}
 	windowDef brackets
 	{
 		visible	0
@@ -2191,12 +1917,7 @@ windowDef Desktop
 				backcolor	0.686,0.870,0.564,"brackets::alpha"
 			}
 		}
-	}	
-
-//-----------------------		
-// boss bar
-//-----------------------
-	
+	}
 	windowDef Bossbar
 	{
 		rect	-20,0,640,480
@@ -2300,11 +2021,6 @@ windowDef Desktop
 			}
 		}
 	}
-
-//-----------------------		
-// missile indicator
-//-----------------------
-
 	windowDef missile_indicator
 	{
 		rect	0,0,640,480
@@ -2352,11 +2068,6 @@ windowDef Desktop
 		}
 
 	}
-
-//-----------------------		
-// exit level status
-//-----------------------
-
 	windowDef p_exit_level
 	{
 		rect	0,0,640,75
@@ -2398,11 +2109,6 @@ windowDef Desktop
 			matscaley	-1
 		}
 	}
-	
-//-----------------------		
-// quicksave notice
-//-----------------------
-
 	windowDef quicksave_msg
 	{
 		rect	0,64,640,20
@@ -2418,64 +2124,47 @@ windowDef Desktop
 		onTime 2000 {
 			transition "forecolor_w" "1" "0" "1000" ;
 		}
-		
+
 		onTime +1000 {
 			set "quicksave_msg::visible" "0" ;
 		}
 
 	}
-
-//-----------------------		
-// hit indicator
-//-----------------------	
-
 	windowDef hit_indicator
 	{
-		rect		0,0,640,480
+		rect	0,0,640,480
 		background	"gfx/guis/hud/directional_hit"
 		matcolor	1,.1,.1,.7
-		rotate		"gui::hitdir"
-		visible		0
-		notime		1
-		
-		onTime 0 
-		{
+		rotate	"gui::hitdir"
+		visible	0
+		notime	1
+
+		onTime 0 {
 			set "visible" "1";
 			transition "matcolor" "1,.1,.1,.7" "1,.1,.1,0" "500" ;
 		}
-		
-		onTime +600
-		{
+
+		onTime +600 {
 			set "visible" "0";
 		}
+
 	}
-	
-//-----------------------		
-// over top black/failed text
-//-----------------------	
-	
-		windowDef fade
-		{
-			rect	0,0,640,480
-			backcolor	0,0,0,0
-			visible	1
-		}	
-		
-		windowDef failedtext
-		{
-			rect	0,220,640,20
-			visible	1
-			forecolor	1,1,1,0
-			text	"#str_200279"
-			textscale	0.5
-			font	"fonts/marine"
-			textalign	1
-		}	
-	
-//-----------------------		
-// animations
-//-----------------------		
-	
+	windowDef fade
+	{
+		rect	0,0,640,480
+		backcolor	0,0,0,0
+		visible	1
+	}
+	windowDef failedtext
+	{
+		rect	0,220,640,20
+		visible	1
+		forecolor	1,1,1,0
+		text	"#str_200279"
+		textscale	0.5
+		font	"fonts/marine"
+		textalign	1
+	}
 	windowDef anim_fade
 	{
 		rect	0,0,1,1
@@ -2485,23 +2174,21 @@ windowDef Desktop
 		onTime 0 {
 			transition "fade::backcolor" "0,0,0,0" "0,0,0,1" "3000" ;
 		}
-		
+
 		onTime 3000 {
 			transition "failedtext::forecolor" "1,1,1,0" "1,1,1,1" "250" ;
 		}
-	}	
-	
+
+	}
 	windowDef anim_levelExitAlert
 	{
 		rect	0,0,0.1,0.1
 		visible	0
 		notime	1
-		
-		onTime 5000	{
+
+		onTime 5000 {
 			set "p_exit_level::visible" "0";
 		}
+
 	}
-
-//-------------------------
-
 }
