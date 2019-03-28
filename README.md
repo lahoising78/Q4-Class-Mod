@@ -21,6 +21,8 @@ For Steam, the path to this folder is usually "C:\Program Files (x86)\Steam\stea
   <li>On the target field add a space and add the following "+set fs_game FinalFantasy" (without the double quotes) </li>
 </ol>
 
+<p>There is also a shortcut inside the folder Final Fantasy folder that opens Quake 4 in the mod</p>
+
 <h2>Gameplay</h2>
 <p>This is the simplest recreation of Final Fantasy in Quake 4. Shoot enemies to engage in turn based combat. 
 The combat also starts if they shoot you.</p>
